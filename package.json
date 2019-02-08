@@ -1,0 +1,26 @@
+{
+  "name": "imbob",
+  "version": "1.0.0",
+  "description": "A simple GraphQL API project",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://reselbob@github.com/reselbob/IMBOB.git"
+  },
+  "author": "reselbob",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reselbob/IMBOB/issues"
+  },
+  "homepage": "https://github.com/reselbob/IMBOB#readme",
+  "dependencies": {
+    "apollo-server": "^2.4.0",
+    "chai": "^4.2.0",
+    "graphql": "^14.1.1",
+    "lodash": "^4.17.11",
+    "mocha": "^5.2.0"
+  }
+}
