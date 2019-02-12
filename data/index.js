@@ -1,10 +1,13 @@
 const persons = require('./persons');
+const {getCollection} = require('./json/fileHelper');
+//const movies = fileToObject('movies.json');
 const movies = require('./movies');
-const {tripleHelpers, triples} = require('./triples');
+const {tripleHelpers} = require('./triples');
+
 
 module.exports = {
-    persons,
-    movies,
-    triples,
+    persons: getCollection('persons'),
+    movies: getCollection('movies'),
+    triples: getCollection('triples') ,
     tripleHelpers
 }
