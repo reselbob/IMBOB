@@ -7,5 +7,8 @@
   {"id": 106, "firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"},
   {"id": 107, "firstName": "Mick", "lastName": "Jagger", "dob":"1943-07-23"},
   {"id": 108, "firstName": "Susan", "lastName": "Stephen", "dob":"1931-07-16"},
-  {"id": 109, "firstName": "Theresa", "lastName": "Russell", "dob":"1957-03-20"}
+  {"id": 109, "firstName": "Theresa", "lastName": "Russell", "dob":"1957-03-20"},
+  {"id": 110, "firstName": "James", "lastName": "Fox", "dob":"1939-05-19"},
+  {"id": 111, "firstName": "Anita", "lastName": "Pallenberg", "dob":"1942-04-06"},
+  {"id": 112, "firstName": "John", "lastName": "Bindon", "dob":"1943-10-04"}
 ]

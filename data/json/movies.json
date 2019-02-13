@@ -1,12 +1,60 @@
-[{
-  "id": 4001,
-  "title": "The Man Who Fell to Earth",
-  "releaseDate": "1976-04-18",
-  "directors": [{"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}],
-  "actors" : [
-    {"id": 101, "firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"},
-    {"id": 103, "firstName": "Rip", "lastName": "Torn", "dob": "1931-02-06"},
-    {"id": 104, "firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"},
-    {"id": 106, "firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"}
-  ]
-}]
+[
+  {
+    "id": 4001,
+    "title": "The Man Who Fell to Earth",
+    "releaseDate": "1976-04-18",
+    "directors": [
+      {
+        "id": 102,
+        "firstName": "Nicholas",
+        "lastName": "Roeg",
+        "dob": "1928-08-15"
+      }
+    ],
+    "actors": [
+      {
+        "id": 101,
+        "firstName": "David",
+        "lastName": "Bowie",
+        "dob": "1947-01-08"
+      },
+      {
+        "id": 103,
+        "firstName": "Rip",
+        "lastName": "Torn",
+        "dob": "1931-02-06"
+      },
+      {
+        "id": 104,
+        "firstName": "Candy",
+        "lastName": "Clark",
+        "dob": "1947-06-20"
+      },
+      {
+        "id": 106,
+        "firstName": "Buck",
+        "lastName": "Henry",
+        "dob": "1930-12-09"
+      }
+    ]
+  },
+  {
+    "id": 4002,
+    "title": "Performance",
+    "releaseDate": "1970-09-04",
+    "directors": [
+      {
+        "id": 102,
+        "firstName": "Nicholas",
+        "lastName": "Roeg",
+        "dob": "1928-08-15"
+      }
+    ],
+    "actors": [
+      {"id": 107, "firstName": "Mick", "lastName": "Jagger", "dob":"1943-07-23"},
+      {"id": 110, "firstName": "James", "lastName": "Fox", "dob":"1939-05-19"},
+      {"id": 111, "firstName": "Anita", "lastName": "Pallenberg", "dob":"1942-04-06"},
+      {"id": 112, "firstName": "John", "lastName": "Bindon", "dob":"1943-10-04"}
+    ]
+  }
+]

@@ -125,5 +125,35 @@
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
     "predicate": "LIKES",
     "object": {"id": 108, "firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"}
+  },
+  {
+  "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+  "predicate": "KNOWS",
+  "object": {"id": 110, "firstName": "James", "lastName": "Fox", "dob":"1939-05-19"}
+},
+  {
+    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "predicate": "KNOWS",
+    "object": {"id": 111, "firstName": "Anita", "lastName": "Pallenberg", "dob":"1942-04-06"}
+  },
+  {
+    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "predicate": "KNOWS",
+    "object":  {"id": 112, "firstName": "John", "lastName": "Bindon", "dob":"1943-10-04"}
+  },
+  {
+    "subject": {"firstName": "James", "lastName": "Fox", "dob":"1939-05-19"},
+    "predicate": "KNOWS",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
+    "subject": {"firstName": "Anita", "lastName": "Pallenberg", "dob":"1942-04-06"},
+    "predicate": "KNOWS",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
+    "subject": {"firstName": "John", "lastName": "Bindon", "dob":"1943-10-04"},
+    "predicate": "KNOWS",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
   }
 ]
