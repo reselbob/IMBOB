@@ -15,9 +15,30 @@
     "object": {"id": 104, "firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"}
   },
   {
+  "subject": {"firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"},
+  "predicate": "KNOWS",
+  "object":  {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+},
+  {
+    "subject": {"firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"},
+    "predicate": "LIKES",
+    "object":  {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
     "predicate": "KNOWS",
     "object": {"id": 106, "firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"}
+  },
+
+  {
+    "subject": {"firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"},
+    "predicate": "KNOWS",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
+    "subject": {"firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"},
+    "predicate": "LIKES",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
   },
   {
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
@@ -34,10 +55,26 @@
     "predicate": "KNOWS",
     "object": {"id": 109, "firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"}
   },
+
+  {
+    "subject": {"firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"},
+    "predicate": "KNOWS",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
+    "subject": {"firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"},
+    "predicate": "MARRIED_TO",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
   {
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
     "predicate": "DIVORCED_FROM",
     "object": {"id": 108, "firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"}
+  },
+  {
+    "subject": {"firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"},
+    "predicate": "DIVORCED_FROM",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
   },
   {
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
@@ -50,6 +87,16 @@
     "object": {"id": 101, "firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"}
   },
   {
+    "subject": {"firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"},
+    "predicate": "LIKES",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
+    "subject": {"firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"},
+    "predicate": "KNOWS",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+  },
+  {
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
     "predicate": "LIKES",
     "object": {"id": 104, "firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"}
@@ -58,6 +105,11 @@
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
     "predicate": "LIKES",
     "object": {"id": 107, "firstName": "Mick", "lastName": "Jagger", "dob": "1943-07-23"}
+  },
+  {
+    "subject": {"firstName": "Mick", "lastName": "Jagger", "dob": "1943-07-23"},
+    "predicate": "LIKES",
+    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
   },
   {
     "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},

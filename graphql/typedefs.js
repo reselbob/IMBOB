@@ -4,7 +4,14 @@ module.exports = `
         firstName: String
         lastName: String
         dob: String
+        knows: [Person]
+        likes: [Person]
+        marriedTo: [Person]
+        divorcedFrom: [Person]
     }
+    
+    
+
     
     type Movie {
         id: Int
