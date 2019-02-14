@@ -11,6 +11,11 @@ const fileToObject =  async (filename) => {
     return result;
 };
 
+const objectToFile = async (filespec, data) =>{
+    const writeFile = util.promisify(fs.writeFile);
+    return await writeFile(filespec, data,"utf8");
+}
+
 const fileToObjectSync =  (filename) => {
     const filespec = path.join(__dirname, filename);
     return fs.readFileSync(filespec,"utf8");
@@ -30,28 +35,53 @@ const getCollection = (collectionName) =>{
     }
 };
 
-const updateCollection = function(dataObj, collectionName){
-    let arr;
+const updateCollection =  async function(dataObj, collectionName){
+    const holder = {};
     switch(collectionName.toUpperCase()){
         case 'MOVIES':
-            arr =  JSON.parse(process.env.MOVIES);
-            arr.push(dataObj);
-            process.env.MOVIES = JSON.stringify(arr);
-            return arr;
+            holder.filename = 'movies.json';
+            holder.env = process.env.MOVIES;
+            break;
         case 'PERSONS':
-            arr =  JSON.parse(process.env.PERSONS);
-            arr.push(dataObj);
-            process.env.PERSONS = JSON.stringify(arr);
-            return arr;
+            holder.filename = 'persons.json';
+            holder.env = process.env.PERSONS;
+            break;
         case 'TRIPLES':
-            arr =  JSON.parse(process.env.TRIPLES);
-            arr.push(dataObj);
-            process.env.TRIPLES = JSON.stringify(arr);
-            return arr;
+            holder.filename = 'triples.json';
+            holder.env = process.env.TRIPLES
+            break;
     }
+    let filespec = path.join(__dirname, holder.filename);
+    //get the current data file
+    const arr = await fileToObject(holder.filename);
+    arr.push(dataObj);
+    const data = JSON.stringify(arr);
+    await objectToFile(filespec, data);
+    holder.env = data;
 };
 
+const replaceCollection =  async function(dataObj, collectionName){
+    const holder = {};
+    switch(collectionName.toUpperCase()){
+        case 'MOVIES':
+            holder.filename = 'movies.json';
+            break;
+        case 'PERSONS':
+            holder.filename = 'persons.json';
+            break;
+        case 'TRIPLES':
+            holder.filename = 'triples.json';
+            break;
+    }
+    let filespec = path.join(__dirname, holder.filename);
+    const data = JSON.stringify(dataObj);
+    await objectToFile(filespec, data);
+    return data;
+};
+
+
 module.exports = {
+    replaceCollection,
     updateCollection,
     getCollection
 }

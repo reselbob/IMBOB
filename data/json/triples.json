@@ -1,159 +1,467 @@
 [
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
-    "predicate": "KNOWS",
-    "object": {"id": 101, "firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"}
-  },
-  {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
-    "predicate": "KNOWS",
-    "object": {"id": 103, "firstName": "Rip", "lastName": "Torn", "dob": "1931-02-06"}
-  },
-
-  {
-    "subject": {"firstName": "Rip", "lastName": "Torn", "dob": "1931-02-06"},
-    "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
-  },
-  {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
-    "predicate": "KNOWS",
-    "object": {"id": 104, "firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"}
-  },
-  {
-    "subject": {"firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"},
-    "predicate": "KNOWS",
-    "object":  {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}},
-  {
-    "subject": {"firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"},
+    "subject": {
+      "firstName": "David",
+      "lastName": "Bowie",
+      "dob": "1947-01-08",
+      "id": "5130acee-21fe-48bf-a06f-c8bdcb38ea60"
+    },
     "predicate": "LIKES",
-    "object":  {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "David",
+      "lastName": "Bowie",
+      "dob": "1947-01-08",
+      "id": "5130acee-21fe-48bf-a06f-c8bdcb38ea60"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 106, "firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
-
   {
-    "subject": {"firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "5130acee-21fe-48bf-a06f-c8bdcb38ea60",
+      "firstName": "David",
+      "lastName": "Bowie",
+      "dob": "1947-01-08"
+    }
   },
   {
-    "subject": {"firstName": "Buck", "lastName": "Henry", "dob": "1930-12-09"},
-    "predicate": "LIKES",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
-  },
-  {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 107, "firstName": "Mick", "lastName": "Jagger", "dob": "1943-07-23"}
+    "object": {
+      "id": "834135a4-315b-4d3e-beee-e882eee2db46",
+      "firstName": "Rip",
+      "lastName": "Torn",
+      "dob": "1931-02-06"
+    }
   },
   {
-    "subject": {"firstName": "Mick", "lastName": "Jagger", "dob": "1943-07-23"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "3079bcad-dc93-4251-8da2-31a8b40fd54d",
+      "firstName": "Candy",
+      "lastName": "Clark",
+      "dob": "1947-06-20"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 108, "firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"}
+    "object": {
+      "id": "f34ecb27-a4fc-427d-9ff6-39c6b8f076d4",
+      "firstName": "Buck",
+      "lastName": "Henry",
+      "dob": "1930-12-09"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 109, "firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"}
+    "object": {
+      "id": "a19e2057-2530-44c9-a8ce-869ede85acc7",
+      "firstName": "Mick",
+      "lastName": "Jagger",
+      "dob": "1943-07-23"
+    }
   },
-
   {
-    "subject": {"firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "df501309-f168-44f8-b53b-0859dc621abe",
+      "firstName": "Susan",
+      "lastName": "Stephen",
+      "dob": "1931-07-16"
+    }
   },
   {
-    "subject": {"firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"},
-    "predicate": "MARRIED_TO",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "b91d3cea-4013-42a3-b869-b1c8bfcc1c95",
+      "firstName": "Theresa",
+      "lastName": "Russell",
+      "dob": "1957-03-20"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "DIVORCED_FROM",
-    "object": {"id": 108, "firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"}
+    "object": {
+      "id": "df501309-f168-44f8-b53b-0859dc621abe",
+      "firstName": "Susan",
+      "lastName": "Stephen",
+      "dob": "1931-07-16"
+    }
   },
   {
-    "subject": {"firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"},
-    "predicate": "DIVORCED_FROM",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
-  },
-  {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "MARRIED_TO",
-    "object": {"id": 109, "firstName": "Theresa", "lastName": "Russell", "dob": "1957-03-20"}
+    "object": {
+      "id": "b91d3cea-4013-42a3-b869-b1c8bfcc1c95",
+      "firstName": "Theresa",
+      "lastName": "Russell",
+      "dob": "1957-03-20"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "LIKES",
-    "object": {"id": 101, "firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"}
+    "object": {
+      "id": "5130acee-21fe-48bf-a06f-c8bdcb38ea60",
+      "firstName": "David",
+      "lastName": "Bowie",
+      "dob": "1947-01-08"
+    }
   },
   {
-    "subject": {"firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "LIKES",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "3079bcad-dc93-4251-8da2-31a8b40fd54d",
+      "firstName": "Candy",
+      "lastName": "Clark",
+      "dob": "1947-06-20"
+    }
   },
   {
-    "subject": {"firstName": "David", "lastName": "Bowie", "dob": "1947-01-08"},
-    "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
-  },
-  {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "LIKES",
-    "object": {"id": 104, "firstName": "Candy", "lastName": "Clark", "dob": "1947-06-20"}
+    "object": {
+      "id": "a19e2057-2530-44c9-a8ce-869ede85acc7",
+      "firstName": "Mick",
+      "lastName": "Jagger",
+      "dob": "1943-07-23"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
     "predicate": "LIKES",
-    "object": {"id": 107, "firstName": "Mick", "lastName": "Jagger", "dob": "1943-07-23"}
+    "object": {
+      "id": "df501309-f168-44f8-b53b-0859dc621abe",
+      "firstName": "Susan",
+      "lastName": "Stephen",
+      "dob": "1931-07-16"
+    }
   },
   {
-    "subject": {"firstName": "Mick", "lastName": "Jagger", "dob": "1943-07-23"},
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "a4ac4011-2a66-4985-9619-3a485f46b191",
+      "firstName": "James",
+      "lastName": "Fox",
+      "dob": "1939-05-19"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "05e2568e-17ea-4c16-acc0-c9b6b0026c87",
+      "firstName": "Anita",
+      "lastName": "Pallenberg",
+      "dob": "1942-04-06"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15",
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "2d97f15b-c069-4cd3-a640-8792e28fe48c",
+      "firstName": "John",
+      "lastName": "Bindon",
+      "dob": "1943-10-04"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Rip",
+      "lastName": "Torn",
+      "dob": "1931-02-06",
+      "id": "834135a4-315b-4d3e-beee-e882eee2db46"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Candy",
+      "lastName": "Clark",
+      "dob": "1947-06-20",
+      "id": "3079bcad-dc93-4251-8da2-31a8b40fd54d"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Candy",
+      "lastName": "Clark",
+      "dob": "1947-06-20",
+      "id": "3079bcad-dc93-4251-8da2-31a8b40fd54d"
+    },
     "predicate": "LIKES",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Buck",
+      "lastName": "Henry",
+      "dob": "1930-12-09",
+      "id": "f34ecb27-a4fc-427d-9ff6-39c6b8f076d4"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Buck",
+      "lastName": "Henry",
+      "dob": "1930-12-09",
+      "id": "f34ecb27-a4fc-427d-9ff6-39c6b8f076d4"
+    },
     "predicate": "LIKES",
-    "object": {"id": 108, "firstName": "Susan", "lastName": "Stephen", "dob": "1931-07-16"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-  "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
-  "predicate": "KNOWS",
-  "object": {"id": 110, "firstName": "James", "lastName": "Fox", "dob":"1939-05-19"}
-},
-  {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
+    "subject": {
+      "firstName": "Mick",
+      "lastName": "Jagger",
+      "dob": "1943-07-23",
+      "id": "a19e2057-2530-44c9-a8ce-869ede85acc7"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 111, "firstName": "Anita", "lastName": "Pallenberg", "dob":"1942-04-06"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-    "subject": {"firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"},
-    "predicate": "KNOWS",
-    "object":  {"id": 112, "firstName": "John", "lastName": "Bindon", "dob":"1943-10-04"}
+    "subject": {
+      "firstName": "Mick",
+      "lastName": "Jagger",
+      "dob": "1943-07-23",
+      "id": "a19e2057-2530-44c9-a8ce-869ede85acc7"
+    },
+    "predicate": "LIKES",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-    "subject": {"firstName": "James", "lastName": "Fox", "dob":"1939-05-19"},
-    "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "subject": {
+      "firstName": "Susan",
+      "lastName": "Stephen",
+      "dob": "1931-07-16",
+      "id": "df501309-f168-44f8-b53b-0859dc621abe"
+    },
+    "predicate": "DIVORCED_FROM",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-    "subject": {"firstName": "Anita", "lastName": "Pallenberg", "dob":"1942-04-06"},
+    "subject": {
+      "firstName": "Theresa",
+      "lastName": "Russell",
+      "dob": "1957-03-20",
+      "id": "b91d3cea-4013-42a3-b869-b1c8bfcc1c95"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   },
   {
-    "subject": {"firstName": "John", "lastName": "Bindon", "dob":"1943-10-04"},
+    "subject": {
+      "firstName": "Theresa",
+      "lastName": "Russell",
+      "dob": "1957-03-20",
+      "id": "b91d3cea-4013-42a3-b869-b1c8bfcc1c95"
+    },
+    "predicate": "MARRIED_TO",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "James",
+      "lastName": "Fox",
+      "dob": "1939-05-19",
+      "id": "a4ac4011-2a66-4985-9619-3a485f46b191"
+    },
     "predicate": "KNOWS",
-    "object": {"id": 102, "firstName": "Nicholas", "lastName": "Roeg", "dob": "1928-08-15"}
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "Anita",
+      "lastName": "Pallenberg",
+      "dob": "1942-04-06",
+      "id": "05e2568e-17ea-4c16-acc0-c9b6b0026c87"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
+  },
+  {
+    "subject": {
+      "firstName": "John",
+      "lastName": "Bindon",
+      "dob": "1943-10-04",
+      "id": "2d97f15b-c069-4cd3-a640-8792e28fe48c"
+    },
+    "predicate": "KNOWS",
+    "object": {
+      "id": "e068a318-24bc-43c4-a1dd-e73394da6fd2",
+      "firstName": "Nicholas",
+      "lastName": "Roeg",
+      "dob": "1928-08-15"
+    }
   }
 ]

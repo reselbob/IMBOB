@@ -1,6 +1,6 @@
 module.exports = `
     type Person {
-        id: Int
+       id: ID
         firstName: String
         lastName: String
         dob: String
@@ -11,7 +11,7 @@ module.exports = `
     }
     
     type Movie {
-        id: Int
+        id: ID
         title: String
         releaseDate: String
         directors: [Person]
@@ -32,7 +32,7 @@ module.exports = `
     }
     
     type Event {
-        id: String
+        id: ID
         name: String
         createdAt: String
         storedAt: String
