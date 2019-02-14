@@ -1,5 +1,11 @@
-const {persons, movies, tripleHelpers, triples} = require('../data/index');
 const _ = require('lodash');
+const { PubSub } = require('apollo-server');
+const uuidv4 = require('uuid/v4');
+const {persons, movies, triples} = require('../data/index');
+
+const pubsub = new PubSub();
+const EVENT_ADDED = 'EVENT_ADDED';
+
 
 const extractPredicateObjects = (firstName, lastName, predicateValue) => {
     const arr = _.filter(triples, {subject: {firstName: firstName, lastName: lastName, }, predicate:  predicateValue});
@@ -40,4 +46,27 @@ module.exports = {
             return extractPredicateObjects(parent.firstName, parent.lastName,"DIVORCED_FROM");
         }
     },
+    Mutation: {
+        ping: async (parent, args) => {
+            const dt = new Date();
+            const uuid = uuidv4();
+
+            const event = {
+                id: uuid,
+                name: 'PING',
+                createdAt:  dt.toString(),
+                storedAt: dt.toString(),
+                payload: args.payload
+            }
+            await pubsub.publish(EVENT_ADDED, {eventAdded: event});
+            console.log(event);
+            return event;
+        }
+    },
+
+    Subscription: {
+        eventAdded: {
+            subscribe: () => pubsub.asyncIterator(EVENT_ADDED)
+        }
+    }
 };

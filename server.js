@@ -3,10 +3,11 @@ const { ApolloServer} = require('apollo-server');
 
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
-const {Query} = require('./graphql/resolvers');
+const {Query, Subscription} = require('./graphql/resolvers');
 
 const schema = {
-    query: Query
+    query: Query,
+    subscription: Subscription
 }
 const PORT = process.env.PORT || 4000;
 

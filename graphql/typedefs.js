@@ -10,9 +10,6 @@ module.exports = `
         divorcedFrom: [Person]
     }
     
-    
-
-    
     type Movie {
         id: Int
         title: String
@@ -34,7 +31,6 @@ module.exports = `
         object: Person
     }
     
-    
     type Event {
         id: String
         name: String
@@ -50,5 +46,13 @@ module.exports = `
         movie(id: Int!): Movie
         triples: [Triple]
         triplesByPredicate (predicate: Predicate!): [Triple]
+    }
+    
+    type Mutation {
+        ping(payload: String!): Event
+    }
+    
+    type Subscription {
+        eventAdded(topicName: String): Event
     }
 `;
