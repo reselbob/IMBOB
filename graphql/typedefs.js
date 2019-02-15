@@ -1,6 +1,6 @@
-module.exports = `
-    type Person {
-       id: ID
+module.exports = `    
+    type Person{
+        id: ID
         firstName: String
         lastName: String
         dob: String
@@ -10,12 +10,31 @@ module.exports = `
         divorcedFrom: [Person]
     }
     
-    type Movie {
+    input PersonInput{
         id: ID
+        firstName: String
+        lastName: String
+        dob: String
+        knows: [PersonInput]
+        likes: [PersonInput]
+        marriedTo: [PersonInput]
+        divorcedFrom: [PersonInput]
+    }
+    
+    type Movie {
+        id: ID!
         title: String
         releaseDate: String
         directors: [Person]
         actors: [Person]
+    }
+    
+   input MovieInput {
+        id: ID
+        title: String!
+        releaseDate: String!
+        directors: [PersonInput]
+        actors: [PersonInput]
     }
     
     enum Predicate {
@@ -29,6 +48,12 @@ module.exports = `
         subject: Person
         predicate: Predicate
         object: Person
+    }
+    
+    input TripleInput {
+        subject: PersonInput
+        predicate: Predicate
+        object: PersonInput
     }
     
     type Event {
@@ -50,6 +75,10 @@ module.exports = `
     
     type Mutation {
         ping(payload: String!): Event
+        addMovie(movie: MovieInput!): Movie
+        updateMovie(movie: MovieInput): Movie
+        addTriple(triple: TripleInput): Triple
+        addPerson(person: PersonInput): Person
     }
     
     type Subscription {

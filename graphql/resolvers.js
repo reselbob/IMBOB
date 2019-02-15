@@ -61,6 +61,9 @@ module.exports = {
             await pubsub.publish(EVENT_ADDED, {eventAdded: event});
             console.log(event);
             return event;
+        },
+        updateMovie: async (parent, args) => {
+            console.log(args.movie)
         }
     },
 
