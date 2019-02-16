@@ -1,18 +1,31 @@
 const _ = require('lodash');
-const { PubSub } = require('apollo-server');
+const {PubSub} = require('apollo-server');
 const uuidv4 = require('uuid/v4');
-const {persons, movies, triples} = require('../data/index');
+const {persons, movies, triples, updateCollection, getItemFromCollection} = require('../data/index');
 
 const pubsub = new PubSub();
 const EVENT_ADDED = 'EVENT_ADDED';
 
+const publishEvent = async (eventName, payload) =>{
+    const dt = new Date();
+    const uuid = uuidv4();
+    const event = {
+        id: uuid,
+        name: eventName,
+        createdAt: dt.toString(),
+        storedAt: dt.toString(),
+        payload: payload
+    };
+    await pubsub.publish(EVENT_ADDED, {eventAdded: event});
+    return event;
+};
+
 
 const extractPredicateObjects = (firstName, lastName, predicateValue) => {
-    const arr = _.filter(triples, {subject: {firstName: firstName, lastName: lastName, }, predicate:  predicateValue});
+    const arr = _.filter(triples, {subject: {firstName: firstName, lastName: lastName,}, predicate: predicateValue});
 
-    //const arr =  _.filter(triples,{ 'predicate':  predicateValue});
     const rslt = [];
-    for(var i=0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         rslt.push(arr[i].object);
     }
     return rslt;
@@ -20,50 +33,88 @@ const extractPredicateObjects = (firstName, lastName, predicateValue) => {
 
 module.exports = {
     Query: {
-        persons: (parent, args, context) => _.sortBy(persons,['lastName']),
+        persons: (parent, args, context) => _.sortBy(persons, ['lastName']),
         person: (parent, args, context) => _.filter(persons, {'id': args.id}),
         movies: (parent, args, context) => movies,
         movie: (parent, args, context) => _.find(movies, {'id': args.id}),
         triples: (parent, args, context) => triples,
         triplesByPredicate: (parent, args, context) => {
-          const arr =  _.filter(triples,{ 'predicate': args.predicate});
-           return arr;
+            const arr = _.filter(triples, {'predicate': args.predicate});
+            return arr;
         }
     },
 
     Person: {
-        likes:(parent,args,context,info) => {
+        likes: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
 
         },
-        knows:(parent,args,context,info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName,"KNOWS");
+        knows: (parent, args, context, info) => {
+            return extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
         },
-        marriedTo:(parent,args,context,info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName,"MARRIED_TO");
+        marriedTo: (parent, args, context, info) => {
+            return extractPredicateObjects(parent.firstName, parent.lastName, "MARRIED_TO");
         },
-        divorcedFrom:(parent,args,context,info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName,"DIVORCED_FROM");
+        divorcedFrom: (parent, args, context, info) => {
+            return extractPredicateObjects(parent.firstName, parent.lastName, "DIVORCED_FROM");
         }
     },
     Mutation: {
         ping: async (parent, args) => {
-            const dt = new Date();
-            const uuid = uuidv4();
-
-            const event = {
-                id: uuid,
-                name: 'PING',
-                createdAt:  dt.toString(),
-                storedAt: dt.toString(),
-                payload: args.payload
-            }
-            await pubsub.publish(EVENT_ADDED, {eventAdded: event});
+            const event = await publishEvent('PING',args.payload);
             console.log(event);
             return event;
         },
+        addMovie: async (parent, args) => {
+            args.movie.id = uuidv4();
+            console.log(args.movie);
+            const movie = await updateCollection(args.movie, 'MOVIES');
+            const event = await publishEvent('MOVIE_ADDED', JSON.stringify(movie));
+            console.log(event);
+            console.log(movie);
+            return movie;
+
+        },
         updateMovie: async (parent, args) => {
-            console.log(args.movie)
+            //get the movie
+            const movie = getItemFromCollection('MOVIES', args.movie.id);
+
+            //if there is a title, add the new title
+            if(args.movie.title) movie.title = args.movie.title;
+
+            //if there's a new release date, add the new release date
+            if(args.movie.releaseDate) movie.releaseDate = args.movie.releaseDate;
+
+            //diff the directors and add only the added director
+            const d = _.differenceWith(args.movie.directors, movie.directors, _.isEqual);
+            const dirs = _.union(movie.directors, d);
+            movie.directors = dirs;
+
+            //diff the actors and add only the
+            const a = _.differenceWith(args.movie.actors, movie.actors, _.isEqual);
+            const actors = _.union(movie.actors, a);
+            movie.actors = actors;
+
+            updateCollection(movie, "MOVIES");
+            const m = getItemFromCollection("MOVIES", movie.id);
+
+            const event = await publishEvent('MOVIE_UPDATED', JSON.stringify(m));
+            console.log(event);
+            console.log(m);
+            return m;
+        },
+        addPerson: (parent, args) => {
+            args.person.id = uuidv4();
+            console.log(args.person);
+            return updateCollection(args.person, 'PERSONS').then(data => {
+                return data
+            })
+        },
+        addTriple: (parent, args) => {
+            console.log(args.person);
+            return updateCollection(args.triple, 'TRIPLES').then(data => {
+                return data
+            })
         }
     },
 

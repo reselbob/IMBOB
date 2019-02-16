@@ -1,6 +1,7 @@
 const fs = require('fs');
 const util = require('util');
 const path = require('path');
+const _  = require('lodash');
 
 const fileToObject =  async (filename) => {
     const filespec = path.join(__dirname, filename);
@@ -14,6 +15,13 @@ const fileToObject =  async (filename) => {
 const objectToFile = async (filespec, data) =>{
     const writeFile = util.promisify(fs.writeFile);
     return await writeFile(filespec, data,"utf8");
+}
+
+const getItemFromCollection = (collectionName, itemId) =>{
+    const collection = getCollection(collectionName);
+    const item = _.find(collection, {id: itemId});
+    return item;
+
 }
 
 const fileToObjectSync =  (filename) => {
@@ -53,11 +61,18 @@ const updateCollection =  async function(dataObj, collectionName){
     }
     let filespec = path.join(__dirname, holder.filename);
     //get the current data file
-    const arr = await fileToObject(holder.filename);
+    let arr = await fileToObject(holder.filename);
+    if(collectionName.toUpperCase()=== 'MOVIES'){
+        // we need to treat movies differently, pull the movie out
+        const buffer = _.remove(arr, (itm) =>{
+            return itm.id === dataObj.id;
+        });
+    }
     arr.push(dataObj);
     const data = JSON.stringify(arr);
     await objectToFile(filespec, data);
     holder.env = data;
+    return dataObj;
 };
 
 const replaceCollection =  async function(dataObj, collectionName){
@@ -83,5 +98,6 @@ const replaceCollection =  async function(dataObj, collectionName){
 module.exports = {
     replaceCollection,
     updateCollection,
-    getCollection
+    getCollection,
+    getItemFromCollection
 }

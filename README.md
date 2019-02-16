@@ -44,6 +44,17 @@ mutation response
 }
 ```
 
+```
+mutation{
+  addPerson(person: {firstName: "Charlie", lastName: "Chaplin", dob: "1889-04-16"}){
+    id
+    firstName
+    lastName
+    dob
+  }
+}
+```
+
 subscription response
 ```
 {
@@ -55,6 +66,16 @@ subscription response
       "createdAt": "Wed Feb 13 2019 19:54:00 GMT-0800 (Pacific Standard Time)",
       "storedAt": "Wed Feb 13 2019 19:54:00 GMT-0800 (Pacific Standard Time)"
     }
+  }
+}
+```
+
+```
+mutation{
+  addMovie({movie: {title: "Dr. Strangelove", releaseDate: "1964-01-29"}}){
+    id
+    title
+    releaseDate
   }
 }
 ```

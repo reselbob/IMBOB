@@ -71,78 +71,34 @@
     "lastName": "Bindon",
     "dob": "1943-10-04"
   },
-  [
-    {
-      "id": "6f228f7e-6118-4028-be7a-51647ae897cb",
-      "firstName": "David",
-      "lastName": "Bowie",
-      "dob": "1947-01-08"
-    },
-    {
-      "id": "2d459a19-05f0-47db-9b22-1c3cf63e33df",
-      "firstName": "Nicholas",
-      "lastName": "Roeg",
-      "dob": "1928-08-15"
-    },
-    {
-      "id": "0504e0c6-7d7a-4644-9c48-3e612dbc030d",
-      "firstName": "Rip",
-      "lastName": "Torn",
-      "dob": "1931-02-06"
-    },
-    {
-      "id": "813316ae-c121-49c4-9eab-9887303bc0ee",
-      "firstName": "Candy",
-      "lastName": "Clark",
-      "dob": "1947-06-20"
-    },
-    {
-      "id": "e991284e-bca9-4af9-a92f-f07ea78aff90",
-      "firstName": "James",
-      "lastName": "Dean",
-      "dob": "1931-02-08"
-    },
-    {
-      "id": "a805d733-54db-43d5-be71-42fc4ebede52",
-      "firstName": "Buck",
-      "lastName": "Henry",
-      "dob": "1930-12-09"
-    },
-    {
-      "id": "f5438c36-1c56-4c1c-bb32-953b03661ccf",
-      "firstName": "Mick",
-      "lastName": "Jagger",
-      "dob": "1943-07-23"
-    },
-    {
-      "id": "91cabb6d-bd8d-413c-ba02-424a895a5a76",
-      "firstName": "Susan",
-      "lastName": "Stephen",
-      "dob": "1931-07-16"
-    },
-    {
-      "id": "ccdf62e4-0cc1-4b12-be07-3e045eed69f4",
-      "firstName": "Theresa",
-      "lastName": "Russell",
-      "dob": "1957-03-20"
-    },
-    {
-      "id": "8cbc384e-a673-400d-b3e7-d293f6106398",
-      "firstName": "James",
-      "lastName": "Fox",
-      "dob": "1939-05-19"
-    },
-    {
-      "id": "fa3afaae-393a-4874-89f8-f28e1a6fd989",
-      "firstName": "Anita",
-      "lastName": "Pallenberg",
-      "dob": "1942-04-06"
-    },
-    {
-      "id": "b5c3d945-4e7b-4eed-afb3-0e01a421bbc4",
-      "firstName": "John",
-      "lastName": "Bindon",
-      "dob": "1943-10-04"
-    }
-  ]
+  {
+    "firstName": "Donald",
+    "lastName": "Sutherland",
+    "dob": "1935-07-15",
+    "id": "787f9d11-5c9f-4efc-bfd7-274cba7220a1"
+  },
+  {
+    "firstName": "Charlie",
+    "lastName": "Chaplin",
+    "dob": "1889-04-16",
+    "id": "5df01479-9460-463f-ac7e-b24ab17cd88f"
+  },
+  {
+    "firstName": "Stanley",
+    "lastName": "Kubrick",
+    "dob": "1928-07-28",
+    "id": "7b057fee-4435-4df7-94e8-f24b0b380f52"
+  },
+  {
+    "firstName": "Peter",
+    "lastName": "Sellers",
+    "dob": "1925-09-08",
+    "id": "0ba6cfc9-e863-4b76-8c5d-1b1ff4749bed"
+  },
+  {
+    "firstName": "Slim",
+    "lastName": "Pickens",
+    "dob": "1929-06-29",
+    "id": "d79d7fe5-397d-4989-818d-a49a34a7bb9e"
+  }
 ]

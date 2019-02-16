@@ -1,4 +1,4 @@
-const {getCollection, updateCollection, replaceCollection} = require('./json/fileHelper');
+const {getCollection, updateCollection, replaceCollection,getItemFromCollection} = require('./json/fileHelper');
 //const {tripleHelpers} = require('./triples');
 
 
@@ -8,5 +8,6 @@ module.exports = {
     triples: getCollection('triples') ,
     getCollection,
     updateCollection,
-    replaceCollection
+    replaceCollection,
+    getItemFromCollection
 }

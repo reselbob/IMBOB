@@ -11,14 +11,16 @@ module.exports = `
     }
     
     input PersonInput{
-        id: ID
-        firstName: String
-        lastName: String
-        dob: String
-        knows: [PersonInput]
-        likes: [PersonInput]
-        marriedTo: [PersonInput]
-        divorcedFrom: [PersonInput]
+        firstName: String!
+        lastName: String!
+        dob: String!
+    }
+    
+    input KnownPersonInput{
+        id: ID!
+        firstName: String!
+        lastName: String!
+        dob: String!
     }
     
     type Movie {
@@ -30,11 +32,18 @@ module.exports = `
     }
     
    input MovieInput {
-        id: ID
         title: String!
         releaseDate: String!
-        directors: [PersonInput]
-        actors: [PersonInput]
+        directors: [KnownPersonInput]
+        actors: [KnownPersonInput]
+    }
+    
+       input KnownMovieInput {
+        id: ID!
+        title: String!
+        releaseDate: String!
+        directors: [KnownPersonInput]
+        actors: [KnownPersonInput]
     }
     
     enum Predicate {
@@ -51,9 +60,9 @@ module.exports = `
     }
     
     input TripleInput {
-        subject: PersonInput
+        subject: KnownPersonInput
         predicate: Predicate
-        object: PersonInput
+        object: KnownPersonInput
     }
     
     type Event {
@@ -66,9 +75,9 @@ module.exports = `
 
     type Query {
         persons: [Person]
-        person(id: String!): Person
+        person(id: ID!): Person
         movies: [Movie]
-        movie(id: Int!): Movie
+        movie(id: ID!): Movie
         triples: [Triple]
         triplesByPredicate (predicate: Predicate!): [Triple]
     }
@@ -76,7 +85,7 @@ module.exports = `
     type Mutation {
         ping(payload: String!): Event
         addMovie(movie: MovieInput!): Movie
-        updateMovie(movie: MovieInput): Movie
+        updateMovie(movie: KnownMovieInput): Movie
         addTriple(triple: TripleInput): Triple
         addPerson(person: PersonInput): Person
     }

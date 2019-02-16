@@ -5,9 +5,9 @@ const describe = require('mocha').describe;
 const before = require('mocha').before;
 const it = require('mocha').it;
 const helper = require('../data/json/fileHelper');
-
-
-const {persons, movies, triples} = require('../data/index');
+const {persons, movies, triples, updateCollection,replaceCollection} = require('../data/index');
+const {convertIntIdToGuid, guidTriples} = require('./devHelper');
+const uuidv4 = require('uuid/v4');
 
 describe('Data Tests: ', () => {
 
@@ -28,4 +28,22 @@ describe('Data Tests: ', () => {
         expect(data).to.be.an('array');
         done();
     });
+
+
+    it('Can update person', function (done) {
+        const obj = {};
+        obj.firstName = 'Donald';
+        obj.lastName = 'Sutherland';
+        obj.dob = '1935-07-15';
+        obj.id = uuidv4();
+
+        updateCollection(obj, 'PERSONS').then (data =>{
+            expect(data).to.be.an('object');
+            done();
+        }).catch(e =>{
+            done(e);
+        })
+    });
+
+
 });

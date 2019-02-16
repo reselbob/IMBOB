@@ -76,5 +76,32 @@
         "dob": "1943-10-04"
       }
     ]
+  },
+  {
+    "title": "Dr. Strangelove",
+    "releaseDate": "1964-01-29",
+    "id": "ae5aeb80-611e-4de3-bc95-5cc0beb18fd7",
+    "directors": [
+      {
+        "id": "7b057fee-4435-4df7-94e8-f24b0b380f52",
+        "firstName": "Stanley",
+        "lastName": "Kubrick",
+        "dob": "1928-07-28"
+      }
+    ],
+    "actors": [
+      {
+        "id": "0ba6cfc9-e863-4b76-8c5d-1b1ff4749bed",
+        "firstName": "Peter",
+        "lastName": "Sellers",
+        "dob": "1925-09-08"
+      },
+      {
+        "id": "d79d7fe5-397d-4989-818d-a49a34a7bb9e",
+        "firstName": "Slim",
+        "lastName": "Pickens",
+        "dob": "1929-06-29"
+      }
+    ]
   }
 ]
