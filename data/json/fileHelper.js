@@ -68,6 +68,7 @@ const updateCollection =  async function(dataObj, collectionName){
             return itm.id === dataObj.id;
         });
     }
+    //put the movie with its new data back in
     arr.push(dataObj);
     const data = JSON.stringify(arr);
     await objectToFile(filespec, data);

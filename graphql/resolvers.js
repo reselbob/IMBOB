@@ -34,9 +34,9 @@ const extractPredicateObjects = (firstName, lastName, predicateValue) => {
 module.exports = {
     Query: {
         persons: (parent, args, context) => _.sortBy(persons, ['lastName']),
-        person: (parent, args, context) => _.filter(persons, {'id': args.id}),
+        person: (parent, args, context) => _.find(persons, {'id': args.id}),
         movies: (parent, args, context) => movies,
-        movie: (parent, args, context) => _.find(movies, {'id': args.id}),
+        movie: (parent, args, context) => getItemFromCollection("MOVIES", args,id),
         triples: (parent, args, context) => triples,
         triplesByPredicate: (parent, args, context) => {
             const arr = _.filter(triples, {'predicate': args.predicate});
@@ -45,17 +45,17 @@ module.exports = {
     },
 
     Person: {
-        likes: (parent, args, context, info) => {
+        likesCollection: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
 
         },
-        knows: (parent, args, context, info) => {
+       knowsCollection: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
         },
-        marriedTo: (parent, args, context, info) => {
+        marriedToCollection: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "MARRIED_TO");
         },
-        divorcedFrom: (parent, args, context, info) => {
+        divorcedFromCollection: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "DIVORCED_FROM");
         }
     },
@@ -95,7 +95,7 @@ module.exports = {
             const actors = _.union(movie.actors, a);
             movie.actors = actors;
 
-            updateCollection(movie, "MOVIES");
+            await updateCollection(movie, "MOVIES");
             const m = getItemFromCollection("MOVIES", movie.id);
 
             const event = await publishEvent('MOVIE_UPDATED', JSON.stringify(m));
@@ -103,18 +103,25 @@ module.exports = {
             console.log(m);
             return m;
         },
-        addPerson: (parent, args) => {
+        addPerson: async (parent, args) => {
+            //Create a unique identifier
             args.person.id = uuidv4();
-            console.log(args.person);
-            return updateCollection(args.person, 'PERSONS').then(data => {
-                return data
-            })
+            //add the person to the Persons collection
+            const data = await updateCollection(args.person, 'PERSONS');
+            //Emit a pubsub event informing subscribers
+            const event = await publishEvent('PERSON_ADDED', JSON.stringify(args.person));
+            //log relevant data
+            console.log(event);
+            console.log(data);
+            //return the value from the updateCollection method
+            return data;
         },
-        addTriple: (parent, args) => {
-            console.log(args.person);
-            return updateCollection(args.triple, 'TRIPLES').then(data => {
-                return data
-            })
+        addTriple: async (parent, args) => {
+            const data =  await updateCollection(args.triple, 'TRIPLES');
+            const event = await publishEvent('TRIPLE_ADDED', JSON.stringify(args.triple));
+            console.log(event);
+            console.log(data);
+            return data;
         }
     },
 

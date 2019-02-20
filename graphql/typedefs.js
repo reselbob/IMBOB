@@ -1,21 +1,34 @@
 module.exports = `    
-    type Person{
+    """
+    The type that describes a person. All persons must exist
+    in the system. For example, to a triple uses a person that exists
+    in the system. The input type that describes a person in the system
+    in called a KnownPersonInput
+    """
+    type Person {
         id: ID
         firstName: String
         lastName: String
         dob: String
-        knows: [Person]
-        likes: [Person]
-        marriedTo: [Person]
-        divorcedFrom: [Person]
+        knowsCollection: [Person]
+        likesCollection: [Person]
+        marriedToCollection: [Person]
+        divorcedFromCollection: [Person]
     }
     
+    """
+    The input type for a person
+    """
     input PersonInput{
         firstName: String!
         lastName: String!
         dob: String!
     }
     
+    """
+    The input type that describes a person that is known in the
+    system. A known person has a system assigned ID.
+    """
     input KnownPersonInput{
         id: ID!
         firstName: String!
@@ -23,12 +36,29 @@ module.exports = `
         dob: String!
     }
     
-    type Movie {
+    interface Film {
         id: ID!
         title: String
         releaseDate: String
         directors: [Person]
         actors: [Person]
+    }   
+    
+    type Movie  implements Film{
+        id: ID!
+        title: String
+        releaseDate: String
+        directors: [Person]
+        actors: [Person]
+    }
+    
+    type Cartoon  implements Film{
+        id: ID!
+        title: String
+        releaseDate: String
+        directors: [Person]
+        actors: [Person]
+        animators: [Person]
     }
     
    input MovieInput {
@@ -38,7 +68,7 @@ module.exports = `
         actors: [KnownPersonInput]
     }
     
-       input KnownMovieInput {
+    input KnownMovieInput {
         id: ID!
         title: String!
         releaseDate: String!

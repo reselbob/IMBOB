@@ -4,6 +4,20 @@ A simple GraphQL API for movie information
 
 ## Cheat Sheet
 
+introspection
+```$xslt
+{  __schema {
+    types {
+      name
+      fields {
+        name
+      }
+    }
+  }
+}
+```
+
+
 subscription registered at http://localhost:4000/graphql
 
 ```
