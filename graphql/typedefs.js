@@ -5,7 +5,15 @@ module.exports = `
     in the system. The input type that describes a person in the system
     in called a KnownPersonInput
     """
-    type Person {
+    
+    interface Personable {
+        id: ID
+        firstName: String
+        lastName: String
+        dob: String
+    }
+    
+    type Person implements Personable{
         id: ID
         firstName: String
         lastName: String
@@ -14,6 +22,19 @@ module.exports = `
         likesCollection: [Person]
         marriedToCollection: [Person]
         divorcedFromCollection: [Person]
+    }
+    
+   type Role {
+     character: String!
+     movie: Movieable
+   }
+    
+    type Actor implements Personable{
+        id: ID
+        firstName: String
+        lastName: String
+        dob: String
+        role: [Role]
     }
     
     """
@@ -36,7 +57,7 @@ module.exports = `
         dob: String!
     }
     
-    interface Film {
+    interface Movieable {
         id: ID!
         title: String
         releaseDate: String
@@ -44,7 +65,7 @@ module.exports = `
         actors: [Person]
     }   
     
-    type Movie  implements Film{
+    type Movie  implements Movieable{
         id: ID!
         title: String
         releaseDate: String
@@ -52,7 +73,7 @@ module.exports = `
         actors: [Person]
     }
     
-    type Cartoon  implements Film{
+    type Cartoon  implements Movieable{
         id: ID!
         title: String
         releaseDate: String

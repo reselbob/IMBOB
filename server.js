@@ -18,7 +18,7 @@ const subscriptions = {
 const schema = {
     typeDefs,
     resolvers,
-    subscriptions };
+    subscriptions};
 
 const server = new ApolloServer(schema);
 

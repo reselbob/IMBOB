@@ -44,6 +44,24 @@ module.exports = {
         }
     },
 
+    Personable: {
+        __resolveType(obj, context, info){
+            if(obj.roles){
+                return 'Actor';
+            }else{
+                return 'Person'
+            }
+        }
+    },
+    Movieable: {
+        __resolveType(obj, context, info){
+            if(obj.animators){
+                return 'Cartoon';
+            }else{
+                return 'Movie'
+            }
+        }
+    },
     Person: {
         likesCollection: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
