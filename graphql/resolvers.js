@@ -29,12 +29,28 @@ const extractPredicateObjects = (firstName, lastName, predicateValue) => {
         rslt.push(arr[i].object);
     }
     return rslt;
-}
+};
 
 module.exports = {
     Query: {
         persons: (parent, args, context) => _.sortBy(persons, ['lastName']),
         person: (parent, args, context) => _.find(persons, {'id': args.id}),
+        actor: (parent, args, context) => {
+            const mvs = _.filter(movies,
+                {
+                    actors: [{id:args.id}]
+                }
+            );
+            const a = _.filter(mvs[0].actors, {id:args.id})[0];
+            a.roles = [];
+            mvs.forEach(m =>{
+                const r ={};
+                r.character =  _.find(m.actors,  {id:args.id}).role;
+                r.movie = m;
+                a.roles.push(r);
+            });
+            return a;
+        },
         movies: (parent, args, context) => movies,
         movie: (parent, args, context) => getItemFromCollection("MOVIES", args,id),
         triples: (parent, args, context) => triples,

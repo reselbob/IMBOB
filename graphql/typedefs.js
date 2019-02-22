@@ -34,7 +34,7 @@ module.exports = `
         firstName: String
         lastName: String
         dob: String
-        role: [Role]
+        roles: [Role]
     }
     
     """
@@ -62,7 +62,7 @@ module.exports = `
         title: String
         releaseDate: String
         directors: [Person]
-        actors: [Person]
+        actors: [Actor]
     }   
     
     type Movie  implements Movieable{
@@ -70,7 +70,7 @@ module.exports = `
         title: String
         releaseDate: String
         directors: [Person]
-        actors: [Person]
+        actors: [Actor]
     }
     
     type Cartoon  implements Movieable{
@@ -78,7 +78,7 @@ module.exports = `
         title: String
         releaseDate: String
         directors: [Person]
-        actors: [Person]
+        actors: [Actor]
         animators: [Person]
     }
     
@@ -127,6 +127,7 @@ module.exports = `
     type Query {
         persons: [Person]
         person(id: ID!): Person
+        actor(id: ID!): Actor
         movies: [Movie]
         movie(id: ID!): Movie
         triples: [Triple]

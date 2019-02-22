@@ -16,25 +16,29 @@
         "id": "5130acee-21fe-48bf-a06f-c8bdcb38ea60",
         "firstName": "David",
         "lastName": "Bowie",
-        "dob": "1947-01-08"
+        "dob": "1947-01-08",
+        "role": "Thomas Jerome Newton"
       },
       {
         "id": "0504e0c6-7d7a-4644-9c48-3e612dbc030d",
         "firstName": "Rip",
         "lastName": "Torn",
-        "dob": "1931-02-06"
+        "dob": "1931-02-06",
+        "role": "Nathan Bryce"
       },
       {
         "id": "813316ae-c121-49c4-9eab-9887303bc0ee",
         "firstName": "Candy",
         "lastName": "Clark",
-        "dob": "1947-06-20"
+        "dob": "1947-06-20",
+        "role": "Mary-Lou"
       },
       {
         "id": "a805d733-54db-43d5-be71-42fc4ebede52",
         "firstName": "Buck",
         "lastName": "Henry",
-        "dob": "1930-12-09"
+        "dob": "1930-12-09",
+        "role": "Oliver Farnsworth"
       }
     ]
   },
@@ -55,25 +59,29 @@
         "id": "f5438c36-1c56-4c1c-bb32-953b03661ccf",
         "firstName": "Mick",
         "lastName": "Jagger",
-        "dob": "1943-07-23"
+        "dob": "1943-07-23",
+        "role": "Turner"
       },
       {
         "id": "8cbc384e-a673-400d-b3e7-d293f6106398",
         "firstName": "James",
         "lastName": "Fox",
-        "dob": "1939-05-19"
+        "dob": "1939-05-19",
+        "role": "Chas"
       },
       {
         "id": "fa3afaae-393a-4874-89f8-f28e1a6fd989",
         "firstName": "Anita",
         "lastName": "Pallenberg",
-        "dob": "1942-04-06"
+        "dob": "1942-04-06",
+        "role": "Pherber"
       },
       {
         "id": "b5c3d945-4e7b-4eed-afb3-0e01a421bbc4",
         "firstName": "John",
         "lastName": "Bindon",
-        "dob": "1943-10-04"
+        "dob": "1943-10-04",
+        "role": "Moody"
       }
     ]
   },
@@ -94,13 +102,38 @@
         "id": "0ba6cfc9-e863-4b76-8c5d-1b1ff4749bed",
         "firstName": "Peter",
         "lastName": "Sellers",
-        "dob": "1925-09-08"
+        "dob": "1925-09-08",
+        "role": "Dr. Strangelove"
       },
       {
         "id": "d79d7fe5-397d-4989-818d-a49a34a7bb9e",
         "firstName": "Slim",
         "lastName": "Pickens",
-        "dob": "1929-06-29"
+        "dob": "1929-06-29",
+        "role": "Maj. King Kong"
+
+      }
+    ]
+  },
+  {
+    "title": "Being There",
+    "releaseDate": "1980-05-26",
+    "id": "c644ba85-0972-4d2e-b74e-52c5eb449ee4",
+    "directors": [
+      {
+        "id": "b5f0b9da-8ed1-4743-920e-f85d78a62131",
+        "firstName": "Hal",
+        "lastName": "Ashby",
+        "dob": "1929-09-02"
+      }
+    ],
+    "actors": [
+      {
+        "firstName": "Peter",
+        "lastName": "Sellers",
+        "dob": "1925-09-08",
+        "id": "0ba6cfc9-e863-4b76-8c5d-1b1ff4749bed",
+        "role": "Chance"
       }
     ]
   }
