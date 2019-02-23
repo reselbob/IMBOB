@@ -145,4 +145,32 @@ module.exports = `
     type Subscription {
         eventAdded(topicName: String): Event
     }
+    """
+    Cursor types
+    """
+    input CursorPaginationInput{
+        before: String
+        first: Int
+        last: Int
+        after: String
+    }
+    
+    """
+    Connections and Edges
+    """
+    
+    type PersonEdge {
+        cursor: String!
+        node: Person!
+    }
+    
+    type PersonConnection {
+        edges: [PersonEdge]
+        pageInfo: PageInfo!
+    }
+    
+    type pageInfo {
+        endCursor: String
+        hasNextPage: Boolean
+     }
 `;
