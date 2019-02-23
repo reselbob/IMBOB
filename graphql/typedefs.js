@@ -169,7 +169,7 @@ module.exports = `
         pageInfo: PageInfo!
     }
     
-    type pageInfo {
+    type PageInfo {
         endCursor: String
         hasNextPage: Boolean
      }
