@@ -39,7 +39,9 @@ const getCollection = (collectionName) =>{
             return JSON.parse(process.env.PERSONS);
         case 'TRIPLES':
             if(!process.env.TRIPLES)process.env.TRIPLES = fileToObjectSync('triples.json');
-            return JSON.parse(process.env.TRIPLES);
+            const arr = JSON.parse(process.env.TRIPLES);
+            arr.forEach(a => a.createdAt = new Date(a.createdAt));
+            return arr;
     }
 };
 
