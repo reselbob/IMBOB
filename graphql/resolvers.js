@@ -26,6 +26,8 @@ const extractPredicateObjects = (firstName, lastName, predicateValue) => {
 
     const rslt = [];
     for (let i = 0; i < arr.length; i++) {
+        //add the time stamp from the parent
+        arr[i].object.createdAt = arr[i].createdAt;
         rslt.push(arr[i].object);
     }
     return rslt;
@@ -59,6 +61,8 @@ const convertArrayToConnection = (arr, pageinationSpec) => {
             }
         }
     }
+    //sort the master array by date
+    _.orderBy(arr, ['createdAt']);
 
     const edges = [];
     const range = [start, end].sort(); // regardless of before or after, range needs ascending
