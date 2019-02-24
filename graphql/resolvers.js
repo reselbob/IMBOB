@@ -6,7 +6,7 @@ const {persons, movies, triples, updateCollection, getItemFromCollection} = requ
 const pubsub = new PubSub();
 const EVENT_ADDED = 'EVENT_ADDED';
 
-const publishEvent = async (eventName, payload) =>{
+const publishEvent = async (eventName, payload) => {
     const dt = new Date();
     const uuid = uuidv4();
     const event = {
@@ -31,6 +31,60 @@ const extractPredicateObjects = (firstName, lastName, predicateValue) => {
     return rslt;
 };
 
+
+const convertArrayToConnection = (arr, pageinationSpec) => {
+    let idxs = [0];
+    let start = 0;
+    let end = 9;
+    let bufferArr;
+
+    if(pageinationSpec){
+        //error out, if there is a before and after
+        if(pageinationSpec.after && pageinationSpec.before) {
+            const msg = `Before and After Cursor Pagination Configuration Error. Before: ${pageinationSpec.before}, After: ${pageinationSpec.after}`;
+            throw new Error(msg);
+        }
+        if(pageinationSpec.after){
+            idxs = _.keys(_.pickBy(arr, {id: pageinationSpec.after}));
+            start = Number.parseInt(idxs[0]) + 1;
+            if(pageinationSpec.first) {
+                end = start + pageinationSpec.first;
+            }
+        }
+        if(pageinationSpec.before) {
+            idxs = _.keys(_.pickBy(arr, {id: pageinationSpec.before}));
+            start = Number.parseInt(idxs[0]);
+            if(pageinationSpec.last) {
+                end = start - pageinationSpec.last;
+            }
+        }
+    }
+
+    const edges = [];
+    const range = [start, end].sort(); // regardless of before or after, range needs ascending
+    bufferArr = arr.slice(range[0],range[1]);
+    bufferArr.forEach(a => {
+        edges.push({cursor: a.id, node: a})
+    });
+    let endCursor  = edges[edges.length - 1].cursor; //the default
+    let hasNextPage = Number.parseInt(idxs[0]) + 2 <= arr.length; //default
+    if(pageinationSpec.after){
+        endCursor = edges[edges.length - 1].cursor;
+        idxs = _.keys(_.pickBy(arr, {id: endCursor}));
+        hasNextPage = Number.parseInt(idxs[0]) + 2 <= arr.length;
+    };
+
+    if(pageinationSpec.before){
+        edges.reverse();
+        endCursor = edges[0].cursor;
+        idxs = _.keys(_.pickBy(arr, {id: endCursor}));
+        hasNextPage = Number.parseInt(idxs[0]) + 2 >= 0;
+    };
+
+    const pageInfo = {endCursor, hasNextPage};
+    return {edges, pageInfo}
+};
+
 module.exports = {
     Query: {
         persons: (parent, args, context) => _.sortBy(persons, ['lastName']),
@@ -38,21 +92,21 @@ module.exports = {
         actor: (parent, args, context) => {
             const mvs = _.filter(movies,
                 {
-                    actors: [{id:args.id}]
+                    actors: [{id: args.id}]
                 }
             );
-            const a = _.filter(mvs[0].actors, {id:args.id})[0];
+            const a = _.filter(mvs[0].actors, {id: args.id})[0];
             a.roles = [];
-            mvs.forEach(m =>{
-                const r ={};
-                r.character =  _.find(m.actors,  {id:args.id}).role;
+            mvs.forEach(m => {
+                const r = {};
+                r.character = _.find(m.actors, {id: args.id}).role;
                 r.movie = m;
                 a.roles.push(r);
             });
             return a;
         },
         movies: (parent, args, context) => movies,
-        movie: (parent, args, context) => getItemFromCollection("MOVIES", args,id),
+        movie: (parent, args, context) => getItemFromCollection("MOVIES", args, id),
         triples: (parent, args, context) => triples,
         triplesByPredicate: (parent, args, context) => {
             const arr = _.filter(triples, {'predicate': args.predicate});
@@ -61,30 +115,31 @@ module.exports = {
     },
 
     Personable: {
-        __resolveType(obj, context, info){
-            if(obj.roles){
+        __resolveType(obj, context, info) {
+            if (obj.roles) {
                 return 'Actor';
-            }else{
+            } else {
                 return 'Person'
             }
         }
     },
     Movieable: {
-        __resolveType(obj, context, info){
-            if(obj.animators){
+        __resolveType(obj, context, info) {
+            if (obj.animators) {
                 return 'Cartoon';
-            }else{
+            } else {
                 return 'Movie'
             }
         }
     },
     Person: {
         likesCollection: (parent, args, context, info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
-
+            const arr = extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
+            if(arr.length > 0) return convertArrayToConnection(arr, args.paginationSpec);
         },
-       knowsCollection: (parent, args, context, info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
+        knowsCollection: (parent, args, context, info) => {
+            const arr = extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
+            if(arr.length > 0) return convertArrayToConnection(arr,args.paginationSpec);
         },
         marriedToCollection: (parent, args, context, info) => {
             return extractPredicateObjects(parent.firstName, parent.lastName, "MARRIED_TO");
@@ -95,7 +150,7 @@ module.exports = {
     },
     Mutation: {
         ping: async (parent, args) => {
-            const event = await publishEvent('PING',args.payload);
+            const event = await publishEvent('PING', args.payload);
             console.log(event);
             return event;
         },
@@ -114,10 +169,10 @@ module.exports = {
             const movie = getItemFromCollection('MOVIES', args.movie.id);
 
             //if there is a title, add the new title
-            if(args.movie.title) movie.title = args.movie.title;
+            if (args.movie.title) movie.title = args.movie.title;
 
             //if there's a new release date, add the new release date
-            if(args.movie.releaseDate) movie.releaseDate = args.movie.releaseDate;
+            if (args.movie.releaseDate) movie.releaseDate = args.movie.releaseDate;
 
             //diff the directors and add only the added director
             const d = _.differenceWith(args.movie.directors, movie.directors, _.isEqual);
@@ -151,7 +206,7 @@ module.exports = {
             return data;
         },
         addTriple: async (parent, args) => {
-            const data =  await updateCollection(args.triple, 'TRIPLES');
+            const data = await updateCollection(args.triple, 'TRIPLES');
             const event = await publishEvent('TRIPLE_ADDED', JSON.stringify(args.triple));
             console.log(event);
             console.log(data);
