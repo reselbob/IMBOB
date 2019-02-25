@@ -21,7 +21,7 @@ const publishEvent = async (eventName, payload) => {
 };
 
 
-const extractPredicateObjects = (firstName, lastName, predicateValue) => {
+const extractPredicateObjects = async (firstName, lastName, predicateValue) => {
     const arr = _.filter(triples, {subject: {firstName: firstName, lastName: lastName,}, predicate: predicateValue});
 
     const rslt = [];
@@ -34,7 +34,7 @@ const extractPredicateObjects = (firstName, lastName, predicateValue) => {
 };
 
 
-const convertArrayToConnection = (arr, pageinationSpec) => {
+const  convertArrayToConnection = async (arr, pageinationSpec) => {
     let idxs = [0];
     let start = 0;
     let end = 9;
@@ -137,19 +137,19 @@ module.exports = {
         }
     },
     Person: {
-        likesCollection: (parent, args, context, info) => {
-            const arr = extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
-            if(arr.length > 0) return convertArrayToConnection(arr, args.paginationSpec);
+        likesCollection: async (parent, args, context, info) => {
+            const arr = await extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
+            if(arr.length > 0) return await convertArrayToConnection(arr, args.paginationSpec);
         },
-        knowsCollection: (parent, args, context, info) => {
+        knowsCollection: async (parent, args, context, info) => {
             const arr = extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
-            if(arr.length > 0) return convertArrayToConnection(arr,args.paginationSpec);
+            if(arr.length > 0) return await convertArrayToConnection(arr,args.paginationSpec);
         },
-        marriedToCollection: (parent, args, context, info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName, "MARRIED_TO");
+        marriedToCollection: async (parent, args, context, info) => {
+            return await extractPredicateObjects(parent.firstName, parent.lastName, "MARRIED_TO");
         },
-        divorcedFromCollection: (parent, args, context, info) => {
-            return extractPredicateObjects(parent.firstName, parent.lastName, "DIVORCED_FROM");
+        divorcedFromCollection: async (parent, args, context, info) => {
+            return await extractPredicateObjects(parent.firstName, parent.lastName, "DIVORCED_FROM");
         }
     },
     Mutation: {
