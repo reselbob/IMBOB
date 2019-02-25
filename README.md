@@ -93,3 +93,26 @@ mutation{
   }
 }
 ```
+
+Paginated Person:
+```
+
+{
+  person(id:"fee6bad2-7fd2-4bf6-beab-82603062a1ab"){
+    firstName
+    lastName
+    likesCollection(paginationSpec:{first:5}){
+      pageInfo{
+        endCursor
+        hasNextPage
+      }
+      edges{
+        node{
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+}
+```

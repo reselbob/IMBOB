@@ -46,6 +46,11 @@ const  convertArrayToConnection = async (arr, pageinationSpec) => {
             const msg = `Before and After Cursor Pagination Configuration Error. Before: ${pageinationSpec.before}, After: ${pageinationSpec.after}`;
             throw new Error(msg);
         }
+        //Make pageinationSpec.after the default
+        if(!pageinationSpec.after && !pageinationSpec.before){
+            pageinationSpec.after = arr[0].id;
+        }
+
         if(pageinationSpec.after){
             idxs = _.keys(_.pickBy(arr, {id: pageinationSpec.after}));
             start = Number.parseInt(idxs[0]) + 1;
