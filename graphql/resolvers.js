@@ -70,7 +70,7 @@ const  convertArrayToConnection = async (arr, pageinationSpec) => {
     _.orderBy(arr, ['createdAt']);
 
     const edges = [];
-    const range = [start, end].sort(); // regardless of before or after, range needs ascending
+    const range = [start, end].sort(); // regardless of before or after, range needs descending
     bufferArr = arr.slice(range[0],range[1]);
     bufferArr.forEach(a => {
         edges.push({cursor: a.id, node: a})
