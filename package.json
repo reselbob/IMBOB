@@ -18,10 +18,14 @@
   "homepage": "https://github.com/reselbob/IMBOB#readme",
   "dependencies": {
     "apollo-server": "^2.4.0",
-    "chai": "^4.2.0",
     "graphql": "^14.1.1",
     "lodash": "^4.17.11",
-    "mocha": "^5.2.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "graphql-request": "^1.8.2",
+    "mocha": "^5.2.0",
+    "supertest": "^3.4.2"
   }
 }
