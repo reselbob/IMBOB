@@ -1,11 +1,22 @@
 # IMBOB
-A simple GraphQL API for movie information
+A simple GraphQL API for movie information.
 
+To start the application:
+
+`npm install`
+
+then
+
+`npm start`
+
+or
+
+`node server.js`
 
 ## Cheat Sheet
 
-introspection
-```$xslt
+introspection on the API
+```
 {  __schema {
     types {
       name
@@ -60,7 +71,7 @@ mutation response
 
 ```
 mutation{
-  addPerson(person: {firstName: "Charlie", lastName: "Chaplin", dob: "1889-04-16"}){
+  addPerson(person: {firstName: "A_FIRST_NAME", lastName: "A_LAST_NAME", dob: "YYYY-MM_DD"}){
     id
     firstName
     lastName
@@ -86,10 +97,33 @@ subscription response
 
 ```
 mutation{
-  addMovie({movie: {title: "Dr. Strangelove", releaseDate: "1964-01-29"}}){
+  addMovie({movie: {title: "NOVIE_TITLE", releaseDate: "YYYY-MM-DD"}}){
     id
     title
     releaseDate
+  }
+}
+```
+
+Paginated Person:
+```
+
+{
+  person(id:"fee6bad2-7fd2-4bf6-beab-82603062a1ab"){
+    firstName
+    lastName
+    likesCollection(paginationSpec:{first:5}){
+      pageInfo{
+        endCursor
+        hasNextPage
+      }
+      edges{
+        node{
+          firstName
+          lastName
+        }
+      }
+    }
   }
 }
 ```
