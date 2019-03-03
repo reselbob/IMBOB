@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "faker": "^4.1.0",
     "graphql-request": "^1.8.2",
     "mocha": "^5.2.0",
     "supertest": "^3.4.2"
