@@ -28,3 +28,5 @@ server.listen(PORT).then(({ url, subscriptionsUrl }) => {
     console.log(`🚀  Server ready at ${url}`);
     console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`)
 });
+
+module.exports = server;

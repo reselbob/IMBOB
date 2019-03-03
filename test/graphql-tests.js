@@ -34,8 +34,26 @@ describe('GraphQL Basic Tests', () => {
     it('Can add person via GraphQL', (done) => {
         const firstName = faker.name.firstName();
         const lastName = faker.name.lastName();
-        const dob = faker.date.between('1950-01-01', '2001-12-31').toISOString().slice(0,10);
-        const query = `query { persons{ firstName lastName } }`;
-        done()
+        const dob = faker.date.between('1950-01-01', '2001-12-31').toISOString().slice(0,10)
+        const query = `mutation{
+            addPerson(person: {firstName: "${firstName}", lastName: "${lastName}", dob: "${dob}"}){
+                id
+                firstName
+                lastName
+                dob
+            }
+        }`;
+        request(url, query)
+            .then(data => {
+                console.log(data);
+                const obj = data.addPerson;
+                expect(obj.firstName).to.equal(firstName);
+                expect(obj.lastName).to.equal(lastName);
+                expect(obj.dob).to.equal(dob);
+                done();
+            })
+            .catch(e =>{
+                done(e)
+            })
     });
 });
