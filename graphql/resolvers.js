@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const {PubSub} = require('apollo-server');
 const uuidv4 = require('uuid/v4');
-const {persons, movies, triples, updateCollection, getItemFromCollection} = require('../data/index');
+const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
 
 const pubsub = new PubSub();
 const EVENT_ADDED = 'EVENT_ADDED';
@@ -22,6 +22,7 @@ const publishEvent = async (eventName, payload) => {
 
 
 const extractPredicateObjects = async (firstName, lastName, predicateValue) => {
+    const triples = getCollection('triples');
     const arr = _.filter(triples, {subject: {firstName: firstName, lastName: lastName,}, predicate: predicateValue});
 
     const rslt = [];
@@ -53,7 +54,11 @@ const  convertArrayToConnection = async (arr, pageinationSpec) => {
 
         if(pageinationSpec.after){
             idxs = _.keys(_.pickBy(arr, {id: pageinationSpec.after}));
-            start = Number.parseInt(idxs[0]) + 1;
+            //don't reset if the item in question is at position zero
+            if(idxs[0] > 0){
+                start = Number.parseInt(idxs[0]) + 1;
+            }
+
             if(pageinationSpec.first) {
                 end = start + pageinationSpec.first;
             }
@@ -75,31 +80,32 @@ const  convertArrayToConnection = async (arr, pageinationSpec) => {
     bufferArr.forEach(a => {
         edges.push({cursor: a.id, node: a})
     });
-    let endCursor  = edges[edges.length - 1].cursor; //the default
-    let hasNextPage = Number.parseInt(idxs[0]) + 2 <= arr.length; //default
-    if(pageinationSpec.after){
-        endCursor = edges[edges.length - 1].cursor;
-        idxs = _.keys(_.pickBy(arr, {id: endCursor}));
-        hasNextPage = Number.parseInt(idxs[0]) + 2 <= arr.length;
-    };
+    if(edges.length){
+        let endCursor  = edges[edges.length - 1].cursor; //the default
+        let hasNextPage = Number.parseInt(idxs[0]) + 2 <= arr.length; //default
+        if(pageinationSpec.after){
+            endCursor = edges[edges.length - 1].cursor;
+            idxs = _.keys(_.pickBy(arr, {id: endCursor}));
+            hasNextPage = Number.parseInt(idxs[0]) + 2 <= arr.length;
+        };
 
-    if(pageinationSpec.before){
-        edges.reverse();
-        endCursor = edges[0].cursor;
-        idxs = _.keys(_.pickBy(arr, {id: endCursor}));
-        hasNextPage = Number.parseInt(idxs[0]) + 2 >= 0;
-    };
-
-    const pageInfo = {endCursor, hasNextPage};
-    return {edges, pageInfo}
+        if(pageinationSpec.before){
+            edges.reverse();
+            endCursor = edges[0].cursor;
+            idxs = _.keys(_.pickBy(arr, {id: endCursor}));
+            hasNextPage = Number.parseInt(idxs[0]) + 2 >= 0;
+        };
+        const pageInfo = {endCursor, hasNextPage};
+        return {edges, pageInfo}
+    }
 };
 
 module.exports = {
     Query: {
-        persons: (parent, args, context) => _.sortBy(persons, ['lastName']),
-        person: (parent, args, context) => _.find(persons, {'id': args.id}),
+        persons: (parent, args, context) => _.sortBy(getCollection('persons'), ['lastName']),
+        person: (parent, args, context) => _.find(getCollection('persons'), {'id': args.id}),
         actor: (parent, args, context) => {
-            const mvs = _.filter(movies,
+            const mvs = _.filter(getCollection('movies'),
                 {
                     actors: [{id: args.id}]
                 }
@@ -114,11 +120,11 @@ module.exports = {
             });
             return a;
         },
-        movies: (parent, args, context) => movies,
+        movies: (parent, args, context) => getCollection('movies'),
         movie: (parent, args, context) => getItemFromCollection("MOVIES", args, id),
-        triples: (parent, args, context) => triples,
+        triples: (parent, args, context) => getCollection('triples'),
         triplesByPredicate: (parent, args, context) => {
-            const arr = _.filter(triples, {'predicate': args.predicate});
+            const arr = _.filter(getCollection('triples'), {'predicate': args.predicate});
             return arr;
         }
     },
@@ -142,12 +148,12 @@ module.exports = {
         }
     },
     Person: {
-        likesCollection: async (parent, args, context, info) => {
+        likesConnection: async (parent, args, context, info) => {
             const arr = await extractPredicateObjects(parent.firstName, parent.lastName, "LIKES");
             if(arr.length > 0) return await convertArrayToConnection(arr, args.paginationSpec);
         },
-        knowsCollection: async (parent, args, context, info) => {
-            const arr = extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
+        knowsConnection: async (parent, args, context, info) => {
+            const arr = await extractPredicateObjects(parent.firstName, parent.lastName, "KNOWS");
             if(arr.length > 0) return await convertArrayToConnection(arr,args.paginationSpec);
         },
         marriedToCollection: async (parent, args, context, info) => {

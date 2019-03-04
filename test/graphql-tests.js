@@ -5,11 +5,12 @@ const expect = require('chai').expect;
 const describe = require('mocha').describe;
 const before = require('mocha').before;
 const it = require('mocha').it;
-const {persons, movies, triples} = require('../data/index');
 const server = require('../server');
 const url = 'http://localhost:4000/';
 const uuidv4 = require('uuid/v4');
 var faker = require('faker');
+
+const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
 
 
 before(() => {
@@ -21,7 +22,31 @@ after(() => {
 })
 
 describe('GraphQL Basic Tests', () => {
+    it('Movies from API length equals Movies from data length', (done) => {
+        const movies = getCollection('movies');
+        const query = `query { movies{ title releaseDate } }`;
+        request(url, query)
+            .then(data => {
+                console.log(data);
+                expect(movies.length).to.equal(data.movies.length);
+                done();
+            })
+    });
+
+
+    it('Can paginate likes', (done) => {
+        const triples = getCollection('triples');
+        const query = `query { persons{ firstName lastName } }`;
+        request(url, query)
+            .then(data => {
+                console.log(data);
+                expect(persons.length).to.equal(data.persons.length);
+                done();
+            })
+    });
+
     it('Persons from API length equals Persons from data length', (done) => {
+        const persons = getCollection('persons');
         const query = `query { persons{ firstName lastName } }`;
         request(url, query)
             .then(data => {
@@ -50,6 +75,10 @@ describe('GraphQL Basic Tests', () => {
                 expect(obj.firstName).to.equal(firstName);
                 expect(obj.lastName).to.equal(lastName);
                 expect(obj.dob).to.equal(dob);
+                const persons = getCollection('persons');
+                const p = _.find(persons, {id:obj.id });
+                console.log(process.env.PERSONS)
+                expect(obj.id).to.equal(p.id);
                 done();
             })
             .catch(e =>{

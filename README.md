@@ -112,7 +112,7 @@ Paginated Person:
   person(id:"fee6bad2-7fd2-4bf6-beab-82603062a1ab"){
     firstName
     lastName
-    likesCollection(paginationSpec:{first:5}){
+    likesConnection(paginationSpec:{first:5}){
       pageInfo{
         endCursor
         hasNextPage
@@ -126,4 +126,24 @@ Paginated Person:
     }
   }
 }
+```
+Paginated LikesConnection on Persons
+```graphql
+
+{persons{
+  firstName
+  lastName
+  likesConnection(paginationSpec:{first:5}){
+    pageInfo{
+      hasNextPage
+      endCursor
+    }
+    edges{
+      node{
+        firstName
+        lastName
+      }
+    }
+  }
+}}
 ```

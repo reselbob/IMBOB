@@ -50,15 +50,15 @@ const updateCollection =  async function(dataObj, collectionName){
     switch(collectionName.toUpperCase()){
         case 'MOVIES':
             holder.filename = 'movies.json';
-            holder.env = process.env.MOVIES;
+            holder.env = 'MOVIES';
             break;
         case 'PERSONS':
             holder.filename = 'persons.json';
-            holder.env = process.env.PERSONS;
+            holder.env = 'PERSONS';
             break;
         case 'TRIPLES':
             holder.filename = 'triples.json';
-            holder.env = process.env.TRIPLES
+            holder.env = 'TRIPLES';
             break;
     }
     let filespec = path.join(__dirname, holder.filename);
@@ -74,7 +74,9 @@ const updateCollection =  async function(dataObj, collectionName){
     arr.push(dataObj);
     const data = JSON.stringify(arr);
     await objectToFile(filespec, data);
-    holder.env = data;
+    const rtn = await fileToObject(holder.filename);
+    process.env[holder.env] = JSON.stringify(rtn);
+    //process.env[holder.env] = data;
     return dataObj;
 };
 
@@ -92,9 +94,9 @@ const replaceCollection =  async function(dataObj, collectionName){
             break;
     }
     let filespec = path.join(__dirname, holder.filename);
-    const data = JSON.stringify(dataObj);
     await objectToFile(filespec, data);
     return data;
+    const data = JSON.stringify(dataObj);
 };
 
 

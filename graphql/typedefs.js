@@ -18,8 +18,8 @@ module.exports = `
         firstName: String
         lastName: String
         dob: String
-        knowsCollection(paginationSpec: CursorPaginationInput): PersonConnection
-        likesCollection(paginationSpec: CursorPaginationInput): PersonConnection
+        knowsConnection(paginationSpec: CursorPaginationInput): PersonConnection
+        likesConnection(paginationSpec: CursorPaginationInput): PersonConnection
         marriedToCollection: [Person]
         divorcedFromCollection: [Person]
     }

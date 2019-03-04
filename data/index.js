@@ -3,11 +3,15 @@ const {getCollection, updateCollection, replaceCollection,getItemFromCollection}
 
 
 module.exports = {
-    persons: getCollection('persons'),
-    movies: getCollection('movies'),
-    triples: getCollection('triples') ,
     getCollection,
     updateCollection,
     replaceCollection,
     getItemFromCollection
-}
+};
+
+/*
+
+    persons: getCollection('persons'),
+    movies: getCollection('movies'),
+    triples: getCollection('triples') ,
+ */
