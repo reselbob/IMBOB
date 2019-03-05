@@ -16,7 +16,7 @@ or
 ## Cheat Sheet
 
 introspection on the API
-```
+```graphql
 {  __schema {
     types {
       name
@@ -31,7 +31,7 @@ introspection on the API
 
 subscription registered at http://localhost:4000/graphql
 
-```
+```graphql
 subscription eventAdded{
   eventAdded{
     id
@@ -44,7 +44,7 @@ subscription eventAdded{
 ```
 
 mutation executed at http://localhost:4000/
-```
+```graphql
 mutation{
   ping(payload: "Hi There"){
     createdAt
@@ -56,7 +56,7 @@ mutation{
 ```
 
 mutation response
-```
+```json
 {
   "data": {
     "ping": {
@@ -69,7 +69,7 @@ mutation response
 }
 ```
 
-```
+```graphql
 mutation{
   addPerson(person: {firstName: "A_FIRST_NAME", lastName: "A_LAST_NAME", dob: "YYYY-MM_DD"}){
     id
@@ -81,7 +81,7 @@ mutation{
 ```
 
 subscription response
-```
+```json
 {
   "data": {
     "eventAdded": {
@@ -95,7 +95,7 @@ subscription response
 }
 ```
 
-```
+```graphql
 mutation{
   addMovie({movie: {title: "NOVIE_TITLE", releaseDate: "YYYY-MM-DD"}}){
     id
@@ -106,7 +106,7 @@ mutation{
 ```
 
 Paginated Person:
-```
+```graphql
 
 {
   person(id:"fee6bad2-7fd2-4bf6-beab-82603062a1ab"){
@@ -145,5 +145,6 @@ Paginated LikesConnection on Persons
       }
     }
   }
-}}
+ }
+}
 ```
