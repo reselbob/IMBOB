@@ -125,7 +125,7 @@ module.exports = `
     }
 
     type Query {
-        persons: [Person]
+        persons (paginationSpec: CursorPaginationInput): Persons
         person(id: ID!): Person
         actor(id: ID!): Actor
         movies: [Movie]
@@ -153,6 +153,7 @@ module.exports = `
         first: Int
         last: Int
         after: String
+        sortFieldName: String
     }
     
     """
@@ -162,6 +163,11 @@ module.exports = `
     type PersonEdge {
         cursor: String!
         node: Person!
+    }
+    
+    type Persons {
+        collection: [Person]
+        pageInfo: PageInfo!
     }
     
     type PersonConnection {

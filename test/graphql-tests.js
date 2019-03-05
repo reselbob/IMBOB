@@ -22,6 +22,68 @@ after(() => {
 })
 
 describe('GraphQL Basic Tests', () => {
+    it('Can page through persons', (done) => {
+        let colOne = [];
+        let colTwo =[];
+        let query = `{
+                  persons{
+                    collection{
+                      firstName
+                      lastName
+                      knowsConnection{
+                        edges{
+                          node{
+                            firstName
+                            lastName
+                          }
+                        }
+                      }
+                    }
+                    pageInfo{
+                      hasNextPage
+                      endCursor
+                    }
+                  }
+                }`;
+        request(url, query)
+            .then(data => {
+                console.log(data);
+                expect(data.persons.collection.length).to.equal(10);
+                colOne = data.persons.collection;
+                let query = `{
+                  persons(paginationSpec: {after: "${data.persons.pageInfo.endCursor}"}){
+                    collection{
+                      firstName
+                      lastName
+                      knowsConnection{
+                        edges{
+                          node{
+                            firstName
+                            lastName
+                          }
+                        }
+                      }
+                    }
+                    pageInfo{
+                      hasNextPage
+                      endCursor
+                    }
+                  }
+                }`;
+                request(url, query)
+                    .then(data =>{
+                        expect(data.persons.collection.length).to.equal(10);
+                        colTwo = data.persons.collection;
+                        const rslt = _.intersection(colOne, colTwo);
+                        expect(rslt.length).to.equal(0);
+                        done();
+                    });
+                done();
+            })
+    });
+
+
+
     it('Movies from API length equals Movies from data length', (done) => {
         const movies = getCollection('movies');
         const query = `query { movies{ title releaseDate } }`;
