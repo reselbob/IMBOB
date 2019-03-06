@@ -208,10 +208,10 @@ module.exports = {
             args.paginationSpec = setPaginationSortOrderDefault(args.paginationSpec, 'createdAt');
             if(arr.length > 0) return await convertArrayToConnection(arr,args.paginationSpec);
         },
-        marriedToCollection: async (parent, args, context, info) => {
+        marriedToConnection: async (parent, args, context, info) => {
             return await extractPredicateObjects(parent.firstName, parent.lastName, "MARRIED_TO");
         },
-        divorcedFromCollection: async (parent, args, context, info) => {
+        divorcedFromConnection: async (parent, args, context, info) => {
             return await extractPredicateObjects(parent.firstName, parent.lastName, "DIVORCED_FROM");
         }
     },

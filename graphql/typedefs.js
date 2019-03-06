@@ -20,8 +20,8 @@ module.exports = `
         dob: String
         knowsConnection(paginationSpec: CursorPaginationInput): PersonConnection
         likesConnection(paginationSpec: CursorPaginationInput): PersonConnection
-        marriedToCollection: [Person]
-        divorcedFromCollection: [Person]
+        marriedToConnection: [Person]
+        divorcedFromConnection: [Person]
     }
     
    type Role {

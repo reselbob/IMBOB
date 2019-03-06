@@ -1,20 +1,14 @@
 const { ApolloServer} = require('apollo-server');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
+const subscriptions = require('./graphql/subscriptions');
 
 const PORT = process.env.PORT || 4000;
 
-// In the most basic sense, the ApolloServer can be started
-// by passing type definitions (typeDefs) and the resolvers
-// responsible for fetching the data for those types.
-
-const subscriptions = {
-    onConnect: (connectionParams) => {
-        console.log(`Connection made , info ${JSON.stringify(connectionParams)} 
-        at ${new Date().toString()}`)
-    }
-};
-
+// The ApolloServer is started by passing
+// type definitions (typeDefs), the resolvers
+// responsible for fetching the data for those types
+// and the subscription event methods.
 const schema = {
     typeDefs,
     resolvers,
