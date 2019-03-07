@@ -18,9 +18,21 @@ module.exports = `
         firstName: String
         lastName: String
         dob: String
+        """
+        A pageable list of Person types that this Person KNOWS
+        """
         knowsConnection(paginationSpec: CursorPaginationInput): PersonConnection
+        """
+        A pageable list of Person types that this Person LIKES
+        """
         likesConnection(paginationSpec: CursorPaginationInput): PersonConnection
+        """
+        A list of Person types that this Person is MARRIED_TO, not pageable
+        """
         marriedToConnection: [Person]
+        """
+        A list of Person types that this Person is DIVORCED_FROM, not pageable
+        """
         divorcedFromConnection: [Person]
     }
     
