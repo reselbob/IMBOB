@@ -1,4 +1,7 @@
-module.exports = `    
+module.exports = `  
+
+    scalar Date
+  
     """
     The type that describes a person. All persons must exist
     in the system. For example, to a triple uses a person that exists
@@ -10,14 +13,14 @@ module.exports = `
         id: ID
         firstName: String
         lastName: String
-        dob: String
+        dob: Date
     }
     
     type Person implements Personable{
         id: ID
         firstName: String
         lastName: String
-        dob: String
+        dob: Date
         """
         A pageable list of Person types that this Person KNOWS
         """
@@ -45,7 +48,7 @@ module.exports = `
         id: ID
         firstName: String
         lastName: String
-        dob: String
+        dob: Date
         roles: [Role]
     }
     
@@ -72,7 +75,7 @@ module.exports = `
     interface Movieable {
         id: ID!
         title: String
-        releaseDate: String
+        releaseDate: Date
         directors: [Person]
         actors: [Actor]
     }   
@@ -80,7 +83,7 @@ module.exports = `
     type Movie  implements Movieable{
         id: ID!
         title: String
-        releaseDate: String
+        releaseDate: Date
         directors: [Person]
         actors: [Actor]
     }
@@ -88,7 +91,7 @@ module.exports = `
     type Cartoon  implements Movieable{
         id: ID!
         title: String
-        releaseDate: String
+        releaseDate: Date
         directors: [Person]
         actors: [Actor]
         animators: [Person]
@@ -96,7 +99,7 @@ module.exports = `
     
    input MovieInput {
         title: String!
-        releaseDate: String!
+        releaseDate: Date!
         directors: [KnownPersonInput]
         actors: [KnownPersonInput]
     }
@@ -104,7 +107,7 @@ module.exports = `
     input KnownMovieInput {
         id: ID!
         title: String!
-        releaseDate: String!
+        releaseDate: Date!
         directors: [KnownPersonInput]
         actors: [KnownPersonInput]
     }
@@ -131,8 +134,8 @@ module.exports = `
     type Event {
         id: ID
         name: String
-        createdAt: String
-        storedAt: String
+        createdAt: Date
+        storedAt: Date
         payload: String
     }
 

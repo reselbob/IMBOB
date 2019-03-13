@@ -144,6 +144,15 @@ const setPaginationSortOrderDefault = (paginationSpec, defaultSortFieldName) => 
 };
 
 module.exports = {
+    Date: {
+        __parseValue(value) {
+            return new Date(value); // value from the client
+        },
+        __serialize(value) {
+            return value;
+            //return new Date(value).toLocaleDateString(); // value sent to the client
+        }
+    },
     Query: {
         persons: async (parent, args, context) => {
             const arr = getCollection('persons');
@@ -171,7 +180,7 @@ module.exports = {
             return a;
         },
         movies: (parent, args, context) => getCollection('movies'),
-        movie: (parent, args, context) => getItemFromCollection("MOVIES", args, id),
+        movie: (parent, args, context) => getItemFromCollection("MOVIES", args.id),
         triples: (parent, args, context) => getCollection('triples'),
         triplesByPredicate: (parent, args, context) => {
             const arr = _.filter(getCollection('triples'), {'predicate': args.predicate});
