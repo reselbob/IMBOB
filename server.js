@@ -5,9 +5,9 @@ const subscriptions = require('./graphql/subscriptions');
 
 const PORT = process.env.PORT || 4000;
 
-// The ApolloServer is started by passing
-// type definitions (typeDefs), the resolvers
-// responsible for fetching the data for those types
+// The ApolloServer is started by creating a schema and
+// passing to that schema type definitions (typeDefs),
+// the resolvers that fetch the data for those types,
 // and the subscription event methods.
 const schema = {
     typeDefs,
@@ -16,11 +16,13 @@ const schema = {
 
 const server = new ApolloServer(schema);
 
-// This `listen` method launches a web-server.  Existing apps
-// can utilize middleware options, which we'll discuss later.
+// This `listen` method launches a web-server and a
+// subscription server
 server.listen(PORT).then(({ url, subscriptionsUrl }) => {
     console.log(`🚀  Server ready at ${url}`);
     console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`)
 });
 
+//Export the server to make it available to unit
+// and API tests
 module.exports = server;
