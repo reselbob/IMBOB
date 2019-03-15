@@ -40,7 +40,9 @@ module.exports = `
     }
     
    type Role {
+     """ The full or partial name of a character in the associated movie"""
      character: String!
+     """ The movie is which the role appeared """
      movie: Movieable
    }
     
