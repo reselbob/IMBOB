@@ -160,7 +160,13 @@ module.exports = `
     }
     
     type Subscription {
-        eventAdded(topicName: String): Event
+        eventAdded(channelName: String): Event
+        onPersonAdded(channelName: String): Event
+        onMovieAdded(channelName: String): Event
+        onTripleAdded(channelName: String): Event
+        onPersonUpdated(channelName: String): Event
+        onMovieUpdated(channelName: String): Event
+        onTripleUpdated(channelName: String): Event
     }
     """
     Cursor types
