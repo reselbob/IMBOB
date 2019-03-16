@@ -29,6 +29,10 @@ The project code shows readers how to implement a GraphQL schema that includes t
 
 ## Cheat Sheet
 
+The following queries and mutations are examples that can be executed against this project's API using 
+
+### Introspection
+
 introspection on the API
 ```graphql
 {  __schema {
@@ -42,6 +46,7 @@ introspection on the API
 }
 ```
 
+### Subscriptions and events
 
 subscription registered at http://localhost:4000/graphql
 
@@ -57,7 +62,7 @@ subscription eventAdded{
 }
 ```
 
-mutation executed at http://localhost:4000/
+mutation executed at http://localhost:4000/ that will create a message that can be intercepted by clients listening at the registered subscription, `eventAdded`.
 ```graphql
 mutation{
   ping(payload: "Hi There"){
@@ -83,18 +88,7 @@ mutation response
 }
 ```
 
-```graphql
-mutation{
-  addPerson(person: {firstName: "A_FIRST_NAME", lastName: "A_LAST_NAME", dob: "YYYY-MM_DD"}){
-    id
-    firstName
-    lastName
-    dob
-  }
-}
-```
-
-subscription response
+event generated to the subscription and available to listening clients
 ```json
 {
   "data": {
@@ -108,6 +102,18 @@ subscription response
   }
 }
 ```
+### Simple Mutations
+
+```graphql
+mutation{
+  addPerson(person: {firstName: "A_FIRST_NAME", lastName: "A_LAST_NAME", dob: "YYYY-MM_DD"}){
+    id
+    firstName
+    lastName
+    dob
+  }
+}
+```
 
 ```graphql
 mutation{
@@ -118,6 +124,8 @@ mutation{
   }
 }
 ```
+
+### Queries with Pagination
 
 Paginated Person:
 ```graphql
