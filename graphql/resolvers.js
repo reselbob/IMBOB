@@ -229,7 +229,17 @@ module.exports = {
             return a;
         },
         movies: (parent, args, context) => getCollection('movies'),
-        movie: (parent, args, context) => getItemFromCollection("MOVIES", args.id),
+        movie: (parent, args, context) => {
+           const itm = getItemFromCollection("MOVIES", args.id);
+           itm.actors.forEach(actor => {
+               const role = {};
+               role.character = actor.role;
+               role.movie = itm;
+               actor.roles = [];
+               actor.roles.push(role);
+           });
+           return itm;
+        },
         triples: (parent, args, context) => getCollection('triples'),
         triplesByPredicate: (parent, args, context) => {
             const arr = _.filter(getCollection('triples'), {'predicate': args.predicate});

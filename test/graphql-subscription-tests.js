@@ -44,7 +44,7 @@ describe('GraphQL Subscription Tests', () => {
     it('Can ping and subscribe', async (done) => {
         const subscriptionPromise = async () => {
             const client = () => apollo;
-            return client().subscribe({
+            await client().subscribe({
                 query: gql`
                     subscription eventAdded{
                         eventAdded{
@@ -64,7 +64,7 @@ describe('GraphQL Subscription Tests', () => {
                     console.log(err);
                     done(err);
                 }
-            });
+            })
         };
 
 
@@ -79,9 +79,9 @@ describe('GraphQL Subscription Tests', () => {
                     id
                   }
                 }`;
-        request(url, query)
+        await request(url, query)
             .then(data => {
-                //console.log(data);
+                console.log(data);
                 //done();
             })
             .catch(e => {
@@ -89,7 +89,6 @@ describe('GraphQL Subscription Tests', () => {
             });
         const rslt = await subscriptionPromise();
         console.log(rslt);
-        //expect(rslt).to.deep.equal({});
-        //done();
+        done();
     });
 });
