@@ -4,19 +4,68 @@ const uuidv4 = require('uuid/v4');
 const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
 
 const pubsub = new PubSub();
-const EVENT_ADDED = 'EVENT_ADDED';
+const GENERAL_EVENT_CHANNEL = 'GENERAL_EVENT_CHANNEL';
+const PERSON_CHANNEL = 'PERSON_CHANNEL';
+const TRIPLE_CHANNEL = 'TRIPLE_CHANNEL';
+const MOVIE_CHANNEL = 'MOVIE_CHANNEL';
 
-const publishEvent = async (eventName, payload) => {
+const PERSON_EVENT_TYPE_ADD = 'PERSON_EVENT_TYPE_ADD';
+const MOVIE_EVENT_TYPE_ADD = 'MOVIE_EVENT_TYPE_ADD';
+const TRIPLE_EVENT_TYPE_ADD = 'TRIPLE_EVENT_TYPE_ADD';
+
+const PERSON_EVENT_TYPE_UPDATE = 'PERSON_EVENT_TYPE_UPDATE';
+const MOVIE_EVENT_TYPE_UPDATE = 'MOVIE_EVENT_TYPE_UPDATE';
+const TRIPLE_EVENT_TYPE_UPDATE = 'TRIPLE_EVENT_TYPE_UPDATE';
+
+const createEvent = (eventType, payload) =>{
     const dt = new Date();
     const uuid = uuidv4();
     const event = {
         id: uuid,
-        name: eventName,
+        name: eventType,
         createdAt: dt.toString(),
         storedAt: dt.toString(),
         payload: payload
     };
-    await pubsub.publish(EVENT_ADDED, {eventAdded: event});
+
+    return event;
+};
+
+const publishEvent = async (eventName, payload) => {
+    const event = createEvent(eventName, payload);
+    await pubsub.publish(GENERAL_EVENT_CHANNEL, {eventAdded: event});
+    return event;
+};
+
+
+
+const publishPersonEvent = async (eventType, payload) => {
+    const event = createEvent(eventType, payload);
+    const obj = {};
+    if(PERSON_EVENT_TYPE_ADD) obj.onPersonAdded = event;
+    if(PERSON_EVENT_TYPE_UPDATE) obj.onPersonUpdated = event;
+
+    await pubsub.publish(PERSON_CHANNEL, obj);
+    return event;
+};
+
+const publishTripleEvent = async (eventType, payload) => {
+    const event = createEvent(eventType, payload);
+    const obj = {};
+    if(TRIPLE_EVENT_TYPE_ADD) obj.onTripleAdded = event;
+    if(TRIPLE_EVENT_TYPE_UPDATE) obj.onTripleUpdated = event;
+
+    await pubsub.publish(TRIPLE_CHANNEL, obj);
+    return event;
+};
+
+const publishMovieEvent = async (eventType, payload) => {
+    const event = createEvent(eventType, payload);
+    const obj = {};
+    if(MOVIE_EVENT_TYPE_ADD) obj.onMovieAdded = event;
+    if(MOVIE_EVENT_TYPE_UPDATE) obj.onMovieUpdated = event;
+
+    await pubsub.publish(MOVIE_CHANNEL, obj);
     return event;
 };
 
@@ -180,7 +229,17 @@ module.exports = {
             return a;
         },
         movies: (parent, args, context) => getCollection('movies'),
-        movie: (parent, args, context) => getItemFromCollection("MOVIES", args.id),
+        movie: (parent, args, context) => {
+           const itm = getItemFromCollection("MOVIES", args.id);
+           itm.actors.forEach(actor => {
+               const role = {};
+               role.character = actor.role;
+               role.movie = itm;
+               actor.roles = [];
+               actor.roles.push(role);
+           });
+           return itm;
+        },
         triples: (parent, args, context) => getCollection('triples'),
         triplesByPredicate: (parent, args, context) => {
             const arr = _.filter(getCollection('triples'), {'predicate': args.predicate});
@@ -234,7 +293,7 @@ module.exports = {
             args.movie.id = uuidv4();
             console.log(args.movie);
             const movie = await updateCollection(args.movie, 'MOVIES');
-            const event = await publishEvent('MOVIE_ADDED', JSON.stringify(movie));
+            const event = await publishMovieEvent(MOVIE_EVENT_TYPE_ADD, JSON.stringify(movie));
             console.log(event);
             console.log(movie);
             return movie;
@@ -263,7 +322,7 @@ module.exports = {
             await updateCollection(movie, "MOVIES");
             const m = getItemFromCollection("MOVIES", movie.id);
 
-            const event = await publishEvent('MOVIE_UPDATED', JSON.stringify(m));
+            const event = await publishMovieEvent(MOVIE_EVENT_TYPE_UPDATE, JSON.stringify(movie));
             console.log(event);
             console.log(m);
             return m;
@@ -274,7 +333,7 @@ module.exports = {
             //add the person to the Persons collection
             const data = await updateCollection(args.person, 'PERSONS');
             //Emit a pubsub event informing subscribers
-            const event = await publishEvent('PERSON_ADDED', JSON.stringify(args.person));
+            const event = await publishPersonEvent(PERSON_EVENT_TYPE_ADD, JSON.stringify(args.person));
             //log relevant data
             console.log(event);
             console.log(data);
@@ -283,7 +342,7 @@ module.exports = {
         },
         addTriple: async (parent, args) => {
             const data = await updateCollection(args.triple, 'TRIPLES');
-            const event = await publishEvent('TRIPLE_ADDED', JSON.stringify(args.triple));
+            const event = await publishTripleEvent(TRIPLE_EVENT_TYPE_ADD, JSON.stringify(args.person));
             console.log(event);
             console.log(data);
             return data;
@@ -292,7 +351,16 @@ module.exports = {
 
     Subscription: {
         eventAdded: {
-            subscribe: () => pubsub.asyncIterator(EVENT_ADDED)
+            subscribe: () => pubsub.asyncIterator(GENERAL_EVENT_CHANNEL)
+        },
+        onPersonAdded: {
+            subscribe: () => pubsub.asyncIterator(PERSON_CHANNEL)
+        },
+        onMovieAdded: {
+            subscribe: () => pubsub.asyncIterator(MOVIE_CHANNEL)
+        },
+        onTripleAdded: {
+            subscribe: () => pubsub.asyncIterator(TRIPLE_CHANNEL)
         }
     }
 };

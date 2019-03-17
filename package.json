@@ -19,15 +19,23 @@
   "homepage": "https://github.com/reselbob/IMBOB#readme",
   "dependencies": {
     "apollo-server": "^2.4.0",
-    "graphql": "^14.1.1",
     "lodash": "^4.17.11",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-client": "^2.5.1",
+    "apollo-link-http": "^1.5.14",
+    "apollo-link-ws": "^1.0.17",
     "chai": "^4.2.0",
     "faker": "^4.1.0",
+    "graphql": "^14.1.1",
     "graphql-request": "^1.8.2",
+    "graphql-tag": "^2.10.1",
     "mocha": "^5.2.0",
-    "supertest": "^3.4.2"
+    "react-apollo": "^2.5.2",
+    "subscriptions-transport-ws": "^0.9.16",
+    "supertest": "^3.4.2",
+    "ws": "^6.2.0"
   }
 }
