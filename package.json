@@ -20,6 +20,7 @@
   "dependencies": {
     "apollo-server": "^2.4.0",
     "lodash": "^4.17.11",
+    "node-fetch": "^2.3.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

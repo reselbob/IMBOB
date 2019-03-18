@@ -4,6 +4,7 @@ const { SubscriptionClient, addGraphQLSubscriptions } = require('subscriptions-t
 const { HttpLink } = require( 'apollo-link-http');
 const { InMemoryCache } = require('apollo-cache-inmemory');
 const gql = require('graphql-tag');
+const {fetch} = require('node-fetch');
 const ws = require('ws');
 const {request} = require('graphql-request');
 const _ = require('lodash');
@@ -11,7 +12,7 @@ const expect = require('chai').expect;
 const describe = require('mocha').describe;
 const before = require('mocha').before;
 const it = require('mocha').it;
-const server = require('../server');
+const {server} = require('../server');
 const url = 'http://localhost:4000/';
 const subscriptionUrl = 'ws://localhost:4000';
 var faker = require('faker');
@@ -28,7 +29,7 @@ before(() => {
         subscriptionUrl, { reconnect: true }, ws);
     apollo = new ApolloClient({
         networkInterface ,
-        link: new HttpLink({ uri: url }),
+        link: new HttpLink({ uri: url, fetch: fetch }),
         cache: new InMemoryCache()
     });
 
