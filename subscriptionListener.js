@@ -1,67 +1,35 @@
-
-const http = require('http');
 const ws = require('ws');
-const { ApolloClient, createNetworkInterface } = require('apollo-client');
-const { SubscriptionClient, addGraphQLSubscriptions } = require('subscriptions-transport-ws');
-const { createHttpLink } = require( 'apollo-link-http');
-const { InMemoryCache } = require('apollo-cache-inmemory');
-const fetch = require('node-fetch');
+const { WebSocketLink } = require("apollo-link-ws");
+const { execute} = require("apollo-link");
+const { SubscriptionClient } = require('subscriptions-transport-ws');
 const gql = require('graphql-tag');
-
 
 const serverConfig = {serverUrl:'http://localhost:4000/', subscriptionUrl:'ws://localhost:4000/graphql'};
 
-const PORT = process.env.PORT || 4001;
-let apollo;
-let networkInterface;
+const client = new SubscriptionClient(serverConfig.subscriptionUrl, {
+    reconnect: true
+}, ws);
 
-const link = createHttpLink({ uri: serverConfig.serverUrl, fetch: fetch });
-const initializeListener = () =>{
-    networkInterface = new SubscriptionClient(
-        serverConfig.subscriptionUrl, { reconnect: true }, ws);
-    apollo = new ApolloClient({
-        networkInterface ,
-        link: link,
-        cache: new InMemoryCache()
-    });
-};
+const link = new WebSocketLink(client);
 
-const registerEvent  = async () => {
-    const client = () => apollo;
-    client().subscribe({
-        query: gql`
-            subscription eventAdded{
-                eventAdded{
-                    id
-                    name
-                    payload
-                    createdAt
-                    storedAt
-                }
+const operation = {
+    query: gql`
+        subscription eventAdded{
+            eventAdded{
+                id
+                name
+                payload
+                createdAt
+                storedAt
             }
-        `,
-        variables: {}
-    }).subscribe({
-        next: (data) => {
-            console.log({message: 'From Default Listener', data});
-        },
-        error: (err)=>{
-            console.log(err);
-            done(err);
-        }
-    })
+        }`
 };
 
-const shutDownListner = () =>{
-    networkInterface.close() ;
+// execute returns an Observable so it can be subscribed to
+execute(link, operation).subscribe({
+    next: data => console.log(`received data: ${JSON.stringify(data, null, 2)}`),
+    error: error => console.log(`received error ${error}`),
+    complete: () => console.log(`complete`),
+});
 
-}
-
-function requestHandler(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(new Date().toString());
-}
-
-initializeListener();
-registerEvent();
-http.createServer(requestHandler).listen(PORT);
+console.log(`Listener running at ${new Date().toString()}`);
