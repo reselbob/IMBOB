@@ -117,6 +117,7 @@ module.exports = `
     enum Predicate {
         KNOWS
         LIKES
+        WORKED_WITH
         MARRIED_TO
         DIVORCED_FROM
     }

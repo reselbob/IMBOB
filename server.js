@@ -15,14 +15,14 @@ const schema = {
     subscriptions};
 
 const server = new ApolloServer(schema);
-
 // This `listen` method launches a web-server and a
 // subscription server
 server.listen(PORT).then(({ url, subscriptionsUrl }) => {
+    process.env.SERVER_CONFIG = JSON.stringify({serverUrl: url, subscriptionsUrl});
     console.log(`🚀  Server ready at ${url}`);
     console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`)
 });
 
 //Export the server to make it available to unit
 // and API tests
-module.exports = server;
+module.exports = {server};
