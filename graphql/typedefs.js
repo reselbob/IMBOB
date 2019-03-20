@@ -15,6 +15,7 @@ module.exports = `
         lastName: String
         dob: Date
     }
+   
     
     type Person implements Personable{
         id: ID
@@ -53,6 +54,8 @@ module.exports = `
         dob: Date
         roles: [Role]
     }
+    
+    union PersonActorSearch = Person | Actor
     
     """
     The input type for a person
@@ -133,12 +136,20 @@ module.exports = `
         predicate: Predicate
         object: KnownPersonInput
     }
-    
+    """
+    Event is a type that describes messages emitted
+    from a subscription.
+    """
     type Event {
+        """This system assigned ID"""
         id: ID
+        """The event name, e.g PERSON_EVENT_TYPE_ADD"""
         name: String
+        """The time when the event was created"""
         createdAt: Date
+        """The time when the event was saved in the datastore"""
         storedAt: Date
+        """Information that is special the to particular event"""
         payload: String
     }
 
@@ -146,13 +157,25 @@ module.exports = `
         persons (paginationSpec: CursorPaginationInput): Persons
         person(id: ID!): Person
         actor(id: ID!): Actor
+        actors: [Actor]
         movies: [Movie]
         movie(id: ID!): Movie
         triples: [Triple]
         triplesByPredicate (predicate: Predicate!): [Triple]
+        getPersonActor(lastName: String!): [PersonActorSearch]
     }
     
     type Mutation {
+    """
+    Ping is a utility mutation for testing event generation
+    in a subscription. When a client executes Ping that data
+    is published to the subscription, eventAdded,
+    on the channel, GENERAL_EVENT_CHANNEL.
+    
+    The string value assigned to the query parameter,
+    payLoad will be recycled into Event.payload of the
+    subsciption message published.
+    """
         ping(payload: String!): Event
         addMovie(movie: MovieInput!): Movie
         updateMovie(movie: KnownMovieInput): Movie
