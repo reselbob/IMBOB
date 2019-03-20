@@ -192,6 +192,57 @@ const setPaginationSortOrderDefault = (paginationSpec, defaultSortFieldName) => 
     return paginationSpec;
 };
 
+const resetActorToMovie = (movieId) => {
+    const itm = getItemFromCollection("MOVIES", movieId);
+    itm.actors.forEach(actor => {
+        const role = {};
+        role.character = actor.role;
+        role.movie = itm;
+        actor.roles = [];
+        actor.roles.push(role);
+    });
+    return itm;
+};
+
+const getActorFromMovies = (actorId) =>{
+    const mvs = _.filter(getCollection('movies'),
+        {
+            actors: [{id: actorId}]
+        }
+    );
+    const a = _.filter(mvs[0].actors, {id: actorId})[0];
+    a.roles = [];
+    mvs.forEach(m => {
+        const r = {};
+        r.character = _.find(m.actors, {id: actorId}).role;
+        r.movie = m;
+        a.roles.push(r);
+    });
+    return a;
+};
+
+const getActors = () =>{
+    //get the movies
+    const movies = getCollection('movies');
+    let buffer = [];
+    movies.forEach(movie => {
+        movie.actors.forEach(actor => {
+            buffer.push(actor.id);
+        })
+    });
+
+    const actorIds = buffer.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+    })
+
+    buffer = [];
+    actorIds.forEach(id =>{
+        buffer.push(getActorFromMovies(id))
+    })
+
+    return buffer;
+};
+
 module.exports = {
     Date: {
         __parseValue(value) {
@@ -212,38 +263,46 @@ module.exports = {
             }
         },
         person: (parent, args, context) => _.find(getCollection('persons'), {'id': args.id}),
-        actor: (parent, args, context) => {
-            const mvs = _.filter(getCollection('movies'),
-                {
-                    actors: [{id: args.id}]
-                }
-            );
-            const a = _.filter(mvs[0].actors, {id: args.id})[0];
-            a.roles = [];
-            mvs.forEach(m => {
-                const r = {};
-                r.character = _.find(m.actors, {id: args.id}).role;
-                r.movie = m;
-                a.roles.push(r);
-            });
-            return a;
+        actors: (parent, args, context) => {
+            return getActors();
         },
-        movies: (parent, args, context) => getCollection('movies'),
+        actor: (parent, args, context) => {
+            return getActorFromMovies(args.id)
+        },
+        movies: (parent, args, context) => {
+           const movies =  getCollection('movies');
+           const buffer = [];
+           movies.forEach(movie => {
+              if(movie.id && movie.id.length > 0) buffer.push(resetActorToMovie(movie.id))
+           } )
+            return buffer;
+
+        },
         movie: (parent, args, context) => {
-           const itm = getItemFromCollection("MOVIES", args.id);
-           itm.actors.forEach(actor => {
-               const role = {};
-               role.character = actor.role;
-               role.movie = itm;
-               actor.roles = [];
-               actor.roles.push(role);
-           });
-           return itm;
+            if(args.id && args.id.length > 0) return resetActorToMovie(args.id);
         },
         triples: (parent, args, context) => getCollection('triples'),
         triplesByPredicate: (parent, args, context) => {
             const arr = _.filter(getCollection('triples'), {'predicate': args.predicate});
             return arr;
+        },
+        getPersonActor: (parent, args, context) => {
+            const actors = _.filter(getActors(), {'lastName': args.lastName});
+            const persons =  _.filter(getCollection('persons'), {'lastName': args.lastName});
+
+            const rtn = [...actors, ...persons];
+            return rtn;
+
+        }
+    },
+
+    PersonActorSearch: {
+        __resolveType(obj, context, info) {
+            if (obj.roles) {
+                return 'Actor';
+            } else {
+                return 'Person'
+            }
         }
     },
 
