@@ -15,10 +15,32 @@ or
 
 `node server.js`
 
+If you want to install only dependencies required for a production run, type:
+
+`npm install --production`
+
 ## Purpose of Project
 This project is a GraphQL API service that's intended to demonstrate the basic concepts and techniques required to publish an API using Apollo Server.
 
-The scenario illustrated by the project is based on an object graph the contains Movies, Actors, Persons. The graph also describes the connections between Persons.
+The scenario illustrated by the project is based on an object graph the contains Movies, Actors, Persons. The graph also describes the connections between Persons. 
+
+## Basic Data Types
+
+There are data structures used to create various GraphQL object types. These data structures are
+`Movie`, `Person` and `Triple`. As the name implies, `Movie` describes a movie, `Person` describes a person and
+`Tripe` describes a connection between two people.
+
+An `Person` and `Actor` are GraphQl types that implements the GrpahQL interface, `Personable`. However, the GraphQL type,
+`Actor` has no datastore of its own. A collection of `Actor` types are attached to the data structure, `Movie`. An
+`Actor` can be retrieved independent of a `Movie`. Logic internal to the API will extract an `Actor` from a `Movie`
+and present one or many accordingly.
+
+## An `Actor` Must Have a `Person` ID
+
+In order to add an `Actor` to a movie, the base data repesenting that actor must exist already as a `Person`.
+In other words, in order for an `Actor` to be added to a `Movie`, you must provide the unique identifier, `id` of
+ the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an an `Actor` without
+ a `Person.id` will throw an error.
 
 ![Project Graph](docs/images/basic-graph.png "Project Graph")
 
@@ -63,6 +85,9 @@ subscription eventAdded{
 ```
 
 mutation executed at http://localhost:4000/ that will create a message that can be intercepted by clients listening at the registered subscription, `eventAdded`.
+
+The mutation, `ping` is a utility mutation that publishes an `Event` message the can be consumed by subscribing to the 
+subscription, `eventAdded`
 ```graphql
 mutation{
   ping(payload: "Hi There"){
