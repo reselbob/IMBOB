@@ -20,7 +20,7 @@ const TRIPLE_EVENT_TYPE_UPDATE = 'TRIPLE_EVENT_TYPE_UPDATE';
 const createEvent = (eventType, payload) =>{
     const dt = new Date();
     const uuid = uuidv4();
-    const event = {
+    const obj = {
         id: uuid,
         name: eventType,
         createdAt: dt.toString(),
@@ -28,7 +28,7 @@ const createEvent = (eventType, payload) =>{
         payload: payload
     };
 
-    return event;
+    return obj;
 };
 
 const publishEvent = async (eventName, payload) => {
@@ -141,14 +141,14 @@ const  convertArrayToPersons = async (arr, pageinationSpec) => {
             endCursor = bufferArr[bufferArr.length - 1].id;
             pageData.idxs = _.keys(_.pickBy(pageData.data, {id: endCursor}));
             hasNextPage = Number.parseInt(pageData.idxs[0]) + 2 <= pageData.data.length;
-        };
+        }
 
         if(pageinationSpec.before){
             bufferArr.reverse();
             endCursor = bufferArr[0].id;
             pageData.idxs = _.keys(_.pickBy(pageData.data, {id: endCursor}));
             hasNextPage = Number.parseInt(pageData.idxs[0]) + 2 >= 0;
-        };
+        }
         const pageInfo = {endCursor, hasNextPage};
         return {collection: bufferArr, pageInfo}
     }
@@ -173,14 +173,14 @@ const  convertArrayToConnection = async (arr, pageinationSpec) => {
             endCursor = edges[edges.length - 1].cursor;
             pageData.idxs = _.keys(_.pickBy(pageData.data, {id: endCursor}));
             hasNextPage = Number.parseInt(pageData.idxs[0]) + 2 <= pageData.data.length;
-        };
+        }
 
         if(pageinationSpec.before){
             edges.reverse();
             endCursor = edges[0].cursor;
             pageData.idxs = _.keys(_.pickBy(pageData.data, {id: endCursor}));
             hasNextPage = Number.parseInt(pageData.idxs[0]) + 2 >= 0;
-        };
+        }
         const pageInfo = {endCursor, hasNextPage};
         return {edges, pageInfo}
     }
@@ -233,12 +233,12 @@ const getActors = () =>{
 
     const actorIds = buffer.filter(function(elem, index, self) {
         return index === self.indexOf(elem);
-    })
+    });
 
     buffer = [];
     actorIds.forEach(id =>{
         buffer.push(getActorFromMovies(id))
-    })
+    });
 
     return buffer;
 };
@@ -274,7 +274,7 @@ module.exports = {
            const buffer = [];
            movies.forEach(movie => {
               if(movie.id && movie.id.length > 0) buffer.push(resetActorToMovie(movie.id))
-           } )
+           } );
             return buffer;
 
         },
@@ -283,16 +283,13 @@ module.exports = {
         },
         triples: (parent, args, context) => getCollection('triples'),
         triplesByPredicate: (parent, args, context) => {
-            const arr = _.filter(getCollection('triples'), {'predicate': args.predicate});
-            return arr;
+            return _.filter(getCollection('triples'), {'predicate': args.predicate});
         },
         getPersonActor: (parent, args, context) => {
             const actors = _.filter(getActors(), {'lastName': args.lastName});
             const persons =  _.filter(getCollection('persons'), {'lastName': args.lastName});
 
-            const rtn = [...actors, ...persons];
-            return rtn;
-
+            return[...actors, ...persons];
         }
     },
 
@@ -350,11 +347,8 @@ module.exports = {
         },
         addMovie: async (parent, args) => {
             args.movie.id = uuidv4();
-            console.log(args.movie);
             const movie = await updateCollection(args.movie, 'MOVIES');
-            const event = await publishMovieEvent(MOVIE_EVENT_TYPE_ADD, JSON.stringify(movie));
-            console.log(event);
-            console.log(movie);
+            await publishMovieEvent(MOVIE_EVENT_TYPE_ADD, JSON.stringify(movie));
             return movie;
 
         },
@@ -370,13 +364,11 @@ module.exports = {
 
             //diff the directors and add only the added director
             const d = _.differenceWith(args.movie.directors, movie.directors, _.isEqual);
-            const dirs = _.union(movie.directors, d);
-            movie.directors = dirs;
+            movie.directors = _.union(movie.directors, d);
 
             //diff the actors and add only the
             const a = _.differenceWith(args.movie.actors, movie.actors, _.isEqual);
-            const actors = _.union(movie.actors, a);
-            movie.actors = actors;
+            movie.actors = _.union(movie.actors, a);
 
             await updateCollection(movie, "MOVIES");
             const m = getItemFromCollection("MOVIES", movie.id);
