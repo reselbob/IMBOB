@@ -1,5 +1,15 @@
 const uuidv4 = require('uuid/v4');
 const _ = require('lodash');
+const faker = require('faker');
+
+const createFakeUser = () => {
+    const firstName = faker.name.firstName();
+    const lastName = faker.name.lastName();
+    const dob = faker.date.between('1950-01-01', '2001-12-31').toISOString().slice(0, 10);
+
+    return {firstName, lastName, dob};
+
+}
 
 const convertIntIdToGuid = (collection) =>{
     collection.forEach((itm)=>{
@@ -30,18 +40,6 @@ const guidTriples = (trips, persons) =>{
         t.object.id = p.id;
     })
     return trips2;
-}
+};
 
-module.exports = {convertIntIdToGuid, guidTriples};
-
-/*
-
-            if(typeof(itm[prop]) === 'object'){
-                for(const p in itm[prop]){
-                    if(p === 'id'){
-                        itm[prop][p]
-                    }
-                }
-            }
-
- */
+module.exports = {convertIntIdToGuid, guidTriples, createFakeUser};

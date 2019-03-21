@@ -21,16 +21,6 @@ const serverConfig = {serverUrl: 'http://localhost:4000/', subscriptionUrl: 'ws:
 let client;
 let link;
 
-
-const createFakeUser = () => {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
-    const dob = faker.date.between('1950-01-01', '2001-12-31').toISOString().slice(0, 10);
-
-    return {firstName, lastName, dob};
-
-}
-
 before(() => {
     client = new SubscriptionClient(serverConfig.subscriptionUrl, {
         reconnect: true
