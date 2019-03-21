@@ -7,11 +7,15 @@ A simple demonstration application for learning how to implement a GraphQL API u
 
 ## Installation and Start Up
 
-To start the application:
+To install the dependency libaries:
 
 `npm install`
 
-then
+If you want to install only dependencies required for a production run, type:
+
+`npm install --production`
+
+To start the API server:
 
 `npm start`
 
@@ -19,9 +23,9 @@ or
 
 `node server.js`
 
-If you want to install only dependencies required for a production run, type:
+To start the sample server-side subscription listener client for the `eventAdded` event on the channel, `GENERAL_EVENT_CHANNEL`:
 
-`npm install --production`
+`npm run subscriptionListener`
 
 ## Purpose of Project
 This project is a GraphQL API service that's intended to demonstrate the basic concepts and techniques required to publish an API using Apollo Server.
