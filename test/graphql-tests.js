@@ -79,7 +79,6 @@ describe('GraphQL Basic Tests', () => {
                         expect(rslt.length).to.equal(0);
                         done();
                     });
-                done();
             })
     });
 

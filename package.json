@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "test",
-    "subscriptionListener": "node subscriptionListener.js"
+    "test": "mocha test",
+    "subscriptionListener": "node subscriptionListener.json "
   },
   "repository": {
     "type": "git",
