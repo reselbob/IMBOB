@@ -1,6 +1,8 @@
 # IMBOB
 A simple demonstration application for learning how to implement a GraphQL API using Apollo Server 2.10.
 
+(This is still a work in progress as of 03-21-2019)
+
 ![Project Graph](docs/images/actor-query.png "Actor Query") 
 
 ## Installation and Start Up
