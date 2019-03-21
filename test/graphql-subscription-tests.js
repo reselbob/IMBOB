@@ -1,11 +1,4 @@
 'use strict';
-const { ApolloClient, createNetworkInterface } = require('apollo-client');
-const { SubscriptionClient, addGraphQLSubscriptions } = require('subscriptions-transport-ws');
-const { HttpLink } = require( 'apollo-link-http');
-const { InMemoryCache } = require('apollo-cache-inmemory');
-const gql = require('graphql-tag');
-const {fetch} = require('node-fetch');
-const ws = require('ws');
 const {request} = require('graphql-request');
 const _ = require('lodash');
 const expect = require('chai').expect;
@@ -13,83 +6,85 @@ const describe = require('mocha').describe;
 const before = require('mocha').before;
 const it = require('mocha').it;
 const {server} = require('../server');
-const url = 'http://localhost:4000/';
-const subscriptionUrl = 'ws://localhost:4000';
-var faker = require('faker');
+const faker = require('faker');
 
 const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
 
-let apollo;
-let networkInterface;
+const ws = require('ws');
+const {WebSocketLink} = require("apollo-link-ws");
+const {execute} = require("apollo-link");
+const {SubscriptionClient} = require('subscriptions-transport-ws');
+const gql = require('graphql-tag');
+
+const serverConfig = {serverUrl: 'http://localhost:4000/', subscriptionUrl: 'ws://localhost:4000/graphql'};
+
+let client;
+let link;
 
 
+const createFakeUser = () => {
+    const firstName = faker.name.firstName();
+    const lastName = faker.name.lastName();
+    const dob = faker.date.between('1950-01-01', '2001-12-31').toISOString().slice(0, 10);
+
+    return {firstName, lastName, dob};
+
+}
 
 before(() => {
-    networkInterface = new SubscriptionClient(
-        subscriptionUrl, { reconnect: true }, ws);
-    apollo = new ApolloClient({
-        networkInterface ,
-        link: new HttpLink({ uri: url, fetch: fetch }),
-        cache: new InMemoryCache()
-    });
-
+    client = new SubscriptionClient(serverConfig.subscriptionUrl, {
+        reconnect: true
+    }, ws);
+    link = new WebSocketLink(client);
 });
 
 after(() => {
-    networkInterface.close() ;
+    link.subscriptionClient.close();
     server.stop();
-})
+});
 
 describe('GraphQL Subscription Tests', () => {
-
-    it('Can ping and subscribe', async (done) => {
-        const subscriptionPromise = async () => {
-            const client = () => apollo;
-            await client().subscribe({
-                query: gql`
-                    subscription eventAdded{
-                        eventAdded{
-                            id
-                            name
-                            payload
-                            createdAt
-                            storedAt
-                        }
+/*
+This test sends a payload via the mutiation, ping and
+asserts the the payload submitted in the mutation shows
+up in event to which the test is subscribed
+ */
+    it('Can ping and subscribe',  (done) => {
+        let payload = faker.lorem.words(3);
+        const operation = {
+            query: gql`
+                subscription eventAdded{
+                    eventAdded{
+                        id
+                        name
+                        payload
+                        createdAt
+                        storedAt
                     }
-                `
-            }).subscribe({
-                next: (data) => {
-                    console.log(data);
-                },
-                error: (err)=>{
-                    console.log(err);
-                    done(err);
-                }
-            })
+                }`
         };
 
+        execute(link, operation).subscribe({
+            next: data => {
+                console.log(`received data: ${JSON.stringify(data, null, 2)}`);
+                expect(data.data.eventAdded.payload).to.equal(payload);
+                done();
+            },
+            error: error => console.log(`received error ${error}`),
+            complete: () => console.log(`complete`),
+        });
 
-        const firstName = faker.name.firstName();
-        const lastName = faker.name.lastName();
-        const dob = faker.date.between('1950-01-01', '2001-12-31').toISOString().slice(0, 10);
         const query = `mutation{
-                  ping(payload: "${firstName} ${lastName} ${dob}"){
+                  ping(payload: "${payload}"){
                     createdAt
                     payload
                     name
                     id
                   }
                 }`;
-        await request(url, query)
-            .then(data => {
-                console.log(data);
-                //done();
-            })
-            .catch(e => {
-                done(e)
+        request(serverConfig.serverUrl, query)
+            .then(data =>{
+                expect(data).to.be.an('object');
             });
-        const rslt = await subscriptionPromise();
-        console.log(rslt);
-        done();
     });
 });
