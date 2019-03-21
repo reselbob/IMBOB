@@ -28,21 +28,28 @@ The scenario illustrated by the project is based on an object graph the contains
 
 The project code shows readers how to implement a GraphQL schema that includes typedefs, resolvers and subscriptions. The API published by this projects supports [Queries and Mutations](https://graphql.org/learn/queries/). Also, the project supports event messaging by way of a subscription server that gets invoked as part of the overall server startup.
 
+## About the Application Data
+
+This application uses a set of local  text files to store application data in JSON format. The intention is to make the
+application self contained. Thus, all that's required to use and learn from the application is to install and invoke it. Granted,
+using text files to store data is not an optimal technique for data storage. But, that the purpose of this application is provide examples for using
+GraphQL running under an Apollo Server 2.0, the technique will suffice for now.
+
 ## Basic Data Types
 
-There are data structures used to create various GraphQL object types. These data structures are
-`Movie`, `Person` and `Triple`. As the name implies, `Movie` describes a movie, `Person` describes a person and
+There are 3 data structures used to create various GraphQL object types. These data structures are
+`Movie`, `Person` and `Triple`. As the names imply, `Movie` describes a movie, `Person` describes a person and
 `Tripe` describes a connection between two people.
 
-An `Person` and `Actor` are GraphQl types that implements the GrpahQL interface, `Personable`. However, the GraphQL type,
-`Actor` has no datastore of its own. A collection of `Actor` types are attached to the data structure, `Movie`. An
-`Actor` can be retrieved independent of a `Movie`. Logic internal to the API will extract an `Actor` from a `Movie`
-and present one or many accordingly.
+A `Person` and `Actor` are GraphQl types that implements the GrpahQL interface, `Personable`. However, the GraphQL type,
+`Actor` has no datastore of its own. A collection of `Actor` objects are attached to the data structure, `Movie`. But, an
+`Actor` can be retrieved independent of a `Movie`. Logic internal to the API extracts  `Actor` objects from the `Movie`
+objects in the system and presents one or many accordingly.
 
 ## An `Actor` Must Have a `Person` ID
 
-In order to add an `Actor` to a movie, the base data repesenting that actor must exist already as a `Person`.
-In other words, in order for an `Actor` to be added to a `Movie`, you must provide the unique identifier, `id` of
+In order to add an `Actor` to a movie, the base data repesenting that actor must exist already in the system as a `Person`.
+In order for an `Actor` to be added to a `Movie`, you must provide the unique identifier, `id` of
  the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an `Actor` without
  a `Person.id` will throw an error.
 
