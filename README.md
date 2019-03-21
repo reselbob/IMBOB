@@ -1,6 +1,8 @@
 # IMBOB
 A simple GraphQL API for movie information.
 
+![Project Graph](docs/images/actor-query.png "Actor Query") 
+
 ## Installation and Start Up
 
 To start the application:
