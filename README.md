@@ -26,6 +26,8 @@ The scenario illustrated by the project is based on an object graph the contains
 
 ![Project Graph](docs/images/basic-graph.png "Project Graph") 
 
+The project code shows readers how to implement a GraphQL schema that includes typedefs, resolvers and subscriptions. The API published by this projects supports [Queries and Mutations](https://graphql.org/learn/queries/). Also, the project supports event messaging by way of a subscription server that gets invoked as part of the overall server startup.
+
 ## Basic Data Types
 
 There are data structures used to create various GraphQL object types. These data structures are
@@ -46,7 +48,7 @@ In other words, in order for an `Actor` to be added to a `Movie`, you must provi
 
 
 
-The project code shows readers how to implement a GraphQL schema that includes typedefs, resolvers and subscriptions. The API published by this projects supports [Queries and Mutations](https://graphql.org/learn/queries/). Also, the project supports event messaging by way of a subscription server that gets invoked as part of the overall server startup.
+
 
 
 
