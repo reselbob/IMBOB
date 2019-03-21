@@ -1,5 +1,5 @@
 # IMBOB
-A simple GraphQL API for movie information.
+A simple demonstration application for learning how to implement a GraphQL API using Apollo Server 2.10.
 
 ![Project Graph](docs/images/actor-query.png "Actor Query") 
 
