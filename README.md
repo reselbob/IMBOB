@@ -22,7 +22,9 @@ If you want to install only dependencies required for a production run, type:
 ## Purpose of Project
 This project is a GraphQL API service that's intended to demonstrate the basic concepts and techniques required to publish an API using Apollo Server.
 
-The scenario illustrated by the project is based on an object graph the contains Movies, Actors, Persons. The graph also describes the connections between Persons. 
+The scenario illustrated by the project is based on an object graph the contains Movies, Actors, Persons. The graph also describes the connections between Persons.
+
+![Project Graph](docs/images/basic-graph.png "Project Graph") 
 
 ## Basic Data Types
 
@@ -42,7 +44,7 @@ In other words, in order for an `Actor` to be added to a `Movie`, you must provi
  the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an `Actor` without
  a `Person.id` will throw an error.
 
-![Project Graph](docs/images/basic-graph.png "Project Graph")
+
 
 The project code shows readers how to implement a GraphQL schema that includes typedefs, resolvers and subscriptions. The API published by this projects supports [Queries and Mutations](https://graphql.org/learn/queries/). Also, the project supports event messaging by way of a subscription server that gets invoked as part of the overall server startup.
 
