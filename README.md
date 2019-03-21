@@ -39,7 +39,7 @@ and present one or many accordingly.
 
 In order to add an `Actor` to a movie, the base data repesenting that actor must exist already as a `Person`.
 In other words, in order for an `Actor` to be added to a `Movie`, you must provide the unique identifier, `id` of
- the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an an `Actor` without
+ the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an `Actor` without
  a `Person.id` will throw an error.
 
 ![Project Graph](docs/images/basic-graph.png "Project Graph")
