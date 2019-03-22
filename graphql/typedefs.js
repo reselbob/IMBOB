@@ -16,6 +16,7 @@ module.exports = `
         dob: Date
     }
    
+
     
     type Person implements Personable{
         id: ID
@@ -55,6 +56,14 @@ module.exports = `
         roles: [Role]
     }
     
+     input ActorInput{
+        id: ID! #use the ID of an existing person
+        firstName: String!
+        lastName: String!
+        dob: Date!
+        role: String!
+    }
+    
     union PersonActorSearch = Person | Actor
     
     """
@@ -85,6 +94,20 @@ module.exports = `
         actors: [Actor]
     }   
     
+    input MovieInput{
+        title: String
+        releaseDate: Date
+        directors: [KnownPersonInput]
+        actors: [ActorInput]
+    }
+    input KnownMovieInput{
+        id: ID!
+        title: String
+        releaseDate: Date
+        directors: [KnownPersonInput]
+        actors: [ActorInput]
+    }
+    
     type Movie  implements Movieable{
         id: ID!
         title: String
@@ -102,21 +125,7 @@ module.exports = `
         animators: [Person]
     }
     
-   input MovieInput {
-        title: String!
-        releaseDate: Date!
-        directors: [KnownPersonInput]
-        actors: [KnownPersonInput]
-    }
-    
-    input KnownMovieInput {
-        id: ID!
-        title: String!
-        releaseDate: Date!
-        directors: [KnownPersonInput]
-        actors: [KnownPersonInput]
-    }
-    
+      
     enum Predicate {
         KNOWS
         LIKES
@@ -163,6 +172,7 @@ module.exports = `
         triples: [Triple]
         triplesByPredicate (predicate: Predicate!): [Triple]
         getPersonActor(lastName: String!): [PersonActorSearch]
+        searchPerson(paginationSpec: CursorPaginationInput, firstName: String!, lastName: String!): Persons
     }
     
     type Mutation {

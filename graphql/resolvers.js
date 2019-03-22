@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const {PubSub} = require('apollo-server');
+const {PubSub, ApolloError } = require('apollo-server');
 const uuidv4 = require('uuid/v4');
 const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
 
@@ -243,6 +243,32 @@ const getActors = () =>{
     return buffer;
 };
 
+const validateNewActor = (actor)=> {
+    //see is the actor is a known person,
+    const persons = getCollection("persons");
+    const a = _.find(persons, {id: actor.id});
+    //if not, error
+    if(!a) {
+        const str =  `The actor, ${actor.firstName} ${actor.lastName} does not exist as a Person in the system. Please fisst add the actor using addPerson()`;
+        throw new ApolloError()
+    }
+};
+
+const getPersons = async (paginationSpec, firstName, lastName) =>{
+    let arr;
+    if(!firstName && !lastName){
+        arr = getCollection('persons');
+    }else{
+        arr = _.filter(getCollection('persons'), {firstName, lastName})
+    }
+
+    if(arr.length > 0){
+        paginationSpec = setPaginationSortOrderDefault(paginationSpec, 'lastName');
+        const buffer =  await convertArrayToPersons(arr, paginationSpec);
+        return buffer;
+    };
+};
+
 module.exports = {
     Date: {
         __parseValue(value) {
@@ -255,12 +281,7 @@ module.exports = {
     },
     Query: {
         persons: async (parent, args, context) => {
-            const arr = getCollection('persons');
-
-            if(arr.length > 0){
-                args.paginationSpec = setPaginationSortOrderDefault(args.paginationSpec, 'lastName');
-                return await convertArrayToPersons(arr, args.paginationSpec);
-            }
+            return await getPersons(args.paginationSpec);
         },
         person: (parent, args, context) => _.find(getCollection('persons'), {'id': args.id}),
         actors: (parent, args, context) => {
@@ -290,6 +311,10 @@ module.exports = {
             const persons =  _.filter(getCollection('persons'), {'lastName': args.lastName});
 
             return[...actors, ...persons];
+        },
+        searchPerson: async (parent, args, context) => {
+            const arr = await getPersons(args.paginationSpec, args.firstName, args.lastName);
+            return arr;
         }
     },
 
