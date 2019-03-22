@@ -3,12 +3,21 @@ const { WebSocketLink } = require("apollo-link-ws");
 const { execute} = require("apollo-link");
 const { SubscriptionClient } = require('subscriptions-transport-ws');
 const gql = require('graphql-tag');
-
 const serverConfig = {serverUrl:'http://localhost:4000/', subscriptionUrl:'ws://localhost:4000/graphql'};
+const config = require('../config');
 
-const client = new SubscriptionClient(serverConfig.subscriptionUrl, {
-    reconnect: true
-}, ws);
+const client = new SubscriptionClient(
+    serverConfig.subscriptionUrl,
+    {
+        reconnect: true,
+        connectionParams: () => ({
+            headers: {
+                authorization: config.ACCESS_TOKEN,
+            },
+        }),
+    },
+    ws,
+);
 
 const link = new WebSocketLink(client);
 

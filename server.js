@@ -2,6 +2,8 @@ const { ApolloServer} = require('apollo-server');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
 const subscriptions = require('./graphql/subscriptions');
+const { AuthenticationError } = require("apollo-server");
+const config = require('./config');
 
 const PORT = process.env.PORT || 4000;
 
@@ -12,7 +14,17 @@ const PORT = process.env.PORT || 4000;
 const schema = {
     typeDefs,
     resolvers,
-    subscriptions};
+    subscriptions,
+    context: ({ req, res }) => {
+        if(req){ // queries will come through as a request
+            const token = req.headers.authorization || 'NO_TOKEN';
+            if(token !== config.ACCESS_TOKEN){
+                throw new AuthenticationError('Invalid Access Token');
+            }
+            console.log(token);
+        }
+
+    },};
 
 const server = new ApolloServer(schema);
 // This `listen` method launches a web-server and a

@@ -36,6 +36,13 @@ The scenario illustrated by the project is based on an object graph the contains
 
 The project code shows readers how to implement a GraphQL schema that includes typedefs, resolvers and subscriptions. The API published by this projects supports [Queries and Mutations](https://graphql.org/learn/queries/). Also, the project supports event messaging by way of a subscription server that gets invoked as part of the overall server startup.
 
+## Security and Authentication
+
+This projects's sample application supports authenticated access to the API server and Subscription server. The access token is
+`ch3ddarch33s3`. Review the tests, [graphql-tests](test/graphql-tests.js) and [graphql-subscription-tests](test/graphql-subscription-tests.js) to
+learn the particulars of authenticating to the API and Subscription servers at the code level. When using GraphQL Playground, add the header, `{"authorization": "ch3ddarch33s3"}` to the
+ request enable to access.
+
 ## About the Application Data
 
 This application uses a set of local  text files to store application data in JSON format. The intention is to make the

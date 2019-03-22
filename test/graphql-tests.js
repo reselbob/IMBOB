@@ -1,5 +1,5 @@
 'use strict';
-const {request} = require('graphql-request');
+const {GraphQLClient} = require('graphql-request');
 const _ = require('lodash');
 const expect = require('chai').expect;
 const describe = require('mocha').describe;
@@ -9,18 +9,22 @@ const {server} = require('../server');
 const url = 'http://localhost:4000/';
 const uuidv4 = require('uuid/v4');
 const {createFakeUser} = require('./devHelper');
-
+const config = require('../config');
 
 const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
-
-
+const serverConfig = {serverUrl: 'http://localhost:4000/', subscriptionUrl: 'ws://localhost:4000/graphql'};
+let graphQLClient;
 before(() => {
-
+    graphQLClient = new GraphQLClient(serverConfig.serverUrl, {
+        headers: {
+            authorization: `${config.ACCESS_TOKEN}`,
+        },
+    });
 });
 
 after(() => {
     server.stop();
-})
+});
 
 describe('GraphQL Basic Tests', () => {
     it('Can page through persons', (done) => {
@@ -46,7 +50,7 @@ describe('GraphQL Basic Tests', () => {
                     }
                   }
                 }`;
-        request(url, query)
+        graphQLClient.request(query)
             .then(data => {
                 console.log(data);
                 expect(data.persons.collection.length).to.equal(10);
@@ -71,7 +75,7 @@ describe('GraphQL Basic Tests', () => {
                     }
                   }
                 }`;
-                request(url, query)
+                graphQLClient.request(query)
                     .then(data =>{
                         expect(data.persons.collection.length).to.equal(10);
                         colTwo = data.persons.collection;
@@ -87,7 +91,7 @@ describe('GraphQL Basic Tests', () => {
     it('Can get movies from API length equals Movies from data length', (done) => {
         const movies = getCollection('movies');
         const query = `query { movies{ title releaseDate } }`;
-        request(url, query)
+        graphQLClient.request(query)
             .then(data => {
                 console.log(data);
                 expect(movies.length).to.equal(data.movies.length);
@@ -105,7 +109,7 @@ describe('GraphQL Basic Tests', () => {
                     }
                 }
             }`;
-        request(url, query)
+        graphQLClient.request(query)
             .then(data => {
                 expect(data.persons.collection.length).to.equal(10); // 10 is the default page size
                 done();
@@ -126,7 +130,7 @@ describe('GraphQL Basic Tests', () => {
                 dob
             }
         }`;
-        request(url, query)
+        graphQLClient.request(query)
             .then(data => {
                 console.log(data);
                 const obj = data.addPerson;
