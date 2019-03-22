@@ -165,7 +165,7 @@ mutation{
   }
 }
 ```
-## Advanced Mutation: Adding a Movie Using a Query Variable
+### Advanced Mutation: Adding a Movie Using a Query Variable
 
 The query variable definition:
 
