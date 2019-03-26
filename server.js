@@ -1,4 +1,5 @@
 const { ApolloServer} = require('apollo-server');
+const {initGlobalDataSync} = require('./data');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
 const subscriptions = require('./graphql/subscriptions');
@@ -25,6 +26,10 @@ const schema = {
         }
 
     },};
+
+//intialize the collections globally by calling getCollection
+//to load the evironment variaibles
+initGlobalDataSync();
 
 const server = new ApolloServer(schema);
 // This `listen` method launches a web-server and a

@@ -12,6 +12,10 @@ const fileToObject =  async (filename) => {
     return result;
 };
 
+const initGlobalData = ()=>{
+
+}
+
 const objectToFile = async (filespec, data) =>{
     const writeFile = util.promisify(fs.writeFile);
     return await writeFile(filespec, data,"utf8");
@@ -44,6 +48,12 @@ const getCollection = (collectionName) =>{
             return arr;
     }
 };
+
+const initGlobalDataSync = ()=>{
+    getCollection('movies');
+    getCollection('persons');
+    getCollection('triples');
+}
 
 const updateCollection =  async function(dataObj, collectionName){
     const holder = {};
@@ -104,5 +114,6 @@ module.exports = {
     replaceCollection,
     updateCollection,
     getCollection,
-    getItemFromCollection
+    getItemFromCollection,
+    initGlobalDataSync
 }

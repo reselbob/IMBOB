@@ -27,9 +27,7 @@ before(() => {
         {
             reconnect: true,
             connectionParams: () => ({
-                headers: {
                     authorization: config.ACCESS_TOKEN,
-                },
             }),
         },
         ws,
@@ -71,7 +69,7 @@ describe('GraphQL Subscription Tests', () => {
                 done();
             },
             error: error => {
-                console.log(`received error ${error}`)
+                console.log(`received error ${JSON.stringify(error)}`)
             },
             complete: () => console.log(`complete`),
         });

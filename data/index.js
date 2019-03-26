@@ -1,17 +1,9 @@
-const {getCollection, updateCollection, replaceCollection,getItemFromCollection} = require('./json/fileHelper');
-//const {tripleHelpers} = require('./triples');
-
+const {getCollection, updateCollection, replaceCollection,getItemFromCollection, initGlobalDataSync} = require('./json/fileHelper');
 
 module.exports = {
     getCollection,
     updateCollection,
     replaceCollection,
-    getItemFromCollection
+    getItemFromCollection,
+    initGlobalDataSync
 };
-
-/*
-
-    persons: getCollection('persons'),
-    movies: getCollection('movies'),
-    triples: getCollection('triples') ,
- */
