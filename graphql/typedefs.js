@@ -17,20 +17,15 @@ module.exports = `
     }
    
 
-    
     type Person implements Personable{
         id: ID
         firstName: String
         lastName: String
         dob: Date
-        """
-        A pageable list of Person types that this Person KNOWS
-        """
-        knowsConnection(paginationSpec: CursorPaginationInput): PersonConnection
-        """
-        A pageable list of Person types that this Person LIKES
-        """
-        likesConnection(paginationSpec: CursorPaginationInput): PersonConnection
+  
+    }
+    
+    extend type Person {
         """
         A list of Person types that this Person is MARRIED_TO, not pageable
         """
@@ -39,6 +34,14 @@ module.exports = `
         A list of Person types that this Person is DIVORCED_FROM, not pageable
         """
         divorcedFromConnection: [Person]
+        """
+        A pageable list of Person types that this Person KNOWS
+        """
+        knowsConnection(paginationSpec: CursorPaginationInput): PersonConnection
+        """
+        A pageable list of Person types that this Person LIKES
+        """
+        likesConnection(paginationSpec: CursorPaginationInput): PersonConnection    
     }
     
    type Role {
