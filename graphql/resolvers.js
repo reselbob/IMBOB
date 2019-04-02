@@ -2,6 +2,7 @@ const _ = require('lodash');
 const {PubSub, ApolloError } = require('apollo-server');
 const uuidv4 = require('uuid/v4');
 const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
+const {getRuntimeInfo} = require('../admin/runtimeInfo');
 
 const pubsub = new PubSub();
 const GENERAL_EVENT_CHANNEL = 'GENERAL_EVENT_CHANNEL';
@@ -16,6 +17,8 @@ const TRIPLE_EVENT_TYPE_ADD = 'TRIPLE_EVENT_TYPE_ADD';
 const PERSON_EVENT_TYPE_UPDATE = 'PERSON_EVENT_TYPE_UPDATE';
 const MOVIE_EVENT_TYPE_UPDATE = 'MOVIE_EVENT_TYPE_UPDATE';
 const TRIPLE_EVENT_TYPE_UPDATE = 'TRIPLE_EVENT_TYPE_UPDATE';
+
+
 
 const createEvent = (eventType, payload) =>{
     const dt = new Date();
@@ -280,7 +283,7 @@ module.exports = {
         }
     },
     Query: {
-        persons: async (parent, args, context) => {
+        persons: async (parent, args, context, info) => {
             return await getPersons(args.paginationSpec);
         },
         person: (parent, args, context) => _.find(getCollection('persons'), {'id': args.id}),
@@ -312,7 +315,7 @@ module.exports = {
 
             return[...actors, ...persons];
         },
-        searchPerson: async (parent, args, context) => {
+        searchPerson: async (parent, args, context, info) => {
             const arr = await getPersons(args.paginationSpec, args.firstName, args.lastName);
             return arr;
         }
@@ -365,9 +368,23 @@ module.exports = {
         }
     },
     Mutation: {
-        ping: async (parent, args) => {
+        ping: async (parent, args, context, info) => {
             const event = await publishEvent('PING', args.payload);
             console.log(event);
+            let isAdmin = false;
+            //check to see if the directive, @isAdmin is in force
+            try {
+                isAdmin = info.fieldNodes[0].directives[0].name.value === 'isAdmin'
+            } catch (e) {
+                console.log(`I am gobbling the error ${e}`)
+            }
+            //if so, add the administrative data and reformat the payload
+            if(isAdmin){
+                const data = event.payload;
+                const adminData = getRuntimeInfo();
+                event.payload = JSON.stringify({data, adminData});
+            }
+
             return event;
         },
         addMovie: async (parent, args) => {

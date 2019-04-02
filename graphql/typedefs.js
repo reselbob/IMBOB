@@ -1,5 +1,12 @@
 module.exports = `  
 
+    """
+    The directive instructs the API to implement the runtime administration behavior
+    should the query or mutation support have a particular administrative behavior,
+    otherwise, it's ignored
+    """
+    directive @isAdmin on FIELD
+    
     scalar Date
   
     """
