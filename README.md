@@ -68,6 +68,80 @@ In order for an `Actor` to be added to a `Movie`, you must provide the unique id
  the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an `Actor` without
  a `Person.id` will throw an error.
 
+## Using the @isAdmin Directive
+
+This project publishes a directive, `@isAdmin` that can be used in the mutuation, `ping`.
+
+The directive is provided to demonstrate how to create and use a field directive.
+
+The directive, `@isAdmin` is defined in the file, `./graphql/typedefs.js` like so:
+
+```graphql
+directive @isAdmin on FIELD
+```
+
+This following code from the file, `./graphql/resolvers.js` is the implementation of the support
+for the directive, `@isAdmin` within the `ping` resolver.
+
+```javascript
+        ping: async (parent, args, context, info) => {
+            const event = await publishEvent('PING', args.payload);
+            console.log(event);
+            let isAdmin = false;
+            //check to see if the directive, @isAdmin is in force
+            try {
+                isAdmin = info.fieldNodes[0].directives[0].name.value === 'isAdmin'
+            } catch (e) {
+                console.log(`I am gobbling the error ${e}`)
+            }
+            //if so, add the administrative data and reformat the payload
+            if(isAdmin){
+                const data = event.payload;
+                const adminData = getRuntimeInfo();
+                event.payload = JSON.stringify({data, adminData});
+            }
+
+            return event;
+        }
+
+```
+
+When you apply `@isAdmin` to the
+`ping` mutation, the payload field returns in the mutation response will contain runtime information about
+the server environment in which Apollo Server is running along with the payload string submitted in the mutation.
+
+### Using the directive, `@isAdmin`
+
+The code below in the GraphQL query language is an example of using the `ping` mutuation with the directive, `@isAdmin`.
+
+```graphql
+mutation{
+  ping(payload: "This is a test payload") @isAdmin {
+    createdAt
+    payload
+    name
+    id
+  }
+}
+```
+
+This is the response from the GraphQL API with the added runtime information respresented in the field, `adminData` of the `payload` field. The entire `payload` field is expressed as `string`. Use
+`JSON.parse()` to convert the value of the `payload` field to a JSON object.
+
+```JSON
+{
+  "data": {
+    "ping": {
+      "createdAt": "Tue Apr 02 2019 20:39:38 GMT-0700 (PDT)",
+      "payload": "{\"data\":\"This is a test payload\",\"adminData\":{\"processId\":43414,\"memoryUsage\":{\"rss\":48549888,\"heapTotal\":21921792,\"heapUsed\":19254104,\"external\":128408},\"networkInfo\":{\"lo0\":[{\"address\":\"127.0.0.1\",\"netmask\":\"255.0.0.0\",\"family\":\"IPv4\",\"mac\":\"00:00:00:00:00:00\",\"internal\":true,\"cidr\":\"127.0.0.1/8\"},{\"address\":\"::1\",\"netmask\":\"ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":0,\"internal\":true,\"cidr\":\"::1/128\"},{\"address\":\"fe80::1\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":1,\"internal\":true,\"cidr\":\"fe80::1/64\"}],\"en5\":[{\"address\":\"fe80::1c85:bcf4:272d:8c72\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:e0:4c:68:02:9f\",\"scopeid\":5,\"internal\":false,\"cidr\":\"fe80::1c85:bcf4:272d:8c72/64\"},{\"address\":\"192.168.86.130\",\"netmask\":\"255.255.255.0\",\"family\":\"IPv4\",\"mac\":\"00:e0:4c:68:02:9f\",\"internal\":false,\"cidr\":\"192.168.86.130/24\"}],\"utun0\":[{\"address\":\"fe80::567b:55a0:aef1:9877\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":12,\"internal\":false,\"cidr\":\"fe80::567b:55a0:aef1:9877/64\"}]},\"currentTime\":\"2019-04-03T03:39:38.079Z\"}}",
+      "name": "PING",
+      "id": "bd7bd5c9-ab23-4e30-a808-05a08e055ec2"
+    }
+  }
+}
+
+```
+
 ## Opportunities for Improvment
 
 * Implement data and query caching
