@@ -107,7 +107,7 @@ for the directive, `@isAdmin` within the `ping` resolver.
 ```
 
 When you apply `@isAdmin` to the
-`ping` mutation, the payload field returns in the mutation response will contain runtime information about
+`ping` mutation, the payload field returned in the mutation response will contain runtime information about
 the server environment in which Apollo Server is running along with the payload string submitted in the mutation.
 
 ### Using the directive, `@isAdmin`
