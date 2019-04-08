@@ -22,6 +22,7 @@
     "apollo-link": "^1.2.11",
     "apollo-link-ws": "^1.0.17",
     "apollo-server": "^2.4.0",
+    "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.11",
     "node-fetch": "^2.3.0",
@@ -32,7 +33,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "graphql": "^14.1.1",
     "graphql-request": "^1.8.2",
     "mocha": "^5.2.0",
     "supertest": "^3.4.2"
