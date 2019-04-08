@@ -147,6 +147,19 @@ This is the response from the GraphQL API with the added runtime information res
 * Implement data and query caching
 * Implement validation so that an existing `Movie` cannot be added again to the system.
 
+## Running IMBOB as a Docker Container
+
+The `Dockerfile` that defines the container image for IMBOB is at the root of this project.
+
+First we need to build the container image for IMBOB. Assuming that you have
+Docker installed on your system, navigate to this project's root and in your file system and type:
+
+`docker build -t imbob .`
+
+Next, we need to create and run a container based on the container image we've just built. At the command line, type:
+
+`docker run -d -p 4000:4000 imbob`
+
 ## Cheat Sheet
 
 The following queries and mutations are examples that can be executed against this project's API using GraphQL Playgound.
