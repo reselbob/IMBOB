@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha test",
-    "subscriptionListener": "node subscriptionListener.json "
+    "subscriptionListener": "node subscriptionListener.js"
   },
   "repository": {
     "type": "git",
