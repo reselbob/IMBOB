@@ -76,15 +76,15 @@ There are 3 data structures used to create various GraphQL object types. These d
 `Tripe` describes a connection between two people.
 
 A `Person` and `Actor` are GraphQl types that implements the GrpahQL interface, `Personable`. However, the GraphQL type,
-`Actor` has no datastore of its own. A collection of `Actor` objects are attached to the data structure, `Movie`. But, an
+`Actor` has no datastore of its own. A collection of `Actor` objects is attached to the data structure, `Movie`. But, an
 `Actor` can be retrieved independent of a `Movie`. Logic internal to the API extracts  `Actor` objects from the `Movie`
-objects in the system and presents one or many accordingly.
+objects in the system and presents none, one or many accordingly.
 
 -----
 
 **NOTE :** An `Actor` Must Have a `Person` ID
 
-In order to add an `Actor` to a movie, the base data repesenting that actor must exist already in the system as a `Person`.
+In order to add an `Actor` to a movie, the base data representing that actor must exist already in the system as a `Person`.
 In order for an `Actor` to be added to a `Movie`, you must provide the unique identifier, `id` of
  the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an `Actor` without
  a `Person.id` will throw an error.
