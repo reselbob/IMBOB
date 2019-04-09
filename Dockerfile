@@ -1,5 +1,6 @@
 FROM node:10.13.0
-EXPOSE 4000
-COPY . .
+WORKDIR /usr/src/app
+COPY . /usr/src/app
 CMD npm install
-CMD  node server.js
+EXPOSE 4000
+CMD  ["node", "server.js"]
