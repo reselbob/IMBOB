@@ -1,20 +1,21 @@
-# IMBOB
+# IMBOB <img src="http://www.gosc.org/_Media/under-construction-yellow-d_med.png" width="60" alt="under construction">
 
-![Under Construction](http://www.gosc.org/_Media/under-construction-yellow-d_med.png)
+
+
 
 A simple demonstration application for learning how to implement a GraphQL API using Apollo Server 2.10.
 
 ![Project Graph](docs/images/actor-query.png "Actor Query") 
 
 * **[Installation and Startup](#installation)**
-* **Purpose of Project**
-* **Security and Authentication**
-* **About the Application Data**
-* **Basic Types**
-* **Using the @isAdmin Directive**
-* **Running IMBOB in a Docker Container**
-* **Cheat Sheet**
-* **Opportunities for Improvement**
+* **[Purpose of Project](#purpose)**
+* **[Security and Authentication](#security)**
+* **[About the Application Data](#about_data)**
+* **[Basic Types](#basic_types)**
+* **[Using the @isAdmin Directive](#directives)**
+* **[Running IMBOB in a Docker Container](#docker)**
+* **[Cheat Sheet](#cheatsheet)**
+* **[Opportunities for Improvement](#opportunities)**
 
 <a name="installation"></a>
 ## Installation and Start Up
@@ -39,6 +40,7 @@ To start the sample server-side subscription listener client for the `eventAdded
 
 `npm run subscriptionListener`
 
+<a name="pupose"></a>
 ## Purpose of Project
 This project is a GraphQL API service that's intended to demonstrate the basic concepts and techniques required to publish an API using Apollo Server.
 
@@ -48,6 +50,7 @@ The scenario illustrated by the project is based on an object graph the contains
 
 The project code shows readers how to implement a GraphQL schema that includes typedefs, resolvers and subscriptions. The API published by this projects supports [Queries and Mutations](https://graphql.org/learn/queries/). Also, the project supports event messaging by way of a subscription server that gets invoked as part of the overall server startup.
 
+<a name="security"></a>
 ## Security and Authentication
 
 This projects's sample application supports authenticated access to the API server and Subscription server. The access token is
@@ -55,6 +58,7 @@ This projects's sample application supports authenticated access to the API serv
 learn the particulars of authenticating to the API and Subscription servers at the code level. When using GraphQL Playground, add the header, `{"authorization": "ch3ddarch33s3"}` to the
  request enable to access.
 
+<a name="about_data"></a>
 ## About the Application Data
 
 This application uses a set of local  text files to store application data in JSON format. The intention is to make the
@@ -62,6 +66,7 @@ application self contained. Thus, all that's required to use and learn from the 
 using text files to store data is not an optimal technique for data storage. But, that the purpose of this application is provide examples for using
 GraphQL running under an Apollo Server 2.0, the technique will suffice for now.
 
+<a name="basic_types"></a>
 ## Basic Types
 
 There are 3 data structures used to create various GraphQL object types. These data structures are
@@ -84,6 +89,7 @@ In order for an `Actor` to be added to a `Movie`, you must provide the unique id
  
  -----
 
+<a name="directives"></a>
 ## Using the @isAdmin Directive
 
 This project publishes a directive, `@isAdmin` that can be used in the mutuation, `ping`.
@@ -155,7 +161,7 @@ This is the response from the GraphQL API with the added runtime information res
 }
 
 ```
-
+<a name="docker"></a>
 ## Running IMBOB in a Docker Container
 
 The `Dockerfile` that defines the container image for IMBOB is at the root of this project.
@@ -169,6 +175,7 @@ Next, we need to create and run a container based on the container image we've j
 
 `docker run -d -p 4000:4000 imbob`
 
+<a name="cheatsheet"></a>
 ## Cheat Sheet
 
 The following queries and mutations are examples that can be executed against this project's API using GraphQL Playgound.
@@ -380,8 +387,8 @@ Paginated `LikesConnection` on `Persons`
 }
 ```
 
-
-# Opportunities for Improvement
+<a name="opportunities"></a>
+## Opportunities for Improvement
 
 * Implement data and query caching
 * Implement validation so that an existing `Movie` cannot be added again to the system.
