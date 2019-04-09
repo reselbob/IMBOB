@@ -7,6 +7,8 @@ A simple demonstration application for learning how to implement a GraphQL API u
 
 ![Project Graph](docs/images/actor-query.png "Actor Query") 
 
+### Table of Contents
+
 * **[Installation and Startup](#installation)**
 * **[Purpose of Project](#purpose)**
 * **[Security and Authentication](#security)**
