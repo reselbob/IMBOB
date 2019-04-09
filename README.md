@@ -1,10 +1,22 @@
 # IMBOB
-A simple demonstration application for learning how to implement a GraphQL API using Apollo Server 2.10.
 
-(This is still a work in progress as of 03-21-2019)
+![Under Construction](http://www.gosc.org/_Media/under-construction-yellow-d_med.png)
+
+A simple demonstration application for learning how to implement a GraphQL API using Apollo Server 2.10.
 
 ![Project Graph](docs/images/actor-query.png "Actor Query") 
 
+* **[Installation and Startup](#installation)**
+* **Purpose of Project**
+* **Security and Authentication**
+* **About the Application Data**
+* **Basic Types**
+* **Using the @isAdmin Directive**
+* **Running IMBOB in a Docker Container**
+* **Cheat Sheet**
+* **Opportunities for Improvement**
+
+<a name="installation"></a>
 ## Installation and Start Up
 
 To install the dependency libaries:
@@ -50,7 +62,7 @@ application self contained. Thus, all that's required to use and learn from the 
 using text files to store data is not an optimal technique for data storage. But, that the purpose of this application is provide examples for using
 GraphQL running under an Apollo Server 2.0, the technique will suffice for now.
 
-## Basic Data Types
+## Basic Types
 
 There are 3 data structures used to create various GraphQL object types. These data structures are
 `Movie`, `Person` and `Triple`. As the names imply, `Movie` describes a movie, `Person` describes a person and
@@ -61,12 +73,16 @@ A `Person` and `Actor` are GraphQl types that implements the GrpahQL interface, 
 `Actor` can be retrieved independent of a `Movie`. Logic internal to the API extracts  `Actor` objects from the `Movie`
 objects in the system and presents one or many accordingly.
 
-## An `Actor` Must Have a `Person` ID
+-----
+
+**NOTE :** An `Actor` Must Have a `Person` ID
 
 In order to add an `Actor` to a movie, the base data repesenting that actor must exist already in the system as a `Person`.
 In order for an `Actor` to be added to a `Movie`, you must provide the unique identifier, `id` of
  the corresponding `Person` as it exists in the `Persons` collection of the API. Adding an `Actor` without
  a `Person.id` will throw an error.
+ 
+ -----
 
 ## Using the @isAdmin Directive
 
@@ -110,8 +126,6 @@ When you apply `@isAdmin` to the
 `ping` mutation, the payload field returned in the mutation response will contain runtime information about
 the server environment in which Apollo Server is running along with the payload string submitted in the mutation.
 
-### Using the directive, `@isAdmin`
-
 The code below in the GraphQL query language is an example of using the `ping` mutuation with the directive, `@isAdmin`.
 
 ```graphql
@@ -142,12 +156,7 @@ This is the response from the GraphQL API with the added runtime information res
 
 ```
 
-## Opportunities for Improvment
-
-* Implement data and query caching
-* Implement validation so that an existing `Movie` cannot be added again to the system.
-
-## Running IMBOB as a Docker Container
+## Running IMBOB in a Docker Container
 
 The `Dockerfile` that defines the container image for IMBOB is at the root of this project.
 
@@ -370,3 +379,9 @@ Paginated `LikesConnection` on `Persons`
  }
 }
 ```
+
+
+# Opportunities for Improvement
+
+* Implement data and query caching
+* Implement validation so that an existing `Movie` cannot be added again to the system.
