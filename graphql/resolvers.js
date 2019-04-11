@@ -5,6 +5,7 @@ const {getCollection, updateCollection, getItemFromCollection} = require('../dat
 const {getRuntimeInfo} = require('../admin/runtimeInfo');
 
 const pubsub = new PubSub();
+
 const GENERAL_EVENT_CHANNEL = 'GENERAL_EVENT_CHANNEL';
 const PERSON_CHANNEL = 'PERSON_CHANNEL';
 const TRIPLE_CHANNEL = 'TRIPLE_CHANNEL';
@@ -300,7 +301,6 @@ module.exports = {
               if(movie.id && movie.id.length > 0) buffer.push(resetActorToMovie(movie.id))
            } );
             return buffer;
-
         },
         movie: (parent, args, context) => {
             if(args.id && args.id.length > 0) return resetActorToMovie(args.id);

@@ -392,5 +392,8 @@ Paginated `LikesConnection` on `Persons`
 <a name="opportunities"></a>
 ## Opportunities for Improvement
 
-* Implement data and query caching
-* Implement validation so that an existing `Movie` cannot be added again to the system.
+- Implement data and query caching
+- Implement validation of the following:
+    - `movie`, adding and updating to make sure all is well and no replications
+    - `person`, adding and updating to make sure all is well and no replications
+    - `triple`, adding and updating to make sure all is well and no replications
