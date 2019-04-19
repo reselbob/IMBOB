@@ -182,7 +182,7 @@ Next, we need to create and run a container based on the container image we've j
 
 The following queries and mutations are examples that can be executed against this project's API using GraphQL Playgound.
 
-Don't forget to add the authentication token. `{authentication: ch3ddarch33se}` the headers section of GraphQL Playground when running the particular query.
+Don't forget to add the authentication token. `{"authentication": "ch3ddarch33se"}` the headers section of GraphQL Playground when running the particular query.
 
 ### Introspection
 

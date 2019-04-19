@@ -9,13 +9,10 @@ module.exports = `
     
     scalar Date
   
-    """
-    The type that describes a person. All persons must exist
-    in the system. For example, to a triple uses a person that exists
-    in the system. The input type that describes a person in the system
-    in called a KnownPersonInput
-    """
-    
+  """
+  The interface, Personable describes the fields that
+  must be supported by all types describing a person
+  """
     interface Personable {
         id: ID
         firstName: String
@@ -23,7 +20,10 @@ module.exports = `
         dob: Date
     }
    
-
+    """
+    The type, Person describes a person in the system. It is
+    an implementation of the interface, Personable
+    """
     type Person implements Personable{
         id: ID
         firstName: String
@@ -32,22 +32,31 @@ module.exports = `
   
     }
     
+    """
+    The type, Actor describes an actor in a movie.
+    The type implements the interface, Personable yet
+    adds the field role, which is a collection of Role
+    types
+    """
+    type Actor implements Personable{
+        id: ID
+        firstName: String
+        lastName: String
+        dob: Date
+        roles: [Role]
+    }
+    
     extend type Person {
-        """
-        A list of Person types that this Person is MARRIED_TO, not pageable
-        """
+        """ A list of Person types that this Person is MARRIED_TO, not pageable """
         marriedToConnection: [Person]
-        """
-        A list of Person types that this Person is DIVORCED_FROM, not pageable
-        """
+        
+        """ A list of Person types that this Person is DIVORCED_FROM, not pageable """
         divorcedFromConnection: [Person]
-        """
-        A pageable list of Person types that this Person KNOWS
-        """
+        
+        """ A pageable list of Person types that this Person KNOWS """
         knowsConnection(paginationSpec: CursorPaginationInput): PersonConnection
-        """
-        A pageable list of Person types that this Person LIKES
-        """
+        
+        """ A pageable list of Person types that this Person LIKES """
         likesConnection(paginationSpec: CursorPaginationInput): PersonConnection    
     }
     
@@ -58,13 +67,7 @@ module.exports = `
      movie: Movieable
    }
     
-    type Actor implements Personable{
-        id: ID
-        firstName: String
-        lastName: String
-        dob: Date
-        roles: [Role]
-    }
+
     
      input ActorInput{
         id: ID! #use the ID of an existing person
