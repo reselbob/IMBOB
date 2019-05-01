@@ -103,13 +103,15 @@ module.exports = `
         id: ID!
         title: String
         releaseDate: Date
+        genre: Genre
         directors: [Person]
         actors: [Actor]
     }   
     
     input MovieInput{
-        title: String
-        releaseDate: Date
+        title: String!
+        releaseDate: Date!
+        genre: Genre
         directors: [KnownPersonInput]
         actors: [ActorInput]
     }
@@ -117,6 +119,7 @@ module.exports = `
         id: ID!
         title: String
         releaseDate: Date
+        genre: Genre
         directors: [KnownPersonInput]
         actors: [ActorInput]
     }
@@ -125,6 +128,7 @@ module.exports = `
         id: ID!
         title: String
         releaseDate: Date
+        genre: Genre
         directors: [Person]
         actors: [Actor]
     }
@@ -133,6 +137,7 @@ module.exports = `
         id: ID!
         title: String
         releaseDate: Date
+        genre: Genre
         directors: [Person]
         actors: [Actor]
         animators: [Person]
@@ -147,6 +152,13 @@ module.exports = `
         DIVORCED_FROM
     }
     
+    enum Genre {
+        DRAMA
+        COMEDY
+        HORROR
+        OTHER
+    }
+    
     type Triple {
         subject: Person
         predicate: Predicate
@@ -159,19 +171,27 @@ module.exports = `
         object: KnownPersonInput
     }
     """
-    Event is a type that describes messages emitted
-    from a subscription.
+    Event is a custom type that describes messages emitted
+    from a subscription within the IMBOB API.
     """
     type Event {
-        """This system assigned ID"""
+        """This system assigned unique identifier"""
         id: ID
-        """The event name, e.g PERSON_EVENT_TYPE_ADD"""
+        """The event name, supported event names are:
+         PERSON_EVENT_TYPE_ADD,
+         PERSON_EVENT_TYPE_UPDATE,
+         MOVIE_EVENT_TYPE_ADD,
+         MOVIE_EVENT_TYPE_UPDATE,
+         TRIPLE_EVENT_TYPE_ADD,
+         TRIPE_EVENT_TYPE_UPDATE Please note that naming an event is a technique
+         that is special to IMBOB
+         """
         name: String
         """The time when the event was created"""
         createdAt: Date
         """The time when the event was saved in the datastore"""
         storedAt: Date
-        """Information that is special the to particular event"""
+        """Information that is special to the particular event"""
         payload: String
     }
 
@@ -209,9 +229,13 @@ module.exports = `
     type Subscription {
         eventAdded(channelName: String): Event
         onPersonAdded(channelName: String): Event
+        """
+        onMovieAdded is a subscription that emits messages when a movie is added to the system.
+        Supported Channels: MOVIE_CHANNEL, HORROR_MOVIE_CHANNEL, DRAMA_MOVIE_CHANNEL, COMEDY_MOVIE_CHANNEL"""
         onMovieAdded(channelName: String): Event
         onTripleAdded(channelName: String): Event
         onPersonUpdated(channelName: String): Event
+        """Supported Channels: MOVIE_CHANNEL, HORROR_MOVIE_CHANNEL, DRAMA_MOVIE_CHANNEL, COMEDY_MOVIE_CHANNEL"""
         onMovieUpdated(channelName: String): Event
         onTripleUpdated(channelName: String): Event
     }

@@ -10,6 +10,9 @@ const GENERAL_EVENT_CHANNEL = 'GENERAL_EVENT_CHANNEL';
 const PERSON_CHANNEL = 'PERSON_CHANNEL';
 const TRIPLE_CHANNEL = 'TRIPLE_CHANNEL';
 const MOVIE_CHANNEL = 'MOVIE_CHANNEL';
+const HORROR_MOVIE_CHANNEL = 'HORROR_MOVIE_CHANNEL';
+const DRAMA_MOVIE_CHANNEL = 'DRAMA_MOVIE_CHANNEL';
+const COMEDY_MOVIE_CHANNEL = 'COMEDY_MOVIE_CHANNEL';
 
 const PERSON_EVENT_TYPE_ADD = 'PERSON_EVENT_TYPE_ADD';
 const MOVIE_EVENT_TYPE_ADD = 'MOVIE_EVENT_TYPE_ADD';
@@ -63,13 +66,35 @@ const publishTripleEvent = async (eventType, payload) => {
     return event;
 };
 
-const publishMovieEvent = async (eventType, payload) => {
-    const event = createEvent(eventType, payload);
-    const obj = {};
-    if(MOVIE_EVENT_TYPE_ADD) obj.onMovieAdded = event;
-    if(MOVIE_EVENT_TYPE_UPDATE) obj.onMovieUpdated = event;
+/***************************
+ param: eventType, a constant value that indicates the type of event that
+ is to be published. eventType is a value that is custom to IMBOB
+ movie: an object that contains information about the movie
+ ****************************/
+const publishMovieEvent = async (eventType, movie) => {
+    //set the default channel
+    let channel = MOVIE_CHANNEL;
 
-    await pubsub.publish(MOVIE_CHANNEL, obj);
+    //figure out if the movie message needs to be dedicated to a specific channel
+    if(movie.genre){
+        if(movie.genre === "DRAMA") channel = DRAMA_MOVIE_CHANNEL;
+        if(movie.genre === "HORROR") channel = HORROR_MOVIE_CHANNEL;
+        if(movie.genre === "COMEDY") channel = COMEDY_MOVIE_CHANNEL;
+    }
+
+    //Create the event to be assigned to the subscription object
+    const event = createEvent(eventType, JSON.stringify(movie));
+
+    //Create the subscription object that the PubSub component needs
+    //in order to publish information to interested subscribers
+    const subscriptionObj = {};
+
+    //assign the event to the appropriate subscription
+    if(MOVIE_EVENT_TYPE_ADD) subscriptionObj.onMovieAdded = event;
+    if(MOVIE_EVENT_TYPE_UPDATE) subscriptionObj.onMovieUpdated = event;
+
+    //publish the event
+    await pubsub.publish(channel, subscriptionObj);
     return event;
 };
 
@@ -390,7 +415,7 @@ module.exports = {
         addMovie: async (parent, args) => {
             args.movie.id = uuidv4();
             const movie = await updateCollection(args.movie, 'MOVIES');
-            await publishMovieEvent(MOVIE_EVENT_TYPE_ADD, JSON.stringify(movie));
+            await publishMovieEvent(MOVIE_EVENT_TYPE_ADD, movie);
             return movie;
 
         },
@@ -415,7 +440,7 @@ module.exports = {
             await updateCollection(movie, "MOVIES");
             const m = getItemFromCollection("MOVIES", movie.id);
 
-            const event = await publishMovieEvent(MOVIE_EVENT_TYPE_UPDATE, JSON.stringify(movie));
+            const event = await publishMovieEvent(MOVIE_EVENT_TYPE_UPDATE, movie);
             console.log(event);
             console.log(m);
             return m;
