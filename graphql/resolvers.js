@@ -223,13 +223,15 @@ const setPaginationSortOrderDefault = (paginationSpec, defaultSortFieldName) => 
 
 const resetActorToMovie = (movieId) => {
     const itm = getItemFromCollection("MOVIES", movieId);
-    itm.actors.forEach(actor => {
-        const role = {};
-        role.character = actor.role;
-        role.movie = itm;
-        actor.roles = [];
-        actor.roles.push(role);
-    });
+    if(itm.actors){
+        itm.actors.forEach(actor => {
+            const role = {};
+            role.character = actor.role;
+            role.movie = itm;
+            actor.roles = [];
+            actor.roles.push(role);
+        });
+    }
     return itm;
 };
 
