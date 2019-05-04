@@ -3,7 +3,7 @@ const { ApolloServer, AuthenticationError} = require('apollo-server');
 const {initGlobalDataSync} = require('./data');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
-const subscriptions = require('./graphql/subscriptions');
+
 const config = require('./config');
 
 const PORT = process.env.PORT || 4000;
@@ -15,6 +15,9 @@ the behavior to execute upon the onConnect event. Authentication to the
 API is handled by the function associated with the schema's
 context field.
 */
+
+const subscriptions = require('./graphql/subscriptions');
+
 const schema = {
     typeDefs,
     resolvers,

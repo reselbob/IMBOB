@@ -118,6 +118,8 @@ const getExtendedPaginationSpec = (arr, pageinationSpec) =>{
     let end = 9;
     const defaultReturnCount = 10;
 
+    const sorted = _.sortBy(arr, pageinationSpec.sortFieldName);
+
     if(pageinationSpec){
         //error out, if there is a before and after
         if(pageinationSpec.after && pageinationSpec.before) {
@@ -130,7 +132,7 @@ const getExtendedPaginationSpec = (arr, pageinationSpec) =>{
         }
 
         if(pageinationSpec.after){
-            idxs = _.keys(_.pickBy(arr, {id: pageinationSpec.after}));
+            idxs = _.keys(_.pickBy(sorted, {id: pageinationSpec.after}));
             //don't reset if the item in question is at position zero
             if(idxs[0] > 0){
                 start = Number.parseInt(idxs[0]) + 1;
@@ -139,7 +141,7 @@ const getExtendedPaginationSpec = (arr, pageinationSpec) =>{
             end = start + cnt;
         }
         if(pageinationSpec.before) {
-            idxs = _.keys(_.pickBy(arr, {id: pageinationSpec.before}));
+            idxs = _.keys(_.pickBy(sorted, {id: pageinationSpec.before}));
             start = Number.parseInt(idxs[0]);
             if(pageinationSpec.last) {
                 end = start - pageinationSpec.last;
@@ -148,10 +150,10 @@ const getExtendedPaginationSpec = (arr, pageinationSpec) =>{
     }
     pageinationSpec.startPos = start;
     pageinationSpec.endPos = end;
-    _.orderBy(arr, [pageinationSpec.sortFieldName]);
+
 
     //return the sorted data and the extended paginationSpec
-    return {data: arr, idxs, pageinationSpec};
+    return {data: sorted, idxs, pageinationSpec};
 };
 
 const  convertArrayToPersons = async (arr, pageinationSpec) => {

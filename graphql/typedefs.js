@@ -2,7 +2,7 @@ module.exports = `
 
     """
     The directive instructs the API to implement the runtime administration behavior
-    should the query or mutation support have a particular administrative behavior,
+    should the query or mutation support a particular administrative behavior,
     otherwise, it's ignored
     """
     directive @isAdmin on FIELD
@@ -239,14 +239,30 @@ module.exports = `
         onMovieUpdated(channelName: String): Event
         onTripleUpdated(channelName: String): Event
     }
-    """
-    Cursor types
-    """
+    """ 
+   The purpose of CursorPaginationInput is to pass 
+   pagination information to the IMBOB API when executing
+   queries that specify support for pagination"""
     input CursorPaginationInput{
+        """ Indicates the starting point of retrieval.
+        All data is to be returned from items BEFORE the indicated starting
+        point. """
         before: String
-        first: Int
-        last: Int
+         """
+        Indicates the starting point of retrieval. All data is
+        to be returned from items AFTER this starting
+        point. """
         after: String
+        """ The number of items to be returned from the starting point as
+        defined in the CursorPaginationInput field named, after, moving forward through the total list
+        of data items available. """        
+        first: Int
+        """
+        The number of items to be returned from the starting point as
+        defined in the CursorPaginationInput field named, before, moving backward through the total list
+        of data items available. """ 
+        last: Int
+        """ Indicates the field to field upon which to sort. Sort order is ascending. """
         sortFieldName: String
     }
     
@@ -269,8 +285,12 @@ module.exports = `
         pageInfo: PageInfo!
     }
     
+    
     type PageInfo {
+        """Indicates the unique identifier of the last item in the list of items returned by 
+        the given query"""
         endCursor: String
+        """Returns true if more items are available for retrieval"""
         hasNextPage: Boolean
      }
 `;
