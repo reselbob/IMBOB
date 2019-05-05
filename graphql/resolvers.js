@@ -128,7 +128,8 @@ const getExtendedPaginationSpec = (arr, pageinationSpec) =>{
         }
         //Make pageinationSpec.after the default
         if(!pageinationSpec.after && !pageinationSpec.before){
-            pageinationSpec.after = arr[0].id;
+            pageinationSpec.after = sorted[0].id;
+            end = pageinationSpec.first -1;
         }
 
         if(pageinationSpec.after){
@@ -413,7 +414,6 @@ module.exports = {
                 const adminData = getRuntimeInfo();
                 event.payload = JSON.stringify({data, adminData});
             }
-
             return event;
         },
         addMovie: async (parent, args) => {
