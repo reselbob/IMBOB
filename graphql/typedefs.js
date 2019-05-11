@@ -192,7 +192,7 @@ module.exports = `
         """The time when the event was saved in the datastore"""
         storedAt: Date
         """Information that is special to the particular event"""
-        payload: String
+        body: String
     }
 
     type Query {
@@ -216,10 +216,10 @@ module.exports = `
     on the channel, GENERAL_EVENT_CHANNEL.
     
     The string value assigned to the query parameter,
-    payLoad will be recycled into Event.payload of the
+    body will be recycled into Event.path of the
     subsciption message published.
     """
-        ping(payload: String!): Event
+        ping(messageBody: String!): Event
         addMovie(movie: MovieInput!): Movie
         updateMovie(movie: KnownMovieInput): Movie
         addTriple(triple: TripleInput): Triple

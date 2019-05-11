@@ -109,7 +109,7 @@ for the directive, `@isAdmin` within the `ping` resolver.
 
 ```javascript
         ping: async (parent, args, context, info) => {
-            const event = await publishEvent('PING', args.payload);
+            const event = await publishEvent('PING', args.messageBody);
             console.log(event);
             let isAdmin = false;
             //check to see if the directive, @isAdmin is in force
@@ -118,11 +118,11 @@ for the directive, `@isAdmin` within the `ping` resolver.
             } catch (e) {
                 console.log(`I am gobbling the error ${e}`)
             }
-            //if so, add the administrative data and reformat the payload
+            //if so, add the administrative data and reformat the body
             if(isAdmin){
-                const data = event.payload;
+                const data = event.body;
                 const adminData = getRuntimeInfo();
-                event.payload = JSON.stringify({data, adminData});
+                event.path = JSON.stringify({data, adminData});
             }
 
             return event;
@@ -131,31 +131,32 @@ for the directive, `@isAdmin` within the `ping` resolver.
 ```
 
 When you apply `@isAdmin` to the
-`ping` mutation, the payload field returned in the mutation response will contain runtime information about
-the server environment in which Apollo Server is running along with the payload string submitted in the mutation.
+`ping` mutation, the body field returned in the mutation response will contain runtime information about
+the server environment in which Apollo Server is running along with the path string submitted in the mutation.
 
 The code below in the GraphQL query language is an example of using the `ping` mutuation with the directive, `@isAdmin`.
 
 ```graphql
 mutation{
-  ping(payload: "This is a test payload") @isAdmin {
+  ping(messageBody: "This is a test Messag") @isAdmin {
     createdAt
-    payload
+    body 
     name
     id
   }
 }
 ```
 
-This is the response from the GraphQL API with the added runtime information respresented in the field, `adminData` of the `payload` field. The entire `payload` field is expressed as `string`. Use
-`JSON.parse()` to convert the value of the `payload` field to a JSON object.
+This is the response from the GraphQL API with the added runtime information respresented in the field, `adminData` of
+the `body` field. The entire `body` field is expressed as `string`. Use
+`JSON.parse()` to convert the value of the `body` field to a JSON object.
 
 ```JSON
 {
   "data": {
     "ping": {
       "createdAt": "Tue Apr 02 2019 20:39:38 GMT-0700 (PDT)",
-      "payload": "{\"data\":\"This is a test payload\",\"adminData\":{\"processId\":43414,\"memoryUsage\":{\"rss\":48549888,\"heapTotal\":21921792,\"heapUsed\":19254104,\"external\":128408},\"networkInfo\":{\"lo0\":[{\"address\":\"127.0.0.1\",\"netmask\":\"255.0.0.0\",\"family\":\"IPv4\",\"mac\":\"00:00:00:00:00:00\",\"internal\":true,\"cidr\":\"127.0.0.1/8\"},{\"address\":\"::1\",\"netmask\":\"ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":0,\"internal\":true,\"cidr\":\"::1/128\"},{\"address\":\"fe80::1\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":1,\"internal\":true,\"cidr\":\"fe80::1/64\"}],\"en5\":[{\"address\":\"fe80::1c85:bcf4:272d:8c72\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:e0:4c:68:02:9f\",\"scopeid\":5,\"internal\":false,\"cidr\":\"fe80::1c85:bcf4:272d:8c72/64\"},{\"address\":\"192.168.86.130\",\"netmask\":\"255.255.255.0\",\"family\":\"IPv4\",\"mac\":\"00:e0:4c:68:02:9f\",\"internal\":false,\"cidr\":\"192.168.86.130/24\"}],\"utun0\":[{\"address\":\"fe80::567b:55a0:aef1:9877\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":12,\"internal\":false,\"cidr\":\"fe80::567b:55a0:aef1:9877/64\"}]},\"currentTime\":\"2019-04-03T03:39:38.079Z\"}}",
+      "body ": "{\"data\":\"This is a test message\",\"adminData\":{\"processId\":43414,\"memoryUsage\":{\"rss\":48549888,\"heapTotal\":21921792,\"heapUsed\":19254104,\"external\":128408},\"networkInfo\":{\"lo0\":[{\"address\":\"127.0.0.1\",\"netmask\":\"255.0.0.0\",\"family\":\"IPv4\",\"mac\":\"00:00:00:00:00:00\",\"internal\":true,\"cidr\":\"127.0.0.1/8\"},{\"address\":\"::1\",\"netmask\":\"ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":0,\"internal\":true,\"cidr\":\"::1/128\"},{\"address\":\"fe80::1\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":1,\"internal\":true,\"cidr\":\"fe80::1/64\"}],\"en5\":[{\"address\":\"fe80::1c85:bcf4:272d:8c72\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:e0:4c:68:02:9f\",\"scopeid\":5,\"internal\":false,\"cidr\":\"fe80::1c85:bcf4:272d:8c72/64\"},{\"address\":\"192.168.86.130\",\"netmask\":\"255.255.255.0\",\"family\":\"IPv4\",\"mac\":\"00:e0:4c:68:02:9f\",\"internal\":false,\"cidr\":\"192.168.86.130/24\"}],\"utun0\":[{\"address\":\"fe80::567b:55a0:aef1:9877\",\"netmask\":\"ffff:ffff:ffff:ffff::\",\"family\":\"IPv6\",\"mac\":\"00:00:00:00:00:00\",\"scopeid\":12,\"internal\":false,\"cidr\":\"fe80::567b:55a0:aef1:9877/64\"}]},\"currentTime\":\"2019-04-03T03:39:38.079Z\"}}",
       "name": "PING",
       "id": "bd7bd5c9-ab23-4e30-a808-05a08e055ec2"
     }
@@ -208,7 +209,7 @@ subscription eventAdded{
   eventAdded{
     id
     name
-    payload
+    body
     createdAt
     storedAt
   }
@@ -221,9 +222,9 @@ The mutation, `ping` is a utility mutation that publishes an `Event` message the
 subscription, `eventAdded`
 ```graphql
 mutation{
-  ping(payload: "Hi There"){
+  ping(messageBody: "Hi There"){
     createdAt
-    payload
+    body
     name
     id
   }
@@ -236,7 +237,7 @@ The mutation's response
   "data": {
     "ping": {
       "createdAt": "Wed Feb 13 2019 19:54:00 GMT-0800 (Pacific Standard Time)",
-      "payload": "Hi There",
+      "body": "Hi There",
       "name": "PING",
       "id": "0316cd51-abcc-4e1a-94a7-e81a1e0010d6"
     }
@@ -251,7 +252,7 @@ The event generated by the subscription and available to listening clients
     "eventAdded": {
       "id": "0316cd51-abcc-4e1a-94a7-e81a1e0010d6",
       "name": "PING",
-      "payload": "Hi There",
+      "body": "Hi There",
       "createdAt": "Wed Feb 13 2019 19:54:00 GMT-0800 (Pacific Standard Time)",
       "storedAt": "Wed Feb 13 2019 19:54:00 GMT-0800 (Pacific Standard Time)"
     }
