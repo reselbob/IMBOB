@@ -43,19 +43,19 @@ after(() => {
 
 describe('GraphQL Subscription Tests', () => {
     /*
-    This test sends a payload via the mutiation, ping and
-    asserts the the payload submitted in the mutation shows
+    This test sends a path via the mutiation, ping and
+    asserts the the path submitted in the mutation shows
     up in event to which the test is subscribed
      */
     it('Can ping and subscribe', (done) => {
-        let payload = faker.lorem.words(3);
+        let body = faker.lorem.words(3);
         const operation = {
             query: gql`
                 subscription eventAdded{
                     eventAdded{
                         id
                         name
-                        payload
+                        body
                         createdAt
                         storedAt
                     }
@@ -65,7 +65,7 @@ describe('GraphQL Subscription Tests', () => {
         execute(link, operation).subscribe({
             next: data => {
                 console.log(`received data: ${JSON.stringify(data, null, 2)}`);
-                expect(data.data.eventAdded.payload).to.equal(payload);
+                expect(data.data.eventAdded.body).to.equal(body);
                 done();
             },
             error: error => {
@@ -75,9 +75,9 @@ describe('GraphQL Subscription Tests', () => {
         });
 
         const query = `mutation{
-                  ping(payload: "${payload}"){
+                  ping(messageBody: "${body}"){
                     createdAt
-                    payload
+                    body
                     name
                     id
                   }
@@ -91,6 +91,7 @@ describe('GraphQL Subscription Tests', () => {
         const data = graphQLClient.request(query)
             .then(data => {
                 expect(data).to.be.an('object');
+                expect(data.ping.body).to.equal(body);
             });
     });
 });

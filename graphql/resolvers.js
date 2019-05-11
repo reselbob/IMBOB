@@ -24,7 +24,7 @@ const TRIPLE_EVENT_TYPE_UPDATE = 'TRIPLE_EVENT_TYPE_UPDATE';
 
 
 
-const createEvent = (eventType, payload) =>{
+const createEvent = (eventType, messageBody) =>{
     const dt = new Date();
     const uuid = uuidv4();
     const obj = {
@@ -32,22 +32,22 @@ const createEvent = (eventType, payload) =>{
         name: eventType,
         createdAt: dt.toString(),
         storedAt: dt.toString(),
-        payload: payload
+        body: messageBody
     };
 
     return obj;
 };
 
-const publishEvent = async (eventName, payload) => {
-    const event = createEvent(eventName, payload);
+const publishEvent = async (eventName, messageBody) => {
+    const event = createEvent(eventName, messageBody);
     await pubsub.publish(GENERAL_EVENT_CHANNEL, {eventAdded: event});
     return event;
 };
 
 
 
-const publishPersonEvent = async (eventType, payload) => {
-    const event = createEvent(eventType, payload);
+const publishPersonEvent = async (eventType, messageBody) => {
+    const event = createEvent(eventType, messageBody);
     const obj = {};
     if(PERSON_EVENT_TYPE_ADD) obj.onPersonAdded = event;
     if(PERSON_EVENT_TYPE_UPDATE) obj.onPersonUpdated = event;
@@ -56,8 +56,8 @@ const publishPersonEvent = async (eventType, payload) => {
     return event;
 };
 
-const publishTripleEvent = async (eventType, payload) => {
-    const event = createEvent(eventType, payload);
+const publishTripleEvent = async (eventType, messageBody) => {
+    const event = createEvent(eventType, messageBody);
     const obj = {};
     if(TRIPLE_EVENT_TYPE_ADD) obj.onTripleAdded = event;
     if(TRIPLE_EVENT_TYPE_UPDATE) obj.onTripleUpdated = event;
@@ -399,7 +399,7 @@ module.exports = {
     },
     Mutation: {
         ping: async (parent, args, context, info) => {
-            const event = await publishEvent('PING', args.payload);
+            const event = await publishEvent('PING', args.messageBody);
             console.log(event);
             let isAdmin = false;
             //check to see if the directive, @isAdmin is in force
@@ -408,11 +408,11 @@ module.exports = {
             } catch (e) {
                 console.log(`I am gobbling the error ${e}`)
             }
-            //if so, add the administrative data and reformat the payload
+            //if so, add the administrative data and reformat the body
             if(isAdmin){
-                const data = event.payload;
+                const data = event.body;
                 const adminData = getRuntimeInfo();
-                event.payload = JSON.stringify({data, adminData});
+                event.path = JSON.stringify({data, adminData});
             }
             return event;
         },
