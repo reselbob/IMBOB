@@ -23,8 +23,8 @@ const link = new WebSocketLink(client);
 
 const operation = {
     query: gql`
-        subscription eventAdded{
-            eventAdded{
+        subscription onEventAdded{
+            onEventAdded{
                 id
                 name
                 body

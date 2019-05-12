@@ -51,8 +51,8 @@ describe('GraphQL Subscription Tests', () => {
         let body = faker.lorem.words(3);
         const operation = {
             query: gql`
-                subscription eventAdded{
-                    eventAdded{
+                subscription onEventAdded{
+                    onEventAdded{
                         id
                         name
                         body
@@ -65,7 +65,7 @@ describe('GraphQL Subscription Tests', () => {
         execute(link, operation).subscribe({
             next: data => {
                 console.log(`received data: ${JSON.stringify(data, null, 2)}`);
-                expect(data.data.eventAdded.body).to.equal(body);
+                expect(data.data.onEventAdded.body).to.equal(body);
                 done();
             },
             error: error => {

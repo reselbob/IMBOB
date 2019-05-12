@@ -170,6 +170,41 @@ module.exports = `
         predicate: Predicate
         object: KnownPersonInput
     }
+     
+   """The enum, EventName is a list of values that
+   can be assigned to the name field of the type, Event"""
+   enum EventName {
+       PING
+       PERSON_EVENT_TYPE_ADD,
+       PERSON_EVENT_TYPE_UPDATE,
+       MOVIE_EVENT_TYPE_ADD,
+       MOVIE_EVENT_TYPE_UPDATE,
+       TRIPLE_EVENT_TYPE_ADD,
+       TRIPE_EVENT_TYPE_UPDATE
+    }
+    
+    
+    """The enum, GeneralEventChannelName describes the channel name 
+    used by the subscription, onEventAdded"""
+    enum GeneralEventChannelName { GENERAL_EVENT_CHANNEL }
+     
+     """The enum, PersonChannelName describes the channel name 
+    used by the subscriptions, onPersonAdded,  onPersonUpdated"""
+    enum PersonChannelName {PERSON_CHANNEL}
+    
+    """The enum, TripleChannelName describes the channel name 
+    used by the subscriptions, onTripleAdded, onTripleUpdated"""
+    enum TripleChannelName {TRIPLE_CHANNEL}
+    
+    """The enum, MovieChannelName describes the channel names 
+    used by the subscriptions, onMovieAdded, onMovieUpdated"""
+    enum MovieChannelName {
+       MOVIE_CHANNEL, 
+       HORROR_MOVIE_CHANNEL, 
+       DRAMA_MOVIE_CHANNEL, 
+       COMEDY_MOVIE_CHANNEL
+     }
+    
     """
     Event is a custom type that describes messages emitted
     from a subscription within the IMBOB API.
@@ -177,16 +212,7 @@ module.exports = `
     type Event {
         """This system assigned unique identifier"""
         id: ID
-        """The event name, supported event names are:
-         PERSON_EVENT_TYPE_ADD,
-         PERSON_EVENT_TYPE_UPDATE,
-         MOVIE_EVENT_TYPE_ADD,
-         MOVIE_EVENT_TYPE_UPDATE,
-         TRIPLE_EVENT_TYPE_ADD,
-         TRIPE_EVENT_TYPE_UPDATE Please note that naming an event is a technique
-         that is special to IMBOB
-         """
-        name: String
+        name: EventName
         """The time when the event was created"""
         createdAt: Date
         """The time when the event was saved in the datastore"""
@@ -212,7 +238,7 @@ module.exports = `
     """
     Ping is a utility mutation for testing event generation
     in a subscription. When a client executes Ping that data
-    is published to the subscription, eventAdded,
+    is published to the subscription, onEventAdded,
     on the channel, GENERAL_EVENT_CHANNEL.
     
     The string value assigned to the query parameter,
@@ -227,17 +253,22 @@ module.exports = `
     }
     
     type Subscription {
-        eventAdded(channelName: String): Event
-        onPersonAdded(channelName: String): Event
+        """Supported Channels: GENERAL_EVENT_CHANNEL"""
+        onEventAdded(channelName: GeneralEventChannelName): Event
+        """Supported Channels: PERSON_CHANNEL"""
+        onPersonAdded(channelName: PersonChannelName): Event
         """
         onMovieAdded is a subscription that emits messages when a movie is added to the system.
         Supported Channels: MOVIE_CHANNEL, HORROR_MOVIE_CHANNEL, DRAMA_MOVIE_CHANNEL, COMEDY_MOVIE_CHANNEL"""
-        onMovieAdded(channelName: String): Event
-        onTripleAdded(channelName: String): Event
-        onPersonUpdated(channelName: String): Event
+        onMovieAdded(channelName: MovieChannelName): Event
+        """Supported Channels: TRIPLE_CHANNEL"""
+        onTripleAdded(channelName: TripleChannelName): Event
+        """Supported Channels: PERSON_CHANNEL"""
+        onPersonUpdated(channelName: PersonChannelName): Event
         """Supported Channels: MOVIE_CHANNEL, HORROR_MOVIE_CHANNEL, DRAMA_MOVIE_CHANNEL, COMEDY_MOVIE_CHANNEL"""
-        onMovieUpdated(channelName: String): Event
-        onTripleUpdated(channelName: String): Event
+        onMovieUpdated(channelName: MovieChannelName): Event
+       """Supported Channels: TRIPLE_CHANNEL"""
+        onTripleUpdated(channelName: TripleChannelName): Event
     }
     """ 
    The purpose of CursorPaginationInput is to pass 

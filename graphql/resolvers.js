@@ -40,7 +40,7 @@ const createEvent = (eventType, messageBody) =>{
 
 const publishEvent = async (eventName, messageBody) => {
     const event = createEvent(eventName, messageBody);
-    await pubsub.publish(GENERAL_EVENT_CHANNEL, {eventAdded: event});
+    await pubsub.publish(GENERAL_EVENT_CHANNEL, {onEventAdded: event});
     return event;
 };
 
@@ -412,7 +412,7 @@ module.exports = {
             if(isAdmin){
                 const data = event.body;
                 const adminData = getRuntimeInfo();
-                event.path = JSON.stringify({data, adminData});
+                event.body = JSON.stringify({data, adminData});
             }
             return event;
         },
@@ -472,7 +472,7 @@ module.exports = {
     },
 
     Subscription: {
-        eventAdded: {
+        onEventAdded: {
             subscribe: () => pubsub.asyncIterator(GENERAL_EVENT_CHANNEL)
         },
         onPersonAdded: {
