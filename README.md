@@ -138,7 +138,7 @@ The code below in the GraphQL query language is an example of using the `ping` m
 
 ```graphql
 mutation{
-  ping(messageBody: "This is a test Messag") @isAdmin {
+  ping(messageBody: "This is a test Message") @isAdmin {
     createdAt
     body 
     name
