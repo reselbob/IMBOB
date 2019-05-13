@@ -8,6 +8,8 @@ module.exports = `
     directive @isAdmin on FIELD
     
     scalar Date
+    
+    scalar Object
   
   """
   The interface, Personable describes the fields that
@@ -218,7 +220,7 @@ module.exports = `
         """The time when the event was saved in the datastore"""
         storedAt: Date
         """Information that is special to the particular event"""
-        body: String
+        body: Object
     }
 
     type Query {

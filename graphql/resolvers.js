@@ -304,13 +304,21 @@ const getPersons = async (paginationSpec, firstName, lastName) =>{
 };
 
 module.exports = {
+    Object: {
+        __parseValue(value) {
+            return JSON.parse(value)
+        },
+        __serialize(value) {
+            return value;
+        }
+    },
+
     Date: {
         __parseValue(value) {
             return new Date(value); // value from the client
         },
         __serialize(value) {
             return value;
-            //return new Date(value).toLocaleDateString(); // value sent to the client
         }
     },
     Query: {
@@ -412,7 +420,7 @@ module.exports = {
             if(isAdmin){
                 const data = event.body;
                 const adminData = getRuntimeInfo();
-                event.body = JSON.stringify({data, adminData});
+                event.body = {data, adminData};
             }
             return event;
         },

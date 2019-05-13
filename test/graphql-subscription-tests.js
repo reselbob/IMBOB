@@ -7,6 +7,7 @@ const before = require('mocha').before;
 const it = require('mocha').it;
 const {server} = require('../server');
 const faker = require('faker');
+const {createFakeUser} = require('./devHelper');
 
 const {getCollection, updateCollection, getItemFromCollection} = require('../data/index');
 
@@ -92,6 +93,60 @@ describe('GraphQL Subscription Tests', () => {
             .then(data => {
                 expect(data).to.be.an('object');
                 expect(data.ping.body).to.equal(body);
+            });
+    });
+
+    it('Can AddPerson and subscribe', (done) => {
+        const {firstName, lastName, dob} = createFakeUser();
+        const operation = {
+            query: gql`
+                subscription onPersonAdded{
+                    onPersonAdded{
+                        id
+                        name
+                        body
+                        createdAt
+                        storedAt
+                    }
+                }`
+        };
+
+        execute(link, operation).subscribe({
+            next: data => {
+                console.log(`received data: ${JSON.stringify(data, null, 2)}`);
+                const rslt = JSON.parse(data.data.onPersonAdded.body);
+                expect(rslt.firstName).to.equal(firstName);
+                expect(rslt.lastName).to.equal(lastName);
+                expect(rslt.dob).to.equal(dob);
+                done();
+            },
+            error: error => {
+                console.log(`received error ${JSON.stringify(error)}`)
+            },
+            complete: () => console.log(`complete`),
+        });
+
+
+        const query = `mutation{
+                     addPerson(person: {firstName: "${firstName}",
+                     lastName: "${lastName}",
+                     dob: "${dob}"}){
+                        id
+                        firstName
+                        lastName
+                        dob
+                      }
+                    }`;
+
+        const graphQLClient = new GraphQLClient(serverConfig.serverUrl, {
+            headers: {
+                authorization: `${config.ACCESS_TOKEN}`,
+            },
+        });
+        const data = graphQLClient.request(query)
+            .then(data => {
+                expect(data).to.be.an('object');
+                //expect(data.ping.body).to.equal(body);
             });
     });
 });
