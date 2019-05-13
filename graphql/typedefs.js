@@ -7,8 +7,11 @@ module.exports = `
     """
     directive @isAdmin on FIELD
     
+    """A custom scalar that returns time data as JavaScript Date object"""
     scalar Date
     
+    """A custom scalar that returns data as a generic JavaScript Object. Data will be returned
+    as a String, when data is published as a simple string."""
     scalar Object
   
   """
@@ -214,12 +217,14 @@ module.exports = `
     type Event {
         """This system assigned unique identifier"""
         id: ID
+         """The name of the event as described by GraphQL enum, EventName"""
         name: EventName
         """The time when the event was created"""
         createdAt: Date
         """The time when the event was saved in the datastore"""
         storedAt: Date
-        """Information that is special to the particular event"""
+        """The body field contains the message information, returned as a JavaScript
+        object or a String, when the body is published as a simple string."""
         body: Object
     }
 

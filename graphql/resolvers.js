@@ -83,18 +83,18 @@ const publishMovieEvent = async (eventType, movie) => {
     }
 
     //Create the event to be assigned to the subscription object
-    const event = createEvent(eventType, JSON.stringify(movie));
+    const event = createEvent(eventType, movie);
 
     //Create the subscription object that the PubSub component needs
     //in order to publish information to interested subscribers
-    const subscriptionObj = {};
+    const onEventsubscriptionDefinitionObj = {};
 
     //assign the event to the appropriate subscription
-    if(MOVIE_EVENT_TYPE_ADD) subscriptionObj.onMovieAdded = event;
-    if(MOVIE_EVENT_TYPE_UPDATE) subscriptionObj.onMovieUpdated = event;
+    if(MOVIE_EVENT_TYPE_ADD) onEventsubscriptionDefinitionObj.onMovieAdded = event;
+    if(MOVIE_EVENT_TYPE_UPDATE) onEventsubscriptionDefinitionObj.onMovieUpdated = event;
 
     //publish the event
-    await pubsub.publish(channel, subscriptionObj);
+    await pubsub.publish(channel, onEventsubscriptionDefinitionObj);
     return event;
 };
 
