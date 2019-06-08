@@ -11,6 +11,15 @@ const createFakeUser = () => {
 
 }
 
+const addEmailToPerson = (collection) => {
+    collection.forEach((obj) =>{
+        if(!obj.email){
+            const email = `${obj.firstName}.${obj.lastName}@${faker.internet.domainName()}`;
+            obj.email = email;
+        }
+    });
+};
+
 const convertIntIdToGuid = (collection) =>{
     collection.forEach((itm)=>{
         for(const prop in itm){
@@ -42,4 +51,4 @@ const guidTriples = (trips, persons) =>{
     return trips2;
 };
 
-module.exports = {convertIntIdToGuid, guidTriples, createFakeUser};
+module.exports = {convertIntIdToGuid, guidTriples, createFakeUser, addEmailToPerson};

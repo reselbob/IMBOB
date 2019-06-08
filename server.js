@@ -1,10 +1,16 @@
 const { ApolloServer, AuthenticationError} = require('apollo-server');
+const { makeExecutableSchema } = require("graphql-tools");
+const {SchemaDirectiveVisitor} = require("graphql-tools");
 
 const {initGlobalDataSync} = require('./data');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
-
+const {RequiresPersonalScope} = require('./graphql/directives');
 const config = require('./config');
+
+
+
+
 
 const PORT = process.env.PORT || 4000;
 /*
@@ -18,6 +24,14 @@ context field.
 
 const subscriptions = require('./graphql/subscriptions');
 
+/*
+const schema = makeExecutableSchema({
+    typeDefs,
+    schemaDirectives: {
+        requiresPersonalScope: RequiresPersonalScopeDirective
+    }
+});
+*/
 const schema = {
     typeDefs,
     resolvers,
@@ -25,13 +39,14 @@ const schema = {
     context: ({ req, res }) => {
         if(req){ // queries will come through as a request
             const token = req.headers.authorization || 'NO_TOKEN';
-            if(token !== config.ACCESS_TOKEN){
+            if(!config.canAccess(token)){
                 throw new AuthenticationError('Invalid Access Token');
             }
             console.log(token);
         }
+    }
+};
 
-    },};
 
 /*
 Initialize the data collections globally by calling initGlobalDataSync()
