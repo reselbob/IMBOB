@@ -7,6 +7,13 @@ module.exports = `
     """
     directive @isAdmin on FIELD
     
+    
+    """The directive is applied at design time to fields that
+    require that the caller has permissions to view data that
+    is deemed to be PERSONAL in scope, for example email addresses.
+    """
+    directive @requiresPersonalScope on FIELD_DEFINITION
+    
     """A custom scalar that returns time data as JavaScript Date object"""
     scalar Date
     
