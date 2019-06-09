@@ -48,10 +48,13 @@ class RequiresPersonalScope extends SchemaDirectiveVisitor {
         const next = field.resolve;
 
         field.resolve = function(result, args, context, info) {
+            //get the affected field
+            const affectedField = info.fieldName;
+
             if(!isValidToken({ context })){
-                result.email = 'You are not authorized to view personal information';
+                result[affectedField] = 'You are not authorized to view personal information';
             }
-            return result.email;
+            return result[affectedField];
         };
     }
 }
