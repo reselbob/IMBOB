@@ -41,7 +41,7 @@ module.exports = `
         firstName: String
         lastName: String
         dob: Date
-  
+        email: String @requiresPersonalScope
     }
     
     """
@@ -98,6 +98,7 @@ module.exports = `
         firstName: String!
         lastName: String!
         dob: String!
+        email: String!
     }
     
     """

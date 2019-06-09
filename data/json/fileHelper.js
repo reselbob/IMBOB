@@ -33,6 +33,35 @@ const fileToObjectSync =  (filename) => {
     return fs.readFileSync(filespec,"utf8");
 };
 
+const getCollectionConfigSync = (collectionName) =>{
+    const holder = {};
+    switch(collectionName.toUpperCase()){
+        case 'MOVIES':
+            holder.filename = 'movies.json';
+            holder.env = 'MOVIES';
+            break;
+        case 'PERSONS':
+            holder.filename = 'persons.json';
+            holder.env = 'PERSONS';
+            break;
+        case 'TRIPLES':
+            holder.filename = 'triples.json';
+            holder.env = 'TRIPLES';
+            break;
+    };
+
+    return holder;
+};
+
+const saveCollection = async (collectionName, collection)=>{
+    const holder = getCollectionConfigSync(collectionName);
+    const data = JSON.stringify(collection);
+    let filespec = path.join(__dirname, holder.filename);
+    await objectToFile(filespec, data);
+    const rtn = await fileToObject(holder.filename);
+    process.env[holder.env] = JSON.stringify(rtn);
+};
+
 const getCollection = (collectionName) =>{
     switch(collectionName.toUpperCase()){
         case 'MOVIES':
@@ -53,24 +82,10 @@ const initGlobalDataSync = ()=>{
     getCollection('movies');
     getCollection('persons');
     getCollection('triples');
-}
+};
 
 const updateCollection =  async function(dataObj, collectionName){
-    const holder = {};
-    switch(collectionName.toUpperCase()){
-        case 'MOVIES':
-            holder.filename = 'movies.json';
-            holder.env = 'MOVIES';
-            break;
-        case 'PERSONS':
-            holder.filename = 'persons.json';
-            holder.env = 'PERSONS';
-            break;
-        case 'TRIPLES':
-            holder.filename = 'triples.json';
-            holder.env = 'TRIPLES';
-            break;
-    }
+    const holder = getCollectionConfigSync(collectionName);
     let filespec = path.join(__dirname, holder.filename);
     //get the current data file
     let arr = await fileToObject(holder.filename);
@@ -115,5 +130,6 @@ module.exports = {
     updateCollection,
     getCollection,
     getItemFromCollection,
-    initGlobalDataSync
+    initGlobalDataSync,
+    saveCollection
 }
