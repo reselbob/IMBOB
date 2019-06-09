@@ -124,6 +124,14 @@ const replaceCollection =  async function(dataObj, collectionName){
     const data = JSON.stringify(dataObj);
 };
 
+const login =  async function(username, pwd) {
+    const users = fileToObjectSync('users.json');
+    const user = _.find(users, {username, pwd});
+    if(user){
+
+    }
+}
+
 
 module.exports = {
     replaceCollection,

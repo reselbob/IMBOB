@@ -1,0 +1,18 @@
+[
+  {
+    username: "dicktracy",
+    password: "cooluser1",
+    scopes: ["GENERAL", "ADMIN", "PERSONAL"]
+  },
+  {
+    username: "bugsbunny",
+    password: "cooluser2",
+    scopes: ["GENERAL"]
+  },
+  {
+    username: "daffyduck",
+    password: "cooluser1",
+    scopes: ["PERSONAL"]
+  }
+
+]
