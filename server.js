@@ -1,15 +1,11 @@
-const { ApolloServer, AuthenticationError} = require('apollo-server');
-const { makeExecutableSchema } = require("graphql-tools");
-const {SchemaDirectiveVisitor} = require("graphql-tools");
+const {ApolloServer, AuthenticationError} = require('apollo-server');
+const {makeExecutableSchema} = require("graphql-tools");
 
 const {initGlobalDataSync} = require('./data');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
-const {RequiresPersonalScope} = require('./graphql/directives');
+const RequiresPersonalScope = require('./graphql/directives');
 const config = require('./config');
-
-
-
 
 
 const PORT = process.env.PORT || 4000;
@@ -24,28 +20,14 @@ context field.
 
 const subscriptions = require('./graphql/subscriptions');
 
-/*
 const schema = makeExecutableSchema({
-    typeDefs,
-    schemaDirectives: {
-        requiresPersonalScope: RequiresPersonalScopeDirective
-    }
-});
-*/
-const schema = {
     typeDefs,
     resolvers,
     subscriptions,
-    context: ({ req, res }) => {
-        if(req){ // queries will come through as a request
-            const token = req.headers.authorization || 'NO_TOKEN';
-            if(!config.canAccess(token)){
-                throw new AuthenticationError('Invalid Access Token');
-            }
-            console.log(token);
-        }
+    schemaDirectives: {
+        requiresPersonalScope: RequiresPersonalScope
     }
-};
+});
 
 
 /*
@@ -54,11 +36,22 @@ to load the data into the global environment variables
 */
 initGlobalDataSync();
 
-const server = new ApolloServer(schema);
+const server = new ApolloServer({
+    schema, context: ({req, res}) => {
+        if (req) { // queries will come through as a request
+            const token = req.headers.authorization || 'NO_TOKEN';
+            if (!config.canAccess(token)) {
+                throw new AuthenticationError('Invalid Access Token');
+            }
+            console.log(token);
+            return req;
+        }
+    }
+});
 
 // The server `listen` method launches a web-server and a
 // subscription server
-server.listen(PORT).then(({ url, subscriptionsUrl }) => {
+server.listen(PORT).then(({url, subscriptionsUrl}) => {
     process.env.SERVER_CONFIG = JSON.stringify({serverUrl: url, subscriptionsUrl});
     console.log(`Starting servers at ${new Date()}`);
     console.log(`🚀  Server ready at ${url}`);
