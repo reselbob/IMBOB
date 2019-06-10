@@ -3,9 +3,11 @@ const config = require('../config');
 
 module.exports =  {
     onConnect: (connectionParams) => {
-        const token = connectionParams.authorization || 'NO_TOKEN';
-        if(!config.canAccess(config.getToken(req))){
-            throw new AuthenticationError('Invalid Access Token');
+        const token = connectionParams.authorization || connectionParams.Authorization;
+        console.log('j: ' + token)
+        if(token) token.replace('Bearer ','');
+        if(!config.canAccess(token)){
+            //throw new AuthenticationError('Invalid Access Token');
         }
         console.log(`Connection made , info ${JSON.stringify(connectionParams)} 
         at ${new Date().toString()}`)

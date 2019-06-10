@@ -31,13 +31,15 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
     schema, context: ({req, res}) => {
-        const token = config.getToken(req);
-        if (!config.canAccess(token)) {
-            throw new AuthenticationError('Invalid Access Token');
+        if(req){
+            const token = config.getToken(req);
+            if (!config.canAccess(token)) {
+                throw new AuthenticationError('Invalid Access Token');
+            }
+            const accessTime = new Date();
+            console.log({token, accessTime});
+            return req;
         }
-        const accessTime = new Date();
-        console.log({token, accessTime});
-        return req;
     }
 });
 
