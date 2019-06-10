@@ -29,25 +29,23 @@ const schema = makeExecutableSchema({
     }
 });
 
+const server = new ApolloServer({
+    schema, context: ({req, res}) => {
+        const token = config.getToken(req);
+        if (!config.canAccess(token)) {
+            throw new AuthenticationError('Invalid Access Token');
+        }
+        const accessTime = new Date();
+        console.log({token, accessTime});
+        return req;
+    }
+});
 
 /*
 Initialize the data collections globally by calling initGlobalDataSync()
 to load the data into the global environment variables
 */
 initGlobalDataSync();
-
-const server = new ApolloServer({
-    schema, context: ({req, res}) => {
-        if (req) { // queries will come through as a request
-            const token = req.headers.authorization || 'NO_TOKEN';
-            if (!config.canAccess(config.getToken(req))) {
-                throw new AuthenticationError('Invalid Access Token');
-            }
-            console.log(token);
-            return req;
-        }
-    }
-});
 
 // The server `listen` method launches a web-server and a
 // subscription server
