@@ -4,12 +4,9 @@ const {DirectiveLocation,
     GraphQLDirective
 } =  require("graphql");
 
-const { createError } = require("apollo-errors");
+const { createError } = require("apollo-server");
 const { IncomingMessage } = require("http");
 
-const AuthorizationError = createError('AuthorizationError', {
-    message: 'You are not authorized.'
-});
 
 const config = require("../config");
 
@@ -61,15 +58,7 @@ class RequiresPersonalScope extends SchemaDirectiveVisitor {
 
 const isValidToken = ({ context }) => {
     const req = context instanceof IncomingMessage ? context : (context.req || context.request);
-
-    if (
-        !req ||
-        !req.headers ||
-        (!req.headers.authorization && !req.headers.Authorization)
-    ) return false;
-
-    const token = req.headers.authorization || req.headers.Authorization;
-    return config.hasPersonalScope(token);
+    return config.hasPersonalScope(config.getToken(req));
 };
 
 module.exports = RequiresPersonalScope;

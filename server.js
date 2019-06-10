@@ -40,7 +40,7 @@ const server = new ApolloServer({
     schema, context: ({req, res}) => {
         if (req) { // queries will come through as a request
             const token = req.headers.authorization || 'NO_TOKEN';
-            if (!config.canAccess(token)) {
+            if (!config.canAccess(config.getToken(req))) {
                 throw new AuthenticationError('Invalid Access Token');
             }
             console.log(token);
