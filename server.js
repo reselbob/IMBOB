@@ -34,13 +34,21 @@ const server = new ApolloServer({
     context: ({req, res}) => {
         if(req){
             const token = config.getToken(req);
-            if (!req.body.operationName === 'IntrospectionQuery' && !config.canAccess(token)) {
-                console.log(`Access error for token [${token}] at ${new Date()}`);
-                throw new AuthenticationError('Bad Credentials');
+            if (req.body.operationName === 'IntrospectionQuery'){
+                const accessTime = new Date();
+                console.log({operation: req.body.operationName, token, accessTime});
+                return req;
             }
-            const accessTime = new Date();
-            console.log({operation: req.body.operationName, token, accessTime});
-            return req;
+            if(!config.canAccess(token)){
+                const err = new AuthenticationError(token)
+                console.log(err);
+                throw err;
+            }else{
+                const accessTime = new Date();
+                console.log({operation: req.body.operationName, token, accessTime});
+                return req;
+            }
+
         }
     }
 });
