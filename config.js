@@ -8,5 +8,17 @@ module.exports = {
     },
     hasPersonalScope:(accessToken) =>{
         return accessToken === tokenTwo;
+    },
+    getToken: (req) =>{
+        if (
+            !req ||
+            !req.headers ||
+            (!req.headers.authorization && !req.headers.Authorization)
+        ) return false;
+
+        const token = req.headers.authorization || req.headers.Authorization;
+        return token.replace('Bearer ','');
     }
+
 };
+

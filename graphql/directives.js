@@ -4,12 +4,9 @@ const {DirectiveLocation,
     GraphQLDirective
 } =  require("graphql");
 
-const { createError } = require("apollo-errors");
+const { createError } = require("apollo-server");
 const { IncomingMessage } = require("http");
 
-const AuthorizationError = createError('AuthorizationError', {
-    message: 'You are not authorized.'
-});
 
 const config = require("../config");
 
@@ -48,25 +45,20 @@ class RequiresPersonalScope extends SchemaDirectiveVisitor {
         const next = field.resolve;
 
         field.resolve = function(result, args, context, info) {
+            //get the affected field
+            const affectedField = info.fieldName;
+
             if(!isValidToken({ context })){
-                result.email = 'You are not authorized to view personal information';
+                result[affectedField] = 'You are not authorized to view personal information';
             }
-            return result.email;
+            return result[affectedField];
         };
     }
 }
 
 const isValidToken = ({ context }) => {
     const req = context instanceof IncomingMessage ? context : (context.req || context.request);
-
-    if (
-        !req ||
-        !req.headers ||
-        (!req.headers.authorization && !req.headers.Authorization)
-    ) return false;
-
-    const token = req.headers.authorization || req.headers.Authorization;
-    return config.hasPersonalScope(token);
+    return config.hasPersonalScope(config.getToken(req));
 };
 
 module.exports = RequiresPersonalScope;

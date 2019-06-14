@@ -7,7 +7,7 @@ const helper = require('./devHelper');
 
 const {getCollection, updateCollection, getItemFromCollection, saveCollection} = require('../data/index');
 
-describe('Utility Tests', () => {
+describe('Utility Tools', () => {
     it('add emails', (done) => {
         const persons = getCollection('persons');
         helper.addEmailToPerson(persons);

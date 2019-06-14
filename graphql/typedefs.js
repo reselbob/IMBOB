@@ -30,6 +30,7 @@ module.exports = `
         firstName: String
         lastName: String
         dob: Date
+        email: String
     }
    
     """
@@ -55,6 +56,7 @@ module.exports = `
         firstName: String
         lastName: String
         dob: Date
+        email: String
         roles: [Role]
     }
     
