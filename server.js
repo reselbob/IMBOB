@@ -29,7 +29,9 @@ const schema = makeExecutableSchema({
 });
 
 const server = new ApolloServer({
-    subscriptions,schema, context: ({req, res}) => {
+    subscriptions,
+    schema,
+    context: ({req, res}) => {
         if(req){
             const token = config.getToken(req);
             if (!req.body.operationName === 'IntrospectionQuery' && !config.canAccess(token)) {
@@ -43,10 +45,9 @@ const server = new ApolloServer({
     }
 });
 
-/*
-Initialize the data collections globally by calling initGlobalDataSync()
-to load the data into the global environment variables
-*/
+
+//Initialize the data collections globally by calling initGlobalDataSync()
+//to load the data into the global environment variables
 initGlobalDataSync();
 
 // The server `listen` method launches a web-server and a
