@@ -23,21 +23,21 @@ const subscriptions = require('./graphql/subscriptions');
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
-    subscriptions,
     schemaDirectives: {
         requiresPersonalScope: RequiresPersonalScope
     }
 });
 
 const server = new ApolloServer({
-    schema, context: ({req, res}) => {
+    subscriptions,schema, context: ({req, res}) => {
         if(req){
             const token = config.getToken(req);
-            if (!config.canAccess(token)) {
-                throw new AuthenticationError('Invalid Access Token');
+            if (!req.body.operationName === 'IntrospectionQuery' && !config.canAccess(token)) {
+                console.log(`Access error for token [${token}] at ${new Date()}`);
+                throw new AuthenticationError('Bad Credentials');
             }
             const accessTime = new Date();
-            console.log({token, accessTime});
+            console.log({operation: req.body.operationName, token, accessTime});
             return req;
         }
     }
