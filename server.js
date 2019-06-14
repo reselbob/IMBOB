@@ -6,6 +6,7 @@ const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
 const RequiresPersonalScope = require('./graphql/directives');
 const config = require('./config');
+const admin = require('./admin');
 
 
 const PORT = process.env.PORT || 4000;
@@ -23,20 +24,21 @@ const subscriptions = require('./graphql/subscriptions');
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
-    subscriptions,
     schemaDirectives: {
         requiresPersonalScope: RequiresPersonalScope
     }
 });
 
+
+
 const server = new ApolloServer({
-    schema, context: ({req, res}) => {
+    subscriptions,schema, context: ({req, res}) => {
+        //if it's login or has a valid JWT token, let it is
         if(req){
-            const token = config.getToken(req);
-            if (!config.canAccess(token)) {
-                throw new AuthenticationError('Invalid Access Token');
-            }
             const accessTime = new Date();
+            console.log({operation: req.operation, accessTime})
+            if (!admin.isValidRequest(req))throw new Error("Authorization Error");
+            const token = config.getToken(req);
             console.log({token, accessTime});
             return req;
         }

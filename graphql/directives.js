@@ -9,6 +9,7 @@ const { IncomingMessage } = require("http");
 
 
 const config = require("../config");
+const admin = require("../admin");
 
 /*******************************************
 This class provides the processing logic for the directive
@@ -56,9 +57,14 @@ class RequiresPersonalScope extends SchemaDirectiveVisitor {
     }
 }
 
+
+
 const isValidToken = ({ context }) => {
     const req = context instanceof IncomingMessage ? context : (context.req || context.request);
     return config.hasPersonalScope(config.getToken(req));
 };
+
+
+
 
 module.exports = RequiresPersonalScope;
