@@ -9,7 +9,7 @@ const config = require("../config");
  found in ../config.js. TokenOne does NOT have permission to access
  fields marked with the directive, requiresPersonalScope.
 
- Token one does have permission to access directives marked with
+ TokenTwo does have permission to access directives marked with
  requiresPersonalScope.
  ********************************************/
 class RequiresPersonalScope extends SchemaDirectiveVisitor {
