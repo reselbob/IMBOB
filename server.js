@@ -40,7 +40,7 @@ const server = new ApolloServer({
                 return req;
             }
             if(!config.canAccess(token)){
-                const err = new AuthenticationError(token)
+                const err = new AuthenticationError(token);
                 console.log(err);
                 throw err;
             }else{
