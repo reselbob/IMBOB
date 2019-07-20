@@ -1,6 +1,7 @@
 const {ApolloServer, AuthenticationError} = require('apollo-server');
 const {makeExecutableSchema} = require("graphql-tools");
 
+
 const {initGlobalDataSync} = require('./data');
 const typeDefs = require('./graphql/typedefs');
 const resolvers = require('./graphql/resolvers');
@@ -9,6 +10,7 @@ const config = require('./config');
 
 
 const PORT = process.env.PORT || 4000;
+const TRACE_IMBOB = process.env.TRACE_IMBOB || false;
 /*
 The ApolloServer is started by creating a schema that is
 defined by the type definitions (typeDefs), the resolvers that
@@ -31,6 +33,7 @@ const schema = makeExecutableSchema({
 const server = new ApolloServer({
     subscriptions,
     schema,
+    tracing: TRACE_IMBOB,
     context: ({req, res}) => {
         if(req){
             const token = config.getToken(req);
@@ -48,11 +51,9 @@ const server = new ApolloServer({
                 console.log({operation: req.body.operationName, token, accessTime});
                 return req;
             }
-
         }
     }
 });
-
 
 //Initialize the data collections globally by calling initGlobalDataSync()
 //to load the data into the global environment variables
