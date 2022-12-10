@@ -27,7 +27,7 @@
     "graphql-tag": "^2.10.1",
     "graphql-tools": "^4.0.4",
     "lodash": "^4.17.11",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.6.7",
     "subscriptions-transport-ws": "^0.9.16",
     "uuid": "^3.3.2",
     "ws": "^6.2.0"
